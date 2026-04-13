@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 
 /* ═══════════════════════════════════════════════════════════════
-   INNO6230 Quiz Infrastructure v3
+   INNO6230 Quiz Infrastructure v10
    Scope: Modules 5-8 (Notes + Slides, including optionals)
    ═══════════════════════════════════════════════════════════════ */
 
@@ -212,6 +212,26 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .flow-text{font-size:13.75px;line-height:1.58;color:${C.inkSoft};}
 .primer-mini{margin-top:12px;padding:11px 12px;border-radius:10px;border:1px solid ${C.lineLight};background:${C.paper};}
 .primer-mini strong{color:${C.ai};}
+.formula-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px;}
+.formula-card{background:${C.white};border:1px solid ${C.line};border-radius:12px;padding:12px 13px;}
+.formula-label{font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.kitsune};margin-bottom:6px;}
+.formula-text{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid ${C.line};background:${C.kitsuneLight};color:${C.fuji};font-weight:800;font-family:${FONT_MONO};font-size:13.5px;line-height:1.4;max-width:100%;overflow-wrap:anywhere;}
+.formula-note{font-size:13px;line-height:1.58;color:${C.inkSoft};margin-top:8px;}
+.scan3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px;}
+.scan3-card{background:${C.white};border:1px solid ${C.line};border-radius:12px;padding:13px 14px;}
+.scan3-card.must{border-top:4px solid ${C.kitsune};}
+.scan3-card.judge{border-top:4px solid ${C.ai};}
+.scan3-card.evidence{border-top:4px solid ${C.suo};}
+.scan3-kicker{font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:7px;}
+.scan3-card.must .scan3-kicker{color:${C.kitsune};}
+.scan3-card.judge .scan3-kicker{color:${C.ai};}
+.scan3-card.evidence .scan3-kicker{color:${C.suo};}
+.scan3-list{display:grid;gap:7px;padding-left:18px;}
+.scan3-list li{font-size:14px;line-height:1.58;color:${C.inkSoft};}
+.scan3-list li::marker{font-weight:800;color:${C.kitsune};}
+.detail-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 0 12px;}
+.detail-head .sm{max-width:none;}
+.detail-grid{display:grid;grid-template-columns:1fr;gap:12px;}
 
 /* ── Floating language FAB ── */
 .fab-wrap{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom, 0px));z-index:90;display:grid;gap:7px;justify-items:end;}
@@ -340,6 +360,84 @@ const primerTerms = [
 // ═══════════════════════════════════════════════════════════════
 // MODULE SECTION DATA (full content)
 // ═══════════════════════════════════════════════════════════════
+
+const formulaCards = [
+  { formula: "Decision Rule: if condition {ŷ} is met, take action Z", labelEn: "Operational rule", labelZh: "操作規則", noteEn: "The prediction alone does nothing until the platform ties it to an action.", noteZh: "只有預測還不夠，平臺一定要把它綁到具體行動。" },
+  { formula: "ŷ = f(X)", labelEn: "Prediction model", labelZh: "預測模型", noteEn: "This is the course's core structure: use observed inputs X to generate a prediction ŷ.", noteZh: "這是課堂的核心句型：用可觀測輸入 X 產生預測 ŷ。" },
+  { formula: "ŷ = β₀ + β₁·X₁ + β₂·X₂ + β₃·X₃", labelEn: "Simple linear example", labelZh: "線性模型例子", noteEn: "Professor's note uses a linear model as the clean first mental model before richer f(.).", noteZh: "教授的 note 用線性模型當第一個直觀版本，之後才往更複雜的 f(.) 走。" },
+  { formula: "wordᵢ = f(wordᵢ₋₁, …)", labelEn: "LLM reframing", labelZh: "LLM 重構", noteEn: "Module 6 reframes labeling as next-token prediction. That is the big hack behind LLM training.", noteZh: "Module 6 把標註問題重構成下一個 token 預測，這就是 LLM 訓練的大 hack。" },
+];
+
+const sectionScanData = {
+  "module-5": {
+    memorize: [
+      { en: "Prediction is constrained first by observability, not by modeling sophistication.", zh: "預測的第一限制是可觀測性，不是模型多高級。" },
+      { en: "Design order: decision Z → target y → inputs X → model f(.) → prediction ŷ → action.", zh: "設計順序是：決策 Z → 目標 y → 輸入 X → 模型 f(.) → 預測 ŷ → 行動。" },
+      { en: "A good y should be observable, actionable, timely, and hard to game.", zh: "好的 y 要可觀測、可行動、夠即時、不容易被操弄。" },
+    ],
+    judge: [
+      { en: "If you observe y, prefer supervised methods. If you do not observe y, unsupervised can only organize X.", zh: "觀測得到 y，就優先想 supervised。觀測不到 y，unsupervised 只能整理 X。" },
+      { en: "Choosing f(.) is usually less important early on than choosing the right decision and the right y.", zh: "早期最不重要的，往往反而是 f(.)；更重要的是先把決策與 y 選對。" },
+      { en: "A real prediction factory needs live use, train/test refinement, and feedback. Missing feedback means weak learning.", zh: "真正的 prediction factory 要同時有 live use、train/test refinement、以及 feedback。沒有 feedback，學習就弱。" },
+    ],
+    evidence: [
+      { en: "Data inventory asks about source, ownership/access, unit of observation, variables, structure, sampling, coverage, and time form.", zh: "Data inventory 要問 source、ownership/access、unit of observation、variables、structure、sampling、coverage、以及時間形式。" },
+      { en: "eHarmony's 4,000 successful couples are all y = 1, so that sample cannot estimate a supervised match model by itself.", zh: "eHarmony 的 4,000 successful couples 全部都是 y = 1，所以那個樣本本身無法估 supervised 配對模型。" },
+      { en: "Professor's slides show eHarmony collapsed a large survey into six dimensions, then mechanically scored similarity, with little feedback for tuning.", zh: "教授投影片顯示 eHarmony 把大量問卷壓成六個維度，再機械式計算相似度，而且幾乎沒有 feedback 可調整。" },
+    ],
+  },
+  "module-6": {
+    memorize: [
+      { en: "Weak AI means purpose-built models for specific tasks. LLMs move toward one highly flexible general-purpose super f(.).", zh: "弱 AI 是針對單一任務設計的模型。LLM 則走向一個高度彈性的通用 super f(.)。" },
+      { en: "LLMs are still prediction machines. Prompt plus context becomes X, and the model predicts the next token or output sequence.", zh: "LLM 仍然是 prediction machine。Prompt 加 context 變成 X，模型去預測下一個 token 或輸出序列。" },
+      { en: "Training is fixed cost. Inference is ongoing variable cost. LLM marginal cost falls, but it does not go to zero.", zh: "Training 是固定成本，Inference 是持續的變動成本。LLM 的邊際成本會下降，但不會趨近零。" },
+    ],
+    judge: [
+      { en: "Keep the contrast straight: traditional analysis emphasizes prediction and understanding; modern ML often emphasizes empirical prediction only.", zh: "要分清楚：傳統分析同時重視 prediction 與 understanding；現代 ML 常更偏 empirical prediction。" },
+      { en: "Prefer labeled data when available. Unsupervised often sounds richer than it is, because it usually means you do not observe y.", zh: "有 labeled data 時優先使用。Unsupervised 常聽起來比實際更厲害，因為很多時候只是你沒有 y。" },
+      { en: "Scaling mattered most in 2012–2023. Since 2023, more gains come from architecture, tools, synthetic data, and efficiency.", zh: "2012 到 2023 最重要的是 scaling；2023 之後，更多進步來自 architecture、tools、synthetic data 與效率。" },
+    ],
+    evidence: [
+      { en: "Module 6 states the next-word reframing explicitly: wordᵢ = f(wordᵢ₋₁, …). That converts unlabeled text into labeled training data.", zh: "Module 6 明講下一詞重構：wordᵢ = f(wordᵢ₋₁, …)。這把未標註文字轉成可訓練的資料。" },
+      { en: "Google's slide deck frames the paradox with numbers: baseline search profit about $27.5B versus an illustrative AI-search scenario of about -$150.5B when inference expands sharply.", zh: "Google 投影片用數字呈現其矛盾：baseline search 利潤約 $27.5B，但若 AI 搜尋推論大幅擴張，示意情境可掉到約 -$150.5B。" },
+      { en: "The agent extension adds Observe → Think → Act loops, MCP as plumbing, and a thinner app layer in an agent era.", zh: "Agent 延伸補上 Observe → Think → Act 迴路、MCP 這類 plumbing，以及 agent 時代更薄的 app layer。" },
+    ],
+  },
+  "module-7": {
+    memorize: [
+      { en: "Net Benefits = Stand-Alone Benefits + Network Benefits - Adopter Costs.", zh: "Net Benefits = Stand-Alone Benefits + Network Benefits - Adopter Costs。" },
+      { en: "Early adopters face the weakest value and the highest relative cost. That is the chicken-and-egg problem.", zh: "最早採用者面對的是最低價值、相對最高成本，這就是 chicken-and-egg 問題。" },
+      { en: "Most platforms do not take off. There is no silver bullet.", zh: "大多數平臺都起飛不了，沒有銀彈。" },
+    ],
+    judge: [
+      { en: "Always write the sides first, then write critical mass as numbers. Otherwise takeoff talk stays vague.", zh: "一定要先寫清楚 sides，再把 critical mass 寫成數字，不然 takeoff 討論會一直很空。" },
+      { en: "Use coaxing when one side can move on stand-alone value. Use coordinating when adoption must happen in clusters or at the same time.", zh: "某一邊能靠 stand-alone value 先動，就偏向 coaxing；必須一起動，就偏向 coordinating。" },
+      { en: "A clever narrow launch can beat brute-force subsidy. Think like a rocket designer, not just a promoter.", zh: "聰明的窄入口常比硬砸補貼更有效。要像設計火箭，不只是做宣傳。" },
+    ],
+    evidence: [
+      { en: "The 2×2 adoption game uses costs of -1 and benefits of 2 if the other side adopts, creating both no-adoption and adoption equilibria.", zh: "2×2 採用賽局設定成本為 -1、他人採用時效益為 2，所以同時存在不採用與採用均衡。" },
+      { en: "SaferTaxi's three-city setup covers roughly 30 million people and about a $2.2B taxi market, but smartphone penetration was only 9% to 19%.", zh: "SaferTaxi 的三城市合計約 3,000 萬人口、約 $2.2B 計程車市場，但智慧型手機滲透率只有 9% 到 19%。" },
+      { en: "The slide deck shows current spending around $1M per year, only 46 cabs at one point, and revenue needing to grow about 10× just to break even.", zh: "投影片顯示當時年支出約 $1M、一度只有 46 輛車，而且營收約要再長 10 倍才可能打平。" },
+    ],
+  },
+  "module-8": {
+    memorize: [
+      { en: "Platform competition can produce multiple equilibria and tipping, not one closed-form outcome.", zh: "平臺競爭可能出現多重均衡與 tipping，不是只有單一路徑結果。" },
+      { en: "Winner-take-all requires all three conditions together: strong scale effects, little differentiation room, and high switching or multi-homing costs.", zh: "Winner-take-all 必須三條件一起成立：強規模效應、低差異化空間、高 switching 或 multi-homing costs。" },
+      { en: "When WTA is plausible, firms compete for the market, not just in the market.", zh: "當 WTA 有可能成立時，企業是在爭奪整個市場，不只是在市場裡競爭。" },
+    ],
+    judge: [
+      { en: "Do not label a market WTA just because the subsidy war is intense. Check the three conditions one by one.", zh: "不要因為補貼戰打得兇，就直接把市場判成 WTA。三個條件要逐一檢查。" },
+      { en: "Leaders reinforce WTA by deepening scale, compressing differentiation, and raising switching costs. Followers attack with niches and lower switching barriers.", zh: "Leader 會透過強化規模、壓縮差異化、提高轉換成本來加深 WTA；Follower 則會找利基並降低轉換門檻。" },
+      { en: "False-WTA thinking produces overinvestment and wars of attrition. That is a core Uber China lesson.", zh: "把非 WTA 市場誤判成 WTA，常會導致過度投資與消耗戰。這正是 Uber China 的核心教訓。" },
+    ],
+    evidence: [
+      { en: "The competing-platforms game has three equilibria: no adoption, Platform Alpha wins, or Platform Beta wins.", zh: "競爭平臺賽局有三個均衡：不採用、Platform Alpha 勝、或 Platform Beta 勝。" },
+      { en: "Professor's Uber China slides say Uber and Didi competed as if the market were WTA, but only 2 of the 3 WTA conditions really held because switching costs were low.", zh: "教授的 Uber China 投影片直接說，Uber 與 Didi 是照 WTA 打，但真正成立的只有 3 個條件中的 2 個，因為 switching costs 很低。" },
+      { en: "End-state anchor: Didi at about $35B valuation, Uber retaining 17.7%, implying a roughly $6.2B payoff on exit.", zh: "結局錨點是 Didi 約 $35B 估值，Uber 保留 17.7%，離場 payoff 約 $6.2B。" },
+    ],
+  },
+};
 
 const sectionLensData = {
   "module-5": {
@@ -522,7 +620,7 @@ function Chevron({ open }) {
   );
 }
 
-function Section({ id, kicker, title, source, quote, lensContent, blocks, mode }) {
+function Section({ id, kicker, title, source, quote, lensContent, blocks, mode, scanData }) {
   const [open, setOpen] = useState(true);
   return (
     <section className="sec" id={id}>
@@ -547,7 +645,35 @@ function Section({ id, kicker, title, source, quote, lensContent, blocks, mode }
               <div className="card">{lensContent}</div>
             </div>
           )}
-          <div className="g2">
+
+          {scanData && (
+            <div className="scan3">
+              <div className="scan3-card must">
+                <div className="scan3-kicker"><T m={mode} en="Must memorize" zh="必背句" /></div>
+                <ul className="scan3-list">
+                  {scanData.memorize.map((item, i) => <li key={i}><T m={mode} en={item.en} zh={item.zh} /></li>)}
+                </ul>
+              </div>
+              <div className="scan3-card judge">
+                <div className="scan3-kicker"><T m={mode} en="Judgment rules" zh="判斷句" /></div>
+                <ul className="scan3-list">
+                  {scanData.judge.map((item, i) => <li key={i}><T m={mode} en={item.en} zh={item.zh} /></li>)}
+                </ul>
+              </div>
+              <div className="scan3-card evidence">
+                <div className="scan3-kicker"><T m={mode} en="Case evidence" zh="案例證據" /></div>
+                <ul className="scan3-list">
+                  {scanData.evidence.map((item, i) => <li key={i}><T m={mode} en={item.en} zh={item.zh} /></li>)}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          <div className="detail-head">
+            <div className="kicker kicker-plum"><T m={mode} en="Expanded notes" zh="展開筆記" /></div>
+            <div className="sm"><T m={mode} en="Use the three scan layers first, then drop into the detailed cards only where you still need proof, examples, or nuance." zh="先讀完上面的三層掃讀，再回來看下面詳細卡片，補足證據、例子與細節。" /></div>
+          </div>
+          <div className="detail-grid">
             {blocks.map((b, i) => (
               <div className="card" key={i}>
                 <h3 className="h3" style={{ marginBottom: 10 }}><T m={mode} en={b.tEn} zh={b.tZh} /></h3>
@@ -613,6 +739,20 @@ function LensWTA({ data, mode }) {
   );
 }
 
+function FormulaStrip({ mode }) {
+  return (
+    <div className="formula-grid">
+      {formulaCards.map((f, i) => (
+        <div className="formula-card" key={i}>
+          <div className="formula-label"><T m={mode} en={f.labelEn} zh={f.labelZh} /></div>
+          <div className="formula-text">{f.formula}</div>
+          <div className="formula-note"><T m={mode} en={f.noteEn} zh={f.noteZh} /></div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function PrimerSection({ mode }) {
   return (
     <section className="sec" id="primer">
@@ -621,7 +761,7 @@ function PrimerSection({ mode }) {
           <div className="kicker kicker-teal"><T m={mode} en="Primer" zh="基礎概念" /></div>
           <h2 className="h2"><T m={mode} en="Read This Before y, X, f(.)" zh="在 y、X、f(.) 之前，先看這一段" /></h2>
         </div>
-        <span className="sec-source"><T m={mode} en="Concept entry point" zh="概念入口" /></span>
+        <span className="sec-source"><T m={mode} en="Professor formulas and logic" zh="教授公式與邏輯" /></span>
       </div>
       <div className="primer-grid">
         <div className="card">
@@ -640,7 +780,7 @@ function PrimerSection({ mode }) {
         <div className="flow-card">
           <div className="kicker kicker-red"><T m={mode} en="How they connect" zh="它們如何串起來" /></div>
           <h3 className="h3" style={{ marginBottom: 8 }}><T m={mode} en="The course's logic in one flow" zh="這門課真正要你記住的流程" /></h3>
-          <div className="eq">Decision → y → X → f(.) → ŷ → rule → action</div>
+          <div className="eq">Decision Z → target y → inputs X → model f(.) → prediction ŷ → decision rule → action</div>
           <div className="flow-list">
             <div className="flow-step"><div className="flow-num">1</div><div className="flow-text"><T m={mode} en="Start with the decision. What do you want the system to do automatically?" zh="先從決策開始。你到底要系統自動做甚麼？" /></div></div>
             <div className="flow-step"><div className="flow-num">2</div><div className="flow-text"><T m={mode} en="Choose y. What real outcome would make that decision intelligent?" zh="再選 y。甚麼真實結果，會讓那個決策變得聰明？" /></div></div>
@@ -652,13 +792,14 @@ function PrimerSection({ mode }) {
             <strong><T m={mode} en="Mini example" zh="極短例子" /></strong>
             <div className="term-note" style={{ marginTop: 6 }}>
               <T m={mode}
-                en="Recommend a match → y = probability of mutual reply → X = profiles, clicks, past behavior → f(.) = heuristic or model → ŷ = predicted probability → if ŷ is high enough, surface the match."
-                zh="推薦一個配對 → y = 互相回覆的機率 → X = 個人資料、點擊、過往行為 → f(.) = heuristic 或模型 → ŷ = 預測機率 → 若 ŷ 夠高，就把這個配對推上去。"
+                en="Recommend a match → y = probability of mutual reply or continued conversation → X = profile traits, clickstream, and dyad inputs such as {X_man, X_woman} → f(.) = heuristic or trained model → ŷ = predicted match quality → if ŷ is high enough, surface the match."
+                zh="推薦一個配對 → y = 互相回覆或持續對話的機率 → X = 個人特徵、clickstream，以及像 {X_男, X_女} 這種 dyad 輸入 → f(.) = heuristic 或訓練過的模型 → ŷ = 預測 match quality → 若 ŷ 夠高，就把這個配對推上去。"
               />
             </div>
           </div>
         </div>
       </div>
+      <FormulaStrip mode={mode} />
     </section>
   );
 }
@@ -667,7 +808,7 @@ function PrimerSection({ mode }) {
 // MAIN APP
 // ═══════════════════════════════════════════════════════════════
 
-export default function INNO6230QuizV9() {
+export default function INNO6230QuizV10() {
   const [mode, setMode] = useState("en");
   const [fabOpen, setFabOpen] = useState(false);
   const [activeId, setActiveId] = useState("backbone");
@@ -864,6 +1005,7 @@ export default function INNO6230QuizV9() {
               quote={{ en: "Prediction is constrained first by observability, not by model sophistication.", zh: "預測的第一限制不是模型多高級，而是可觀測性。" }}
               lensContent={<LensMiniCards items={sectionLensData["module-5"].items} mode={mode} titleEn={sectionLensData["module-5"].titleEn} titleZh={sectionLensData["module-5"].titleZh} />}
               blocks={mod5Blocks}
+              scanData={sectionScanData["module-5"]}
             />
 
             {/* ── Module 6 ── */}
@@ -873,6 +1015,7 @@ export default function INNO6230QuizV9() {
               quote={{ en: "Weak AI means one model for one task. LLMs shift toward a highly flexible general-purpose super f(.).", zh: "弱 AI 是一個任務一個模型。LLM 則把事情推向高度彈性的通用 super f(.)。" }}
               lensContent={<LensTable data={sectionLensData["module-6"]} mode={mode} />}
               blocks={mod6Blocks}
+              scanData={sectionScanData["module-6"]}
             />
 
             {/* ── Module 7 ── */}
@@ -882,6 +1025,7 @@ export default function INNO6230QuizV9() {
               quote={{ en: "Critical mass requires net benefits above adoption cost.", zh: "要先讓淨效益壓過採用成本，才摸得到 critical mass。" }}
               lensContent={<LensMiniCards items={sectionLensData["module-7"].items} mode={mode} titleEn={sectionLensData["module-7"].titleEn} titleZh={sectionLensData["module-7"].titleZh} />}
               blocks={mod7Blocks}
+              scanData={sectionScanData["module-7"]}
             />
 
             {/* ── Module 8 ── */}
@@ -891,6 +1035,7 @@ export default function INNO6230QuizV9() {
               quote={{ en: "Platform competition is not only about who has the better position. It is also about which equilibrium the market tips toward.", zh: "平臺競爭不是只問誰位置比較好，還要問市場最後會 tip 到哪個 equilibrium。" }}
               lensContent={<LensWTA data={sectionLensData["module-8"]} mode={mode} />}
               blocks={mod8Blocks}
+              scanData={sectionScanData["module-8"]}
             />
 
             {/* ── Final Review ── */}
