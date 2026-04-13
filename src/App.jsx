@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 
 /* ═══════════════════════════════════════════════════════════════
    INNO6230 Quiz Infrastructure v3
@@ -44,19 +44,19 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
 body{background:${C.bg};color:${C.ink};font-family:${FONT_BODY};line-height:1.6;-webkit-font-smoothing:antialiased;}
 
 .app{min-height:100vh;background:${C.bg};}
-.shell{max-width:1320px;margin:0 auto;padding:20px 20px 80px;}
+.shell{max-width:1280px;margin:0 auto;padding:18px 18px 84px;}
 
 /* ── Typography ── */
 h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .h1{font-size:clamp(26px,4.5vw,44px);line-height:1.1;font-weight:800;}
 .h2{font-size:clamp(21px,3vw,30px);line-height:1.15;font-weight:700;}
 .h3{font-size:17px;line-height:1.28;font-weight:700;color:${C.ai};}
-.body{font-size:13.5px;line-height:1.68;color:${C.inkSoft};max-width:700px;}
+.body{font-size:13.25px;line-height:1.64;color:${C.inkSoft};max-width:680px;}
 .sm{font-size:12px;line-height:1.55;color:${C.muted};}
 
 /* ── Cards & surfaces ── */
-.card{background:${C.white};border:1px solid ${C.line};border-radius:14px;padding:16px;overflow:hidden;}
-.card-paper{background:${C.paper};border:1px solid ${C.line};border-radius:14px;padding:16px;}
+.card{background:${C.white};border:1px solid ${C.line};border-radius:14px;padding:14px;overflow:hidden;}
+.card-paper{background:${C.paper};border:1px solid ${C.line};border-radius:14px;padding:14px;}
 .card-flush{background:${C.white};border:1px solid ${C.lineLight};border-radius:10px;padding:12px;}
 
 /* ── Kicker labels ── */
@@ -68,27 +68,28 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .kicker-red{color:${C.suo};}
 
 /* ── Hero ── */
-.hero{padding:22px;margin-bottom:18px;background:${C.paper};border:1px solid ${C.line};border-radius:18px;}
+.hero{padding:20px;margin-bottom:16px;background:${C.paper};border:1px solid ${C.line};border-radius:18px;}
 .hero-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
 .pill{display:inline-flex;align-items:center;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:600;border:1px solid ${C.line};background:${C.white};color:${C.inkSoft};white-space:nowrap;}
-.hero-sub{font-size:14px;line-height:1.65;color:${C.inkSoft};max-width:700px;margin-top:8px;}
+.hero-sub{font-size:13.75px;line-height:1.62;color:${C.inkSoft};max-width:680px;margin-top:8px;}
 
 /* ── Layout ── */
-.layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:16px;align-items:start;}
-.sidebar{position:sticky;top:14px;display:flex;flex-direction:column;gap:12px;max-height:calc(100vh - 28px);overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;}
+.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:14px;align-items:start;}
+.sidebar{position:sticky;top:12px;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 24px);overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;}
 .sidebar::-webkit-scrollbar{display:none;}
 .main{display:grid;gap:18px;}
 
 /* ── Sidebar nav ── */
-.nav-box{background:${C.paper};border:1px solid ${C.line};border-radius:12px;padding:12px;}
-.nav-list{display:grid;gap:4px;}
-.nav-item{display:block;padding:7px 9px;border-radius:8px;font-size:12px;font-weight:600;color:${C.inkSoft};text-decoration:none;border:1px solid transparent;cursor:pointer;transition:all 0.15s;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;line-height:1.4;}
-.nav-item:hover{border-color:${C.ai};color:${C.ai};}
+.nav-box{background:${C.paper};border:1px solid ${C.line};border-radius:12px;padding:10px;}
+.nav-list{display:grid;gap:3px;}
+.nav-item{display:block;width:100%;padding:6px 8px;border-radius:8px;font-size:11.5px;font-weight:600;color:${C.inkSoft};text-decoration:none;border:1px solid transparent;cursor:pointer;transition:all 0.15s;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;line-height:1.38;background:transparent;appearance:none;-webkit-appearance:none;text-align:left;}
+.nav-item:hover{border-color:${C.ai};color:${C.ai};background:${C.aiLight};}
 .nav-item.active{background:${C.aiLight};border-color:${C.ai};color:${C.ai};}
+.nav-item:focus-visible{outline:2px solid ${C.ai};outline-offset:2px;}
 
 /* ── Section wrapper ── */
-.sec{background:${C.paper};border:1px solid ${C.line};border-radius:16px;padding:18px;scroll-margin-top:14px;}
-.sec-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+.sec{background:${C.paper};border:1px solid ${C.line};border-radius:16px;padding:16px;scroll-margin-top:14px;}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
 .sec-source{font-size:10.5px;font-weight:600;color:${C.muted};padding:4px 9px;border-radius:999px;border:1px solid ${C.lineLight};background:${C.white};white-space:nowrap;flex-shrink:0;margin-top:4px;}
 
 /* ── Quote band ── */
@@ -121,18 +122,19 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 /* ── Tables ── */
 .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid ${C.line};border-radius:10px;}
 .htb table{width:100%;border-collapse:collapse;min-width:480px;table-layout:auto;}
-.htb th,.htb td{border-right:1px solid ${C.lineLight};border-bottom:1px solid ${C.lineLight};padding:6px 8px;text-align:left;vertical-align:top;font-size:12.5px;line-height:1.48;overflow-wrap:anywhere;word-break:break-word;}
-.htb th{background:${C.kitsuneLight};color:${C.ai};font-weight:700;font-size:11.5px;white-space:nowrap;}
+.htb th,.htb td{border-right:1px solid ${C.lineLight};border-bottom:1px solid ${C.lineLight};padding:5px 7px;text-align:left;vertical-align:top;font-size:12.25px;line-height:1.45;overflow-wrap:anywhere;word-break:break-word;hyphens:auto;}
+.htb th{background:${C.kitsuneLight};color:${C.ai};font-weight:700;font-size:11.25px;white-space:normal;line-height:1.35;}
 .htb td:last-child,.htb th:last-child{border-right:0;}
 .htb tr:last-child td{border-bottom:0;}
 /* Narrower tables inside scan cards */
-.scan .htb table{min-width:340px;}
+.scan .htb table{min-width:320px;}
+.scan .htb th,.scan .htb td{font-size:11.5px;padding:5px 6px;}
 
 /* ── Equation pills ── */
 .eq{display:inline-block;padding:7px 13px;border-radius:999px;border:1px solid ${C.line};background:${C.kitsuneLight};color:${C.fuji};font-weight:700;font-family:${FONT_MONO};font-size:12.5px;margin:5px 0 10px;word-break:break-word;}
 
 /* ── Mini cards ── */
-.mc{border:1px solid ${C.lineLight};border-radius:10px;background:${C.paper};padding:10px 11px;}
+.mc{border:1px solid ${C.lineLight};border-radius:10px;background:${C.paper};padding:9px 10px;}
 .mc h5{margin:0 0 3px;font-size:13px;font-weight:700;color:${C.ai};}
 .mc p{margin:0;font-size:12.5px;line-height:1.52;color:${C.inkSoft};}
 
@@ -159,7 +161,7 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 /* ── Metric cards ── */
 .met{border:1px solid ${C.line};border-radius:10px;background:${C.kitsuneLight};padding:10px 11px;}
 .met-label{font-size:10.5px;font-weight:700;color:${C.muted};text-transform:uppercase;letter-spacing:0.04em;margin-bottom:3px;}
-.met-val{font-size:22px;font-weight:900;color:${C.ai};letter-spacing:-0.03em;line-height:1;}
+.met-val{font-size:22px;font-weight:900;color:${C.ai};letter-spacing:-0.03em;line-height:1;font-variant-numeric:tabular-nums;}
 .met-note{font-size:11.5px;line-height:1.45;color:${C.inkSoft};margin-top:3px;}
 
 /* ── SVG diagrams ── */
@@ -167,8 +169,8 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .dia svg{display:block;max-width:100%;height:auto;}
 
 /* ── Scan board (hero overview cards) ── */
-.scan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px;}
-.scan{background:${C.white};border:1px solid ${C.line};border-radius:14px;padding:14px;display:grid;gap:6px;overflow:hidden;}
+.scan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px;}
+.scan{background:${C.white};border:1px solid ${C.line};border-radius:14px;padding:12px;display:grid;gap:6px;overflow:hidden;}
 
 /* ── Chain (causal flow) ── */
 .chain-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;}
@@ -187,11 +189,11 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .dual.bi-mode .en-part,.dual.bi-mode .zh-part{border:1px dashed ${C.lineLight};border-radius:10px;background:#FFFDF6;padding:10px;}
 
 /* ── Floating language FAB ── */
-.fab-wrap{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom, 0px));z-index:90;display:grid;gap:8px;justify-items:end;}
-.fab{width:38px;height:38px;border-radius:999px;border:1px solid rgba(0,0,0,0.08);background:${C.fuji};color:#fff;cursor:pointer;font-size:10.5px;font-weight:800;box-shadow:0 4px 16px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;transition:transform 0.15s;-webkit-tap-highlight-color:transparent;}
+.fab-wrap{position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom, 0px));z-index:90;display:grid;gap:6px;justify-items:end;}
+.fab{width:34px;height:34px;border-radius:999px;border:1px solid rgba(0,0,0,0.08);background:${C.fuji};color:#fff;cursor:pointer;font-size:10px;font-weight:800;box-shadow:0 4px 16px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;transition:transform 0.15s;-webkit-tap-highlight-color:transparent;}
 .fab:hover{transform:scale(1.06);}
-.fab-panel{display:inline-flex;gap:2px;padding:3px;border-radius:999px;border:1px solid ${C.line};background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);box-shadow:0 6px 20px rgba(0,0,0,0.1);}
-.fab-panel button{border:0;background:transparent;color:${C.muted};padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;border-radius:999px;transition:all 0.12s;-webkit-tap-highlight-color:transparent;}
+.fab-panel{display:inline-flex;gap:1px;padding:2px;border-radius:999px;border:1px solid ${C.line};background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);box-shadow:0 6px 20px rgba(0,0,0,0.1);}
+.fab-panel button{border:0;background:transparent;color:${C.muted};padding:5px 9px;font-size:10.5px;font-weight:700;cursor:pointer;border-radius:999px;transition:all 0.12s;-webkit-tap-highlight-color:transparent;}
 .fab-panel button.on{background:${C.ai};color:#fff;}
 
 /* ── Collapsible sections ── */
@@ -212,8 +214,8 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 
 /* ── Responsive: large phone ── */
 @media(max-width:768px){
-  .shell{padding:12px 10px 72px;}
-  .hero,.sec{padding:14px;border-radius:14px;}
+  .shell{padding:11px 9px 76px;}
+  .hero,.sec{padding:13px;border-radius:14px;}
   .g2,.g4,.bb-grid,.dual.bi-mode{grid-template-columns:1fr;}
   .g3{grid-template-columns:1fr;}
   .chain-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
@@ -221,19 +223,19 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
   .h1{font-size:24px;}
   .h2{font-size:20px;}
   .quote-text{font-size:14px;}
-  .sidebar{flex-direction:column;}
+  .sidebar{flex-direction:column;gap:8px;}
   .sidebar .nav-box{min-width:0;}
   .sec-head{flex-direction:column;gap:6px;}
   .met-val{font-size:20px;}
-  .fab-wrap{right:10px;bottom:calc(10px + env(safe-area-inset-bottom, 0px));}
-  .fab{width:36px;height:36px;font-size:10px;}
-  .fab-panel button{padding:6px 9px;font-size:10.5px;}
+  .fab-wrap{right:9px;bottom:calc(9px + env(safe-area-inset-bottom, 0px));}
+  .fab{width:32px;height:32px;font-size:9.5px;}
+  .fab-panel button{padding:5px 8px;font-size:10px;}
 }
 
 /* ── Responsive: small phone ── */
 @media(max-width:400px){
-  .shell{padding:10px 8px 68px;}
-  .hero,.sec{padding:12px;}
+  .shell{padding:9px 7px 72px;}
+  .hero,.sec{padding:11px;}
   .g2-keep{grid-template-columns:1fr;}
   .chain-grid{grid-template-columns:1fr;}
   .pill{font-size:10px;padding:4px 8px;}
@@ -490,7 +492,7 @@ function Section({ id, kicker, title, source, quote, lensContent, blocks, mode }
           {quote && (
             <div className="g2" style={{ marginBottom: 14 }}>
               <div className="quote">
-                <div className="quote-label">Core line</div>
+                <div className="quote-label"><T m={mode} en="Keep in mind" zh="最值得記" /></div>
                 <div className="quote-text"><T m={mode} en={quote.en} zh={quote.zh} /></div>
               </div>
               <div className="card">{lensContent}</div>
@@ -569,6 +571,8 @@ function LensWTA({ data, mode }) {
 export default function INNO6230QuizV3() {
   const [mode, setMode] = useState("en");
   const [fabOpen, setFabOpen] = useState(false);
+  const [activeId, setActiveId] = useState("backbone");
+  const fabRef = useRef(null);
 
   const navItems = useMemo(() => [
     { id: "backbone", en: "16-Sentence Backbone", zh: "16 句主幹" },
@@ -587,7 +591,39 @@ export default function INNO6230QuizV3() {
   ], []);
 
   const scrollTo = useCallback((id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setActiveId(id);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]?.target?.id) setActiveId(visible[0].target.id);
+      },
+      { rootMargin: "-10% 0px -55% 0px", threshold: [0.12, 0.3, 0.55] }
+    );
+
+    navItems.forEach((item) => {
+      const el = document.getElementById(item.id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [navItems]);
+
+  useEffect(() => {
+    const handlePointerDown = (event) => {
+      if (fabRef.current && !fabRef.current.contains(event.target)) setFabOpen(false);
+    };
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("touchstart", handlePointerDown, { passive: true });
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("touchstart", handlePointerDown);
+    };
   }, []);
 
   return (
@@ -598,10 +634,10 @@ export default function INNO6230QuizV3() {
         {/* ════ HERO ════ */}
         <header className="hero">
           <div className="hero-meta">
-            <span className="pill">Modules 5 to 8</span>
-            <span className="pill">Prediction factories</span>
-            <span className="pill">LLMs and economics</span>
-            <span className="pill">Takeoff and platform wars</span>
+            <span className="pill"><T m={mode} en="Modules 5 to 8" zh="模組 5 到 8" /></span>
+            <span className="pill"><T m={mode} en="Prediction factories" zh="Prediction Factories" /></span>
+            <span className="pill"><T m={mode} en="LLMs and economics" zh="LLMs 與經濟學" /></span>
+            <span className="pill"><T m={mode} en="Takeoff and platform wars" zh="起飛與平臺戰" /></span>
           </div>
           <h1 className="h1"><T m={mode} en="INNO6230 Quiz Guide" zh="INNO6230 Quiz 重點總覽" /></h1>
           <p className="hero-sub">
@@ -613,7 +649,7 @@ export default function INNO6230QuizV3() {
 
           {/* ── Causal Chain ── */}
           <div className="card" style={{ marginTop: 18 }}>
-            <div className="kicker kicker-plum">Backbone</div>
+            <div className="kicker kicker-plum"><T m={mode} en="Backbone" zh="主幹" /></div>
             <h3 className="h3" style={{ marginBottom: 12 }}><T m={mode} en="Causal Chain" zh="因果鏈骨架" /></h3>
             <p className="body" style={{ marginBottom: 12 }}>
               <T m={mode}
@@ -670,9 +706,14 @@ export default function INNO6230QuizV3() {
               <div className="kicker kicker-plum"><T m={mode} en="Jump to Section" zh="快速跳轉" /></div>
               <div className="nav-list">
                 {navItems.map(n => (
-                  <a key={n.id} className="nav-item" onClick={() => scrollTo(n.id)}>
+                  <button
+                    key={n.id}
+                    type="button"
+                    className={`nav-item${activeId === n.id ? " active" : ""}`}
+                    onClick={() => scrollTo(n.id)}
+                  >
                     <T m={mode} en={n.en} zh={n.zh} />
-                  </a>
+                  </button>
                 ))}
               </div>
             </nav>
@@ -680,9 +721,14 @@ export default function INNO6230QuizV3() {
               <div className="kicker kicker-red"><T m={mode} en="Case Traps" zh="案例陷阱" /></div>
               <div className="nav-list">
                 {caseTraps.map((ct, i) => (
-                  <a key={i} className="nav-item" onClick={() => scrollTo(ct.id)}>
+                  <button
+                    key={i}
+                    type="button"
+                    className={`nav-item${activeId === ct.id ? " active" : ""}`}
+                    onClick={() => scrollTo(ct.id)}
+                  >
                     <T m={mode} en={ct.en} zh={ct.zh} />
-                  </a>
+                  </button>
                 ))}
               </div>
             </div>
@@ -693,15 +739,15 @@ export default function INNO6230QuizV3() {
             <section className="sec" id="backbone">
               <div className="sec-head">
                 <div>
-                  <div className="kicker kicker-gold">Backbone</div>
+                  <div className="kicker kicker-gold"><T m={mode} en="Backbone" zh="主幹" /></div>
                   <h2 className="h2"><T m={mode} en="Sixteen Sentences to Memorize" zh="考前最後 16 句主幹" /></h2>
                 </div>
-                <span className="sec-source"><T m={mode} en="Primary quiz source" zh="主要 quiz 來源" /></span>
+                <span className="sec-source"><T m={mode} en="Quiz core" zh="Quiz 核心" /></span>
               </div>
               <div className="bb-grid">
                 {backbone.map((b, i) => (
                   <div className="bb" key={i}>
-                    <div className="bb-num">Core {i + 1}</div>
+                    <div className="bb-num"><T m={mode} en={`Core ${i + 1}`} zh={`核心 ${i + 1}`} /></div>
                     {(mode === "en" || mode === "bi") && <div className="bb-en">{b.en}</div>}
                     {(mode === "zh" || mode === "bi") && <div className="bb-zh">{b.zh}</div>}
                   </div>
@@ -712,7 +758,7 @@ export default function INNO6230QuizV3() {
             {/* ── Module 5 ── */}
             <Section id="module-5" kicker="Module 5" mode={mode}
               title={{ en: "Building Prediction Factories", zh: "建構 Prediction Factories" }}
-              source={{ en: "Cross-checked to uploaded notes and slides", zh: "已對照上傳 notes 與 slides" }}
+              source={{ en: "Lecture notes and slides", zh: "課堂 notes 與 slides" }}
               quote={{ en: "Prediction is constrained first by observability, not by model sophistication.", zh: "預測的第一限制不是模型多高級，而是可觀測性。" }}
               lensContent={<LensMiniCards items={sectionLensData["module-5"].items} mode={mode} titleEn={sectionLensData["module-5"].titleEn} titleZh={sectionLensData["module-5"].titleZh} />}
               blocks={mod5Blocks}
@@ -721,7 +767,7 @@ export default function INNO6230QuizV3() {
             {/* ── Module 6 ── */}
             <Section id="module-6" kicker="Module 6" mode={mode}
               title={{ en: "Road to General AI, LLMs", zh: "邁向通用 AI 與 LLMs" }}
-              source={{ en: "Cross-checked to uploaded notes and slides", zh: "已對照上傳 notes 與 slides" }}
+              source={{ en: "Lecture notes and slides", zh: "課堂 notes 與 slides" }}
               quote={{ en: "Weak AI means one model for one task. LLMs shift toward a highly flexible general-purpose super f(.).", zh: "弱 AI 是一個任務一個模型。LLM 則把事情推向高度彈性的通用 super f(.)。" }}
               lensContent={<LensTable data={sectionLensData["module-6"]} mode={mode} />}
               blocks={mod6Blocks}
@@ -801,7 +847,7 @@ export default function INNO6230QuizV3() {
         </div>
 
         {/* ════ Floating Language FAB ════ */}
-        <div className="fab-wrap">
+        <div className="fab-wrap" ref={fabRef}>
           {fabOpen && (
             <div className="fab-panel">
               <button className={mode === "en" ? "on" : ""} onClick={() => { setMode("en"); setFabOpen(false); }}>EN</button>
