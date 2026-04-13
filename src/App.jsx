@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 
 /* ═══════════════════════════════════════════════════════════════
-   INNO6230 Quiz Infrastructure v8
+   INNO6230 Quiz Infrastructure v3
    Scope: Modules 5-8 (Notes + Slides, including optionals)
    ═══════════════════════════════════════════════════════════════ */
 
@@ -55,7 +55,7 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .sm{font-size:13px;line-height:1.55;color:${C.muted};}
 
 /* ── Cards & surfaces ── */
-.card{background:${C.white};border:1px solid ${C.line};border-radius:14px;padding:16px;overflow:hidden;}
+ .card{background:${C.white};border:1px solid ${C.line};border-radius:14px;padding:16px 16px 18px;overflow:hidden;}
 .card-paper{background:${C.paper};border:1px solid ${C.line};border-radius:14px;padding:16px;}
 
 /* ── Kicker labels ── */
@@ -97,18 +97,6 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .quote-label{font-size:11.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.suo};margin-bottom:6px;}
 .quote-text{font-size:17px;line-height:1.48;font-weight:700;color:${C.ai};font-family:${FONT_HEAD};}
 
-/* ═══ QUIZ-OPTIMIZED: score-first path and module pins ═══ */
-.score-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px;}
-.score-card{background:${C.white};border:1px solid ${C.line};border-top:4px solid ${C.suo};border-radius:12px;padding:12px 13px;}
-.score-step{font-size:10.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.suo};margin-bottom:4px;}
-.score-head{font-size:14px;font-weight:800;line-height:1.4;color:${C.ai};margin-bottom:4px;}
-.score-body{font-size:13.5px;line-height:1.55;color:${C.inkSoft};}
-.pin-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px;}
-.pin{background:${C.white};border:1px solid ${C.line};border-left:4px solid ${C.ai};border-radius:12px;padding:11px 12px;}
-.pin-label{font-size:10.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.kitsune};margin-bottom:4px;}
-.pin-head{font-size:13.5px;font-weight:800;line-height:1.4;color:${C.ai};margin-bottom:3px;}
-.pin-body{font-size:12.75px;line-height:1.55;color:${C.inkSoft};}
-
 /* ── Grid helpers ── */
 .g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
 .g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;}
@@ -123,7 +111,8 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .bb-zh{font-size:14px;line-height:1.55;color:${C.inkSoft};margin-top:4px;}
 
 /* ── HTML content blocks ── */
-.htb p{margin:0 0 10px;font-size:15px;line-height:1.68;color:${C.inkSoft};max-width:720px;}
+.htb{display:grid;gap:4px;}
+.htb p{margin:0 0 10px;font-size:15px;line-height:1.68;color:${C.inkSoft};max-width:68ch;}
 .htb ul,.htb ol{margin:0 0 10px;padding-left:20px;display:grid;gap:6px;}
 .htb li::marker{color:${C.kitsune};font-weight:800;}
 .htb li{font-size:15px;line-height:1.62;color:${C.inkSoft};}
@@ -198,13 +187,31 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .mt-hero{margin-top:16px;}
 .dual.en-only .zh-part{display:none;}
 .dual.zh-only .en-part{display:none;}
-.dual.bi-mode{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
-.dual.bi-mode .en-part,.dual.bi-mode .zh-part{border:1px dashed ${C.lineLight};border-radius:10px;background:#FFFDF6;padding:12px;}
+.dual.bi-mode{grid-template-columns:1fr;gap:12px;}
+.dual.bi-mode .bi-lane{border:1px solid ${C.lineLight};border-radius:12px;background:#FFFDF6;padding:0;overflow:hidden;}
+.dual.bi-mode .bi-label{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid ${C.lineLight};font-size:11.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.ai};background:${C.paperAlt};}
+.dual.bi-mode .bi-copy{padding:12px 12px 14px;}
 
 /* ═══ QUIZ-OPTIMIZED: Case-trap drill cards ═══ */
 .trap-card{border:2px solid ${C.suo};border-left:5px solid ${C.suo};border-radius:12px;background:${C.suoLight};padding:12px 14px;}
 .trap-card h5{margin:0 0 5px;font-size:15px;font-weight:800;color:${C.suo};}
 .trap-card p{margin:0;font-size:14.5px;line-height:1.55;color:${C.ink};font-weight:600;}
+
+/* ═══ Concept primer ═══ */
+.primer-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;}
+.primer-terms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.term-card{background:${C.white};border:1px solid ${C.line};border-radius:12px;padding:12px 13px;}
+.term-sym{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:34px;padding:0 10px;border-radius:999px;background:${C.aiLight};color:${C.ai};font-family:${FONT_MONO};font-weight:800;font-size:15px;margin-bottom:8px;}
+.term-head{font-size:13.5px;font-weight:800;line-height:1.45;color:${C.ai};margin-bottom:4px;}
+.term-body{font-size:13.5px;line-height:1.58;color:${C.inkSoft};}
+.term-note{font-size:12.5px;line-height:1.55;color:${C.muted};margin-top:6px;}
+.flow-card{background:${C.white};border:1px solid ${C.line};border-radius:12px;padding:14px;}
+.flow-list{display:grid;gap:8px;margin-top:10px;}
+.flow-step{display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:start;}
+.flow-num{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:999px;background:${C.kitsuneLight};color:${C.suo};font-size:11px;font-weight:800;}
+.flow-text{font-size:13.75px;line-height:1.58;color:${C.inkSoft};}
+.primer-mini{margin-top:12px;padding:11px 12px;border-radius:10px;border:1px solid ${C.lineLight};background:${C.paper};}
+.primer-mini strong{color:${C.ai};}
 
 /* ── Floating language FAB ── */
 .fab-wrap{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom, 0px));z-index:90;display:grid;gap:7px;justify-items:end;}
@@ -228,7 +235,6 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
   .chain-arrows{display:none;}
   .scan-grid{grid-template-columns:1fr;}
   .g4{grid-template-columns:repeat(2,minmax(0,1fr));}
-  .score-grid,.pin-grid{grid-template-columns:1fr;}
 }
 
 /* ── Responsive: large phone ── */
@@ -236,7 +242,7 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
   .shell{padding:12px 10px 80px;}
   .hero,.sec{padding:14px;border-radius:14px;}
   .g2,.g4,.dual.bi-mode{grid-template-columns:1fr;}
-  .g3,.score-grid,.pin-grid{grid-template-columns:1fr;}
+  .g3{grid-template-columns:1fr;}
   .chain-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   .chain-card{min-height:auto;}
   .h1{font-size:24px;}
@@ -324,118 +330,12 @@ const anchorMetricsZh = [
   { label: "Uber", val: "17.7%", note: "Didi 併購 Uber China 後，Uber 保留的持股。" },
 ];
 
-const scorePath = [
-  {
-    stepEn: "Step 1", stepZh: "Step 1",
-    headEn: "Lock the 16-sentence backbone first.", headZh: "先鎖住 16 句 backbone。",
-    bodyEn: "This is the fastest way to secure the framework marks before you go back into detail.", bodyZh: "這是先把 framework 分數抓住，再回頭補細節的最快方法。"
-  },
-  {
-    stepEn: "Step 2", stepZh: "Step 2",
-    headEn: "Run the four anchor cases in order.", headZh: "再依序跑四個核心案例。",
-    bodyEn: "eHarmony, Google, SaferTaxi, Uber China. These cases carry most of the diagnostic moves.", bodyZh: "eHarmony、Google、SaferTaxi、Uber China。大多數判斷動作都集中在這四個案例。"
-  },
-  {
-    stepEn: "Step 3", stepZh: "Step 3",
-    headEn: "Only then lock the numbers.", headZh: "最後再鎖定數字。",
-    bodyEn: "Use the six anchor figures after the logic is stable, not before.", bodyZh: "先穩住邏輯，再記六個數字錨點，不要倒過來。"
-  },
+const primerTerms = [
+  { sym: "y", headEn: "The real outcome you care about.", headZh: "你真正想知道的結果。", bodyEn: "This is the outcome the platform actually cares about predicting, such as mutual reply, save, churn, or conversion.", bodyZh: "這是平臺真正想預測的結果，例如是否互相回覆、是否收藏、是否流失、是否轉換。", noteEn: "Think: the thing you ultimately wish you could observe perfectly.", noteZh: "可把它理解成：你最希望能完美觀測的那個結果。" },
+  { sym: "X", headEn: "The inputs you can observe.", headZh: "你實際看得到的輸入。", bodyEn: "These are the signals available to the system, such as profile fields, clicks, dwell time, history, or context.", bodyZh: "這些是系統手上實際可觀測的訊號，例如個人資料、點擊、停留時間、歷史行為與情境資料。", noteEn: "If X is weak or missing, prediction quality is capped before modeling even starts.", noteZh: "若 X 很弱或缺漏，再好的模型也先天受限。" },
+  { sym: "f(.)", headEn: "The mapping from X to a prediction.", headZh: "把 X 轉成預測的映射。", bodyEn: "This is the rule or model the machine uses, ranging from a crude heuristic to regression, trees, or deep nets.", bodyZh: "這就是機器拿來做推估的規則或模型，可以很簡單，也可以是 regression、trees、deep nets。", noteEn: "The course keeps saying this is the least important decision early on.", noteZh: "這門課一直強調，早期最不該先迷信的就是這一段。" },
+  { sym: "ŷ", headEn: "The predicted version of y.", headZh: "y 的預測值。", bodyEn: "Because the real y is often unknown in the moment, the model produces y-hat as its best estimate.", bodyZh: "因為真實 y 當下常常不知道，所以模型會先產出 y-hat，作為最佳估計。", noteEn: "This is the score, probability, or rank the platform can act on now.", noteZh: "它通常就是平台當下可以據以行動的分數、機率或排序。" },
 ];
-
-const modulePins = {
-  "module-5": [
-    {
-      labelEn: "Must remember", labelZh: "必背",
-      headEn: "Decision → y → X → f(.)",
-      headZh: "決策 → y → X → f(.)",
-      bodyEn: "The course wants the order right before any model talk starts.",
-      bodyZh: "這門課先看順序有沒有對，再看你講甚麼模型。"
-    },
-    {
-      labelEn: "Case trap", labelZh: "案例陷阱",
-      headEn: "Rich survey does not equal strong learning.",
-      headZh: "問卷豐富，不等於學習能力強。",
-      bodyEn: "eHarmony has richer inputs than Tinder, but a much weaker feedback loop.",
-      bodyZh: "eHarmony 的輸入比 Tinder 豐富，但 feedback loop 弱得多。"
-    },
-    {
-      labelEn: "Exam move", labelZh: "答題動作",
-      headEn: "Ask whether y is observed.",
-      headZh: "先問 y 有沒有被觀測到。",
-      bodyEn: "If yes, supervised. If not, unsupervised grouping is the limit.",
-      bodyZh: "有就是 supervised，沒有就只能往 unsupervised 分群走。"
-    },
-  ],
-  "module-6": [
-    {
-      labelEn: "Must remember", labelZh: "必背",
-      headEn: "LLM = a highly flexible super f(.)",
-      headZh: "LLM = 高彈性的 super f(.)",
-      bodyEn: "It is still a prediction machine, but no longer one-model-for-one-task.",
-      bodyZh: "本質仍是 prediction machine，只是不再是一任務一模型。"
-    },
-    {
-      labelEn: "Case trap", labelZh: "案例陷阱",
-      headEn: "Capability can rise while economics get worse.",
-      headZh: "能力可以更強，經濟卻可能變差。",
-      bodyEn: "Google's case matters because inference cost can flip an incumbent's economics.",
-      bodyZh: "Google 關鍵在於 inference cost 可能把既有巨頭經濟翻掉。"
-    },
-    {
-      labelEn: "Exam move", labelZh: "答題動作",
-      headEn: "Bring cost back into the answer.",
-      headZh: "回答最後一定要拉回成本。",
-      bodyEn: "Do not stop at architecture or capability. Mention inference cost and cannibalization.",
-      bodyZh: "不要停在架構與能力，最後要提 inference cost 與 cannibalization。"
-    },
-  ],
-  "module-7": [
-    {
-      labelEn: "Must remember", labelZh: "必背",
-      headEn: "Takeoff starts with net benefits > adoption cost.",
-      headZh: "起飛先看淨效益是否大於採用成本。",
-      bodyEn: "Critical mass is a threshold, not a slogan.",
-      bodyZh: "Critical mass 是門檻，不是口號。"
-    },
-    {
-      labelEn: "Case trap", labelZh: "案例陷阱",
-      headEn: "Real value can still fail to scale.",
-      headZh: "有真實價值，也可能起飛失敗。",
-      bodyEn: "SaferTaxi's wait-time advantage did not solve its scale and reachable-market problem.",
-      bodyZh: "SaferTaxi 雖有等待時間優勢，但仍沒解掉規模與可觸及市場問題。"
-    },
-    {
-      labelEn: "Exam move", labelZh: "答題動作",
-      headEn: "Write the launch family explicitly.",
-      headZh: "把 launch family 明寫出來。",
-      bodyEn: "State whether the move is coaxing or coordinating and why.",
-      bodyZh: "直接寫出是 coaxing 還是 coordinating，並交代理由。"
-    },
-  ],
-  "module-8": [
-    {
-      labelEn: "Must remember", labelZh: "必背",
-      headEn: "WTA needs all three conditions together.",
-      headZh: "WTA 需要三條件一起成立。",
-      bodyEn: "Two strong conditions are not enough for a clean WTA conclusion.",
-      bodyZh: "只有兩條強，還不夠把市場判成乾淨的 WTA。"
-    },
-    {
-      labelEn: "Case trap", labelZh: "案例陷阱",
-      headEn: "Market war does not prove WTA economics.",
-      headZh: "打得像 WTA，不等於底層經濟真是 WTA。",
-      bodyEn: "Uber China is the case to separate battle intensity from true market structure.",
-      bodyZh: "Uber China 正是拿來拆開戰況激烈與市場結構的案例。"
-    },
-    {
-      labelEn: "Exam move", labelZh: "答題動作",
-      headEn: "Check switching and multi-homing cost last.",
-      headZh: "最後一定要檢查 switching 與 multi-homing cost。",
-      bodyEn: "This is the condition most likely to break an overly fast WTA answer.",
-      bodyZh: "這通常是最容易讓過快的 WTA 判斷出錯的一條。"
-    },
-  ],
-};
 
 // ═══════════════════════════════════════════════════════════════
 // MODULE SECTION DATA (full content)
@@ -602,8 +502,14 @@ function Html({ m, en, zh }) {
   if (m === "zh") return <div className="htb" dangerouslySetInnerHTML={{ __html: zh }} />;
   return (
     <div className="dual bi-mode">
-      <div className="htb en-part" dangerouslySetInnerHTML={{ __html: en }} />
-      <div className="htb zh-part" dangerouslySetInnerHTML={{ __html: zh }} />
+      <div className="bi-lane">
+        <div className="bi-label">English</div>
+        <div className="htb bi-copy en-part" dangerouslySetInnerHTML={{ __html: en }} />
+      </div>
+      <div className="bi-lane">
+        <div className="bi-label">中文</div>
+        <div className="htb bi-copy zh-part" dangerouslySetInnerHTML={{ __html: zh }} />
+      </div>
     </div>
   );
 }
@@ -616,7 +522,7 @@ function Chevron({ open }) {
   );
 }
 
-function Section({ id, kicker, title, source, quote, lensContent, pins, blocks, mode }) {
+function Section({ id, kicker, title, source, quote, lensContent, blocks, mode }) {
   const [open, setOpen] = useState(true);
   return (
     <section className="sec" id={id}>
@@ -641,7 +547,6 @@ function Section({ id, kicker, title, source, quote, lensContent, pins, blocks, 
               <div className="card">{lensContent}</div>
             </div>
           )}
-          {pins && <MemoryPins pins={pins} mode={mode} />}
           <div className="g2">
             {blocks.map((b, i) => (
               <div className="card" key={i}>
@@ -708,21 +613,53 @@ function LensWTA({ data, mode }) {
   );
 }
 
-function MemoryPins({ pins, mode, titleEn = "High-yield pins", titleZh = "高分抓點" }) {
+function PrimerSection({ mode }) {
   return (
-    <div className="card" style={{ marginBottom: 14 }}>
-      <div className="kicker kicker-red"><T m={mode} en="Score-first" zh="高分優先" /></div>
-      <h3 className="h3" style={{ marginBottom: 10 }}><T m={mode} en={titleEn} zh={titleZh} /></h3>
-      <div className="pin-grid">
-        {pins.map((pin, i) => (
-          <div className="pin" key={i}>
-            <div className="pin-label"><T m={mode} en={pin.labelEn} zh={pin.labelZh} /></div>
-            <div className="pin-head"><T m={mode} en={pin.headEn} zh={pin.headZh} /></div>
-            <div className="pin-body"><T m={mode} en={pin.bodyEn} zh={pin.bodyZh} /></div>
-          </div>
-        ))}
+    <section className="sec" id="primer">
+      <div className="sec-head">
+        <div>
+          <div className="kicker kicker-teal"><T m={mode} en="Primer" zh="基礎概念" /></div>
+          <h2 className="h2"><T m={mode} en="Read This Before y, X, f(.)" zh="在 y、X、f(.) 之前，先看這一段" /></h2>
+        </div>
+        <span className="sec-source"><T m={mode} en="Concept entry point" zh="概念入口" /></span>
       </div>
-    </div>
+      <div className="primer-grid">
+        <div className="card">
+          <h3 className="h3" style={{ marginBottom: 10 }}><T m={mode} en="What each symbol means" zh="每個符號代表甚麼" /></h3>
+          <div className="primer-terms">
+            {primerTerms.map((t, i) => (
+              <div className="term-card" key={i}>
+                <div className="term-sym">{t.sym}</div>
+                <div className="term-head"><T m={mode} en={t.headEn} zh={t.headZh} /></div>
+                <div className="term-body"><T m={mode} en={t.bodyEn} zh={t.bodyZh} /></div>
+                <div className="term-note"><T m={mode} en={t.noteEn} zh={t.noteZh} /></div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flow-card">
+          <div className="kicker kicker-red"><T m={mode} en="How they connect" zh="它們如何串起來" /></div>
+          <h3 className="h3" style={{ marginBottom: 8 }}><T m={mode} en="The course's logic in one flow" zh="這門課真正要你記住的流程" /></h3>
+          <div className="eq">Decision → y → X → f(.) → ŷ → rule → action</div>
+          <div className="flow-list">
+            <div className="flow-step"><div className="flow-num">1</div><div className="flow-text"><T m={mode} en="Start with the decision. What do you want the system to do automatically?" zh="先從決策開始。你到底要系統自動做甚麼？" /></div></div>
+            <div className="flow-step"><div className="flow-num">2</div><div className="flow-text"><T m={mode} en="Choose y. What real outcome would make that decision intelligent?" zh="再選 y。甚麼真實結果，會讓那個決策變得聰明？" /></div></div>
+            <div className="flow-step"><div className="flow-num">3</div><div className="flow-text"><T m={mode} en="List X. What can the platform actually observe in time to help?" zh="再列 X。平臺手上實際有甚麼可及時觀測的訊號？" /></div></div>
+            <div className="flow-step"><div className="flow-num">4</div><div className="flow-text"><T m={mode} en="Only then choose f(.). Use a rule or model to convert X into ŷ." zh="最後才選 f(.)。用規則或模型把 X 轉成 ŷ。" /></div></div>
+            <div className="flow-step"><div className="flow-num">5</div><div className="flow-text"><T m={mode} en="Apply the decision rule. If ŷ crosses the threshold, trigger the action." zh="接著套入決策規則。若 ŷ 過門檻，就觸發行動。" /></div></div>
+          </div>
+          <div className="primer-mini">
+            <strong><T m={mode} en="Mini example" zh="極短例子" /></strong>
+            <div className="term-note" style={{ marginTop: 6 }}>
+              <T m={mode}
+                en="Recommend a match → y = probability of mutual reply → X = profiles, clicks, past behavior → f(.) = heuristic or model → ŷ = predicted probability → if ŷ is high enough, surface the match."
+                zh="推薦一個配對 → y = 互相回覆的機率 → X = 個人資料、點擊、過往行為 → f(.) = heuristic 或模型 → ŷ = 預測機率 → 若 ŷ 夠高，就把這個配對推上去。"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -730,13 +667,14 @@ function MemoryPins({ pins, mode, titleEn = "High-yield pins", titleZh = "高分
 // MAIN APP
 // ═══════════════════════════════════════════════════════════════
 
-export default function INNO6230QuizV8() {
+export default function INNO6230QuizV9() {
   const [mode, setMode] = useState("en");
   const [fabOpen, setFabOpen] = useState(false);
   const [activeId, setActiveId] = useState("backbone");
   const fabRef = useRef(null);
 
   const navItems = useMemo(() => [
+    { id: "primer", en: "Primer: y / X / f(.)", zh: "先讀：y / X / f(.)" },
     { id: "backbone", en: "16-Sentence Backbone", zh: "16 句主幹" },
     { id: "module-5", en: "M5: Prediction Factories", zh: "M5：Prediction Factories" },
     { id: "module-6", en: "M6: Road to General AI", zh: "M6：邁向通用 AI" },
@@ -808,16 +746,6 @@ export default function INNO6230QuizV8() {
               zh="先從因果鏈讀起，再進入四個最關鍵案例、會改變診斷的數字，以及考前最值得背的句子。"
             />
           </p>
-
-          <div className="score-grid">
-            {scorePath.map((item, i) => (
-              <div className="score-card" key={i}>
-                <div className="score-step"><T m={mode} en={item.stepEn} zh={item.stepZh} /></div>
-                <div className="score-head"><T m={mode} en={item.headEn} zh={item.headZh} /></div>
-                <div className="score-body"><T m={mode} en={item.bodyEn} zh={item.bodyZh} /></div>
-              </div>
-            ))}
-          </div>
 
           {/* ── Causal Chain ── */}
           <div className="card mt-hero">
@@ -907,6 +835,8 @@ export default function INNO6230QuizV8() {
           </aside>
 
           <main className="main">
+            <PrimerSection mode={mode} />
+
             {/* ── Backbone ── */}
             <section className="sec" id="backbone">
               <div className="sec-head">
@@ -933,7 +863,6 @@ export default function INNO6230QuizV8() {
               source={{ en: "Lecture notes and slides", zh: "課堂 notes 與 slides" }}
               quote={{ en: "Prediction is constrained first by observability, not by model sophistication.", zh: "預測的第一限制不是模型多高級，而是可觀測性。" }}
               lensContent={<LensMiniCards items={sectionLensData["module-5"].items} mode={mode} titleEn={sectionLensData["module-5"].titleEn} titleZh={sectionLensData["module-5"].titleZh} />}
-              pins={modulePins["module-5"]}
               blocks={mod5Blocks}
             />
 
@@ -943,7 +872,6 @@ export default function INNO6230QuizV8() {
               source={{ en: "Lecture notes and slides", zh: "課堂 notes 與 slides" }}
               quote={{ en: "Weak AI means one model for one task. LLMs shift toward a highly flexible general-purpose super f(.).", zh: "弱 AI 是一個任務一個模型。LLM 則把事情推向高度彈性的通用 super f(.)。" }}
               lensContent={<LensTable data={sectionLensData["module-6"]} mode={mode} />}
-              pins={modulePins["module-6"]}
               blocks={mod6Blocks}
             />
 
@@ -953,7 +881,6 @@ export default function INNO6230QuizV8() {
               source={{ en: "Primary quiz source", zh: "主要 quiz 來源" }}
               quote={{ en: "Critical mass requires net benefits above adoption cost.", zh: "要先讓淨效益壓過採用成本，才摸得到 critical mass。" }}
               lensContent={<LensMiniCards items={sectionLensData["module-7"].items} mode={mode} titleEn={sectionLensData["module-7"].titleEn} titleZh={sectionLensData["module-7"].titleZh} />}
-              pins={modulePins["module-7"]}
               blocks={mod7Blocks}
             />
 
@@ -963,7 +890,6 @@ export default function INNO6230QuizV8() {
               source={{ en: "Primary quiz source", zh: "主要 quiz 來源" }}
               quote={{ en: "Platform competition is not only about who has the better position. It is also about which equilibrium the market tips toward.", zh: "平臺競爭不是只問誰位置比較好，還要問市場最後會 tip 到哪個 equilibrium。" }}
               lensContent={<LensWTA data={sectionLensData["module-8"]} mode={mode} />}
-              pins={modulePins["module-8"]}
               blocks={mod8Blocks}
             />
 
