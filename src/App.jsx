@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 
 /* ═══════════════════════════════════════════════════════════════
-   INNO6230 Quiz Infrastructure v3
+   INNO6230 Quiz Infrastructure v8
    Scope: Modules 5-8 (Notes + Slides, including optionals)
    ═══════════════════════════════════════════════════════════════ */
 
@@ -41,7 +41,7 @@ const css = `
 
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
-body{background:${C.bg};color:${C.ink};font-family:${FONT_BODY};line-height:1.6;-webkit-font-smoothing:antialiased;}
+body{background:${C.bg};color:${C.ink};font-family:${FONT_BODY};line-height:1.62;-webkit-font-smoothing:antialiased;}
 
 .app{min-height:100vh;background:${C.bg};}
 .shell{max-width:1280px;margin:0 auto;padding:18px 18px 84px;}
@@ -49,18 +49,17 @@ body{background:${C.bg};color:${C.ink};font-family:${FONT_BODY};line-height:1.6;
 /* ── Typography ── */
 h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .h1{font-size:clamp(26px,4.5vw,44px);line-height:1.1;font-weight:800;}
-.h2{font-size:clamp(21px,3vw,30px);line-height:1.15;font-weight:700;}
-.h3{font-size:17.25px;line-height:1.28;font-weight:700;color:${C.ai};}
-.body{font-size:13.4px;line-height:1.64;color:${C.inkSoft};max-width:680px;}
-.sm{font-size:12px;line-height:1.55;color:${C.muted};}
+.h2{font-size:clamp(22px,3vw,30px);line-height:1.15;font-weight:700;}
+.h3{font-size:18px;line-height:1.28;font-weight:700;color:${C.ai};}
+.body{font-size:15px;line-height:1.68;color:${C.inkSoft};max-width:700px;}
+.sm{font-size:13px;line-height:1.55;color:${C.muted};}
 
 /* ── Cards & surfaces ── */
-.card{background:${C.white};border:1px solid ${C.line};border-radius:14px;padding:14px;overflow:hidden;}
-.card-paper{background:${C.paper};border:1px solid ${C.line};border-radius:14px;padding:14px;}
-.card-flush{background:${C.white};border:1px solid ${C.lineLight};border-radius:10px;padding:12px;}
+.card{background:${C.white};border:1px solid ${C.line};border-radius:14px;padding:16px;overflow:hidden;}
+.card-paper{background:${C.paper};border:1px solid ${C.line};border-radius:14px;padding:16px;}
 
 /* ── Kicker labels ── */
-.kicker{font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px;}
+.kicker{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px;}
 .kicker-gold{color:${C.kitsune};}
 .kicker-teal{color:${C.ai};}
 .kicker-green{color:${C.matsu};}
@@ -68,118 +67,129 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .kicker-red{color:${C.suo};}
 
 /* ── Hero ── */
-.hero{padding:20px;margin-bottom:16px;background:${C.paper};border:1px solid ${C.line};border-radius:18px;}
+.hero{padding:22px;margin-bottom:18px;background:${C.paper};border:1px solid ${C.line};border-radius:18px;}
 .hero-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
-.pill{display:inline-flex;align-items:center;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:600;border:1px solid ${C.line};background:${C.white};color:${C.inkSoft};white-space:nowrap;}
-.hero-sub{font-size:13.75px;line-height:1.62;color:${C.inkSoft};max-width:680px;margin-top:8px;}
+.pill{display:inline-flex;align-items:center;padding:5px 11px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid ${C.line};background:${C.white};color:${C.inkSoft};white-space:nowrap;}
+.hero-sub{font-size:15px;line-height:1.65;color:${C.inkSoft};max-width:700px;margin-top:10px;}
 
 /* ── Layout ── */
-.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:14px;align-items:start;}
+.layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:16px;align-items:start;}
 .sidebar{position:sticky;top:12px;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 24px);overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;}
 .sidebar::-webkit-scrollbar{display:none;}
 .main{display:grid;gap:18px;}
 
 /* ── Sidebar nav ── */
-.nav-box{background:${C.paper};border:1px solid ${C.line};border-radius:12px;padding:10px;}
+.nav-box{background:${C.paper};border:1px solid ${C.line};border-radius:12px;padding:11px;}
 .nav-list{display:grid;gap:3px;}
-.nav-item{display:block;width:100%;padding:6px 8px;border-radius:8px;font-size:11.5px;font-weight:600;color:${C.inkSoft};text-decoration:none;border:1px solid transparent;cursor:pointer;transition:all 0.15s;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;line-height:1.38;background:transparent;appearance:none;-webkit-appearance:none;text-align:left;}
+.nav-item{display:block;width:100%;padding:7px 9px;border-radius:8px;font-size:13px;font-weight:600;color:${C.inkSoft};text-decoration:none;border:1px solid transparent;cursor:pointer;transition:all 0.15s;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;line-height:1.4;background:transparent;appearance:none;-webkit-appearance:none;text-align:left;}
 .nav-item:hover{border-color:${C.ai};color:${C.ai};background:${C.aiLight};}
 .nav-item.active{background:${C.aiLight};border-color:${C.ai};color:${C.ai};}
 .nav-item:focus-visible{outline:2px solid ${C.ai};outline-offset:2px;}
 
 /* ── Section wrapper ── */
-.sec{background:${C.paper};border:1px solid ${C.line};border-radius:16px;padding:16px;scroll-margin-top:14px;}
-.sec-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
-.sec-source{font-size:10.5px;font-weight:600;color:${C.muted};padding:4px 9px;border-radius:999px;border:1px solid ${C.lineLight};background:${C.white};white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sec{background:${C.paper};border:1px solid ${C.line};border-radius:16px;padding:18px;scroll-margin-top:14px;}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+.sec-source{font-size:11px;font-weight:600;color:${C.muted};padding:4px 10px;border-radius:999px;border:1px solid ${C.lineLight};background:${C.white};white-space:nowrap;flex-shrink:0;margin-top:4px;}
 
-/* ── Quote band ── */
-.quote{position:relative;background:${C.white};border:1px solid ${C.line};border-radius:12px;padding:14px 14px 14px 16px;box-shadow:0 1px 0 rgba(0,0,0,0.02);}
-.quote::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:4px;border-radius:999px;background:${C.kitsune};}
-.quote-label{font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.matsu};margin-bottom:6px;}
-.quote-text{font-size:15.5px;line-height:1.5;font-weight:700;color:${C.ai};font-family:${FONT_HEAD};}
+/* ═══ QUIZ-OPTIMIZED: Quote band (core line per module) ═══ */
+.quote{position:relative;background:${C.kitsuneLight};border:1.5px solid ${C.kitsune}44;border-radius:12px;padding:16px 16px 16px 20px;box-shadow:0 1px 0 rgba(0,0,0,0.02);}
+.quote::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:5px;border-radius:999px;background:${C.kitsune};}
+.quote-label{font-size:11.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.suo};margin-bottom:6px;}
+.quote-text{font-size:17px;line-height:1.48;font-weight:700;color:${C.ai};font-family:${FONT_HEAD};}
+
+/* ═══ QUIZ-OPTIMIZED: score-first path and module pins ═══ */
+.score-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px;}
+.score-card{background:${C.white};border:1px solid ${C.line};border-top:4px solid ${C.suo};border-radius:12px;padding:12px 13px;}
+.score-step{font-size:10.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.suo};margin-bottom:4px;}
+.score-head{font-size:14px;font-weight:800;line-height:1.4;color:${C.ai};margin-bottom:4px;}
+.score-body{font-size:13.5px;line-height:1.55;color:${C.inkSoft};}
+.pin-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px;}
+.pin{background:${C.white};border:1px solid ${C.line};border-left:4px solid ${C.ai};border-radius:12px;padding:11px 12px;}
+.pin-label{font-size:10.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.kitsune};margin-bottom:4px;}
+.pin-head{font-size:13.5px;font-weight:800;line-height:1.4;color:${C.ai};margin-bottom:3px;}
+.pin-body{font-size:12.75px;line-height:1.55;color:${C.inkSoft};}
 
 /* ── Grid helpers ── */
-.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
-.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
-.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
 .g2-keep{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
 
-/* ── Backbone items ── */
+/* ═══ QUIZ-OPTIMIZED: Backbone flashcards ═══ */
 .bb-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
-.bb{background:${C.white};border:1px solid ${C.line};border-radius:12px;padding:12px;box-shadow:inset 0 3px 0 ${C.kitsuneLight};}
-.bb-num{font-size:10.5px;font-weight:800;color:${C.kitsune};letter-spacing:0.08em;margin-bottom:3px;}
-.bb-en{font-size:13px;font-weight:700;line-height:1.45;color:${C.ai};}
-.bb-zh{font-size:12.5px;line-height:1.55;color:${C.inkSoft};margin-top:3px;}
+.bb{background:${C.white};border:1px solid ${C.line};border-left:4px solid ${C.kitsune};border-radius:12px;padding:13px 14px;box-shadow:inset 0 3px 0 ${C.kitsuneLight};}
+.bb-num{font-size:11px;font-weight:800;color:${C.kitsune};letter-spacing:0.08em;margin-bottom:4px;}
+.bb-en{font-size:14.5px;font-weight:700;line-height:1.48;color:${C.ai};}
+.bb-zh{font-size:14px;line-height:1.55;color:${C.inkSoft};margin-top:4px;}
 
 /* ── HTML content blocks ── */
-.htb p{margin:0 0 8px;font-size:13.5px;line-height:1.68;color:${C.inkSoft};max-width:700px;}
-.htb ul,.htb ol{margin:0 0 8px;padding-left:18px;display:grid;gap:5px;}
+.htb p{margin:0 0 10px;font-size:15px;line-height:1.68;color:${C.inkSoft};max-width:720px;}
+.htb ul,.htb ol{margin:0 0 10px;padding-left:20px;display:grid;gap:6px;}
 .htb li::marker{color:${C.kitsune};font-weight:800;}
-.htb li{font-size:13.5px;line-height:1.6;color:${C.inkSoft};}
-.htb strong{color:${C.ai};font-weight:800;background:linear-gradient(transparent 56%, ${C.kitsuneLight} 56%);padding:0 0.08em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
-.htb h4{font-size:16px;font-weight:800;color:${C.fuji};font-family:${FONT_HEAD};margin:0 0 6px;}
-.htb h5{display:inline-block;font-size:14.25px;font-weight:800;color:${C.ai};margin:12px 0 6px;padding:2px 8px;border-radius:999px;background:${C.aiLight};border:1px solid ${C.lineLight};}
+.htb li{font-size:15px;line-height:1.62;color:${C.inkSoft};}
+.htb strong{color:${C.ai};font-weight:800;background:linear-gradient(transparent 54%,${C.kitsuneLight} 54%);padding:0 0.1em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+.htb h4{font-size:17px;font-weight:800;color:${C.fuji};font-family:${FONT_HEAD};margin:0 0 8px;}
+.htb h5{display:inline-block;font-size:14.5px;font-weight:800;color:${C.ai};margin:14px 0 7px;padding:3px 10px;border-radius:999px;background:${C.aiLight};border:1px solid ${C.lineLight};}
 .htb h5:first-child{margin-top:0;}
 
 /* ── Tables ── */
 .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid ${C.line};border-radius:10px;}
 .htb table{width:100%;border-collapse:collapse;min-width:480px;table-layout:auto;}
-.htb th,.htb td{border-right:1px solid ${C.lineLight};border-bottom:1px solid ${C.lineLight};padding:5px 7px;text-align:left;vertical-align:top;font-size:12.25px;line-height:1.45;overflow-wrap:anywhere;word-break:break-word;hyphens:auto;}
-.htb th{background:${C.kitsuneLight};color:${C.ai};font-weight:800;font-size:11.4px;white-space:normal;line-height:1.35;}
+.htb th,.htb td{border-right:1px solid ${C.lineLight};border-bottom:1px solid ${C.lineLight};padding:6px 8px;text-align:left;vertical-align:top;font-size:13.5px;line-height:1.5;overflow-wrap:anywhere;word-break:break-word;hyphens:auto;}
+.htb th{background:${C.kitsuneLight};color:${C.ai};font-weight:800;font-size:12.5px;white-space:normal;line-height:1.35;}
 .htb td:last-child,.htb th:last-child{border-right:0;}
 .htb tr:last-child td{border-bottom:0;}
-/* Narrower tables inside scan cards */
 .scan .htb table{min-width:320px;}
-.scan .htb th,.scan .htb td{font-size:11.5px;padding:5px 6px;}
+.scan .htb th,.scan .htb td{font-size:12.5px;padding:5px 7px;}
 
 /* ── Equation pills ── */
-.eq{display:inline-block;padding:7px 13px;border-radius:999px;border:1px solid ${C.line};background:${C.kitsuneLight};color:${C.fuji};font-weight:800;font-family:${FONT_MONO};font-size:12.75px;margin:6px 0 12px;word-break:break-word;box-shadow:0 1px 0 rgba(0,0,0,0.02);}
+.eq{display:inline-block;padding:8px 14px;border-radius:999px;border:1px solid ${C.line};background:${C.kitsuneLight};color:${C.fuji};font-weight:800;font-family:${FONT_MONO};font-size:14px;margin:6px 0 12px;word-break:break-word;box-shadow:0 1px 0 rgba(0,0,0,0.02);}
 
 /* ── Mini cards ── */
-.mc{border:1px solid ${C.lineLight};border-radius:10px;background:${C.paper};padding:9px 10px;}
-.mc h5{margin:0 0 3px;font-size:13px;font-weight:700;color:${C.ai};}
-.mc p{margin:0;font-size:12.5px;line-height:1.52;color:${C.inkSoft};}
+.mc{border:1px solid ${C.lineLight};border-radius:10px;background:${C.paper};padding:10px 12px;}
+.mc h5{margin:0 0 4px;font-size:14.5px;font-weight:700;color:${C.ai};}
+.mc p{margin:0;font-size:14px;line-height:1.55;color:${C.inkSoft};}
 
 /* ── Scenario cards ── */
-.scn{border:1px solid ${C.line};border-radius:12px;background:${C.white};padding:12px;}
+.scn{border:1px solid ${C.line};border-radius:12px;background:${C.white};padding:14px;}
 .scn.good{border-color:rgba(74,110,80,0.4);}
 .scn.bad{border-color:rgba(203,64,66,0.35);}
-.scn .big{font-size:26px;font-weight:900;line-height:1;color:${C.ai};margin:3px 0 5px;}
+.scn .big{font-size:28px;font-weight:900;line-height:1;color:${C.ai};margin:4px 0 6px;}
 .scn.bad .big{color:${C.beni};}
-.scn h5{font-size:13px;margin:0 0 2px;}
-.scn p{font-size:12.5px;line-height:1.5;color:${C.inkSoft};margin:0;}
+.scn h5{font-size:14px;margin:0 0 3px;}
+.scn p{font-size:14px;line-height:1.5;color:${C.inkSoft};margin:0;}
 
 /* ── Status badges ── */
-.badge{padding:3px 7px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:0.04em;border:1px solid ${C.lineLight};}
+.badge{padding:3px 8px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:0.04em;border:1px solid ${C.lineLight};}
 .badge-yes{background:${C.matsuLight};color:${C.matsu};}
 .badge-no{background:${C.beniLight};color:${C.beni};}
 .badge-maybe{background:${C.kitsuneLight};color:${C.kitsune};}
 
 /* ── Status card row ── */
-.st{border:1px solid ${C.line};border-radius:10px;background:${C.white};padding:10px 11px;}
-.st-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px;}
-.st-top strong{font-size:12.5px;}
+.st{border:1px solid ${C.line};border-radius:10px;background:${C.white};padding:11px 12px;}
+.st-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:5px;}
+.st-top strong{font-size:13.5px;}
 
 /* ── Metric cards ── */
-.met{border:1px solid ${C.line};border-radius:10px;background:${C.kitsuneLight};padding:10px 11px;}
-.met-label{font-size:10.5px;font-weight:700;color:${C.muted};text-transform:uppercase;letter-spacing:0.04em;margin-bottom:3px;}
-.met-val{font-size:22px;font-weight:900;color:${C.ai};letter-spacing:-0.03em;line-height:1;font-variant-numeric:tabular-nums;}
-.met-note{font-size:11.5px;line-height:1.45;color:${C.inkSoft};margin-top:3px;}
+.met{border:1px solid ${C.line};border-radius:10px;background:${C.kitsuneLight};padding:11px 12px;}
+.met-label{font-size:11px;font-weight:700;color:${C.muted};text-transform:uppercase;letter-spacing:0.04em;margin-bottom:3px;}
+.met-val{font-size:24px;font-weight:900;color:${C.ai};letter-spacing:-0.03em;line-height:1;font-variant-numeric:tabular-nums;}
+.met-note{font-size:13px;line-height:1.48;color:${C.inkSoft};margin-top:4px;}
 
 /* ── SVG diagrams ── */
 .dia{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
 .dia svg{display:block;max-width:100%;height:auto;}
 
-/* ── Scan board (hero overview cards) ── */
-.scan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px;}
-.scan{background:${C.white};border:1px solid ${C.line};border-radius:14px;padding:12px;display:grid;gap:6px;overflow:hidden;}
+/* ── Scan board ── */
+.scan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px;}
+.scan{background:${C.white};border:1px solid ${C.line};border-radius:14px;padding:14px;display:grid;gap:8px;overflow:hidden;}
 
-/* ── Chain (causal flow) ── */
+/* ── Chain ── */
 .chain-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;}
 .chain-card{background:${C.white};border:1px solid ${C.line};border-radius:12px;padding:10px;min-height:100px;}
-.chain-kicker{font-size:9.5px;font-weight:800;color:${C.kitsune};letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
-.chain-head{font-size:12.5px;font-weight:800;color:${C.ai};line-height:1.3;margin-bottom:4px;}
-.chain-body{font-size:11px;line-height:1.48;color:${C.muted};}
+.chain-kicker{font-size:10px;font-weight:800;color:${C.kitsune};letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.chain-head{font-size:13px;font-weight:800;color:${C.ai};line-height:1.3;margin-bottom:4px;}
+.chain-body{font-size:12px;line-height:1.5;color:${C.muted};}
 .chain-arrows{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:-1px;}
 .chain-arrow{display:flex;align-items:center;justify-content:center;font-size:16px;color:${C.kitsune};}
 
@@ -188,20 +198,25 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .mt-hero{margin-top:16px;}
 .dual.en-only .zh-part{display:none;}
 .dual.zh-only .en-part{display:none;}
-.dual.bi-mode{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
-.dual.bi-mode .en-part,.dual.bi-mode .zh-part{border:1px dashed ${C.lineLight};border-radius:10px;background:#FFFDF6;padding:10px;}
+.dual.bi-mode{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+.dual.bi-mode .en-part,.dual.bi-mode .zh-part{border:1px dashed ${C.lineLight};border-radius:10px;background:#FFFDF6;padding:12px;}
+
+/* ═══ QUIZ-OPTIMIZED: Case-trap drill cards ═══ */
+.trap-card{border:2px solid ${C.suo};border-left:5px solid ${C.suo};border-radius:12px;background:${C.suoLight};padding:12px 14px;}
+.trap-card h5{margin:0 0 5px;font-size:15px;font-weight:800;color:${C.suo};}
+.trap-card p{margin:0;font-size:14.5px;line-height:1.55;color:${C.ink};font-weight:600;}
 
 /* ── Floating language FAB ── */
-.fab-wrap{position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom, 0px));z-index:90;display:grid;gap:7px;justify-items:end;}
-.fab{width:38px;height:38px;border-radius:999px;border:1px solid rgba(0,0,0,0.08);background:${C.fuji};color:#fff;cursor:pointer;font-size:11px;font-weight:800;box-shadow:0 4px 16px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;transition:transform 0.15s;-webkit-tap-highlight-color:transparent;}
+.fab-wrap{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom, 0px));z-index:90;display:grid;gap:7px;justify-items:end;}
+.fab{width:46px;height:46px;border-radius:999px;border:1px solid rgba(0,0,0,0.08);background:${C.fuji};color:#fff;cursor:pointer;font-size:12px;font-weight:800;box-shadow:0 4px 16px rgba(0,0,0,0.14);display:flex;align-items:center;justify-content:center;transition:transform 0.15s;-webkit-tap-highlight-color:transparent;}
 .fab:hover{transform:scale(1.06);}
-.fab-panel{display:inline-flex;gap:1px;padding:2px;border-radius:999px;border:1px solid ${C.line};background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);box-shadow:0 6px 20px rgba(0,0,0,0.1);}
-.fab-panel button{border:0;background:transparent;color:${C.muted};padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;border-radius:999px;transition:all 0.12s;-webkit-tap-highlight-color:transparent;}
+.fab-panel{display:inline-flex;gap:2px;padding:3px;border-radius:999px;border:1px solid ${C.line};background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);box-shadow:0 6px 20px rgba(0,0,0,0.12);}
+.fab-panel button{border:0;background:transparent;color:${C.muted};padding:8px 13px;font-size:13px;font-weight:700;cursor:pointer;border-radius:999px;transition:all 0.12s;-webkit-tap-highlight-color:transparent;}
 .fab-panel button.on{background:${C.ai};color:#fff;}
 
 /* ── Collapsible sections ── */
 .collapse-trigger{display:flex;align-items:flex-start;justify-content:space-between;width:100%;background:none;border:none;cursor:pointer;padding:0;font:inherit;text-align:left;color:inherit;gap:16px;}
-.collapse-trigger .chevron{width:20px;height:20px;transition:transform 0.2s;color:${C.muted};flex-shrink:0;margin-top:6px;}
+.collapse-trigger .chevron{width:22px;height:22px;transition:transform 0.2s;color:${C.muted};flex-shrink:0;margin-top:6px;}
 .collapse-trigger .chevron.open{transform:rotate(180deg);}
 
 /* ── Responsive: tablet ── */
@@ -213,94 +228,49 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
   .chain-arrows{display:none;}
   .scan-grid{grid-template-columns:1fr;}
   .g4{grid-template-columns:repeat(2,minmax(0,1fr));}
-  /* text bump for tablet */
-  .h2{font-size:21px;}
-  .h3{font-size:17.5px;}
-  .body,.hero-sub{font-size:14.75px;}
-  .htb p,.htb li{font-size:14.5px;}
-  .mc p,.scn p{font-size:13.5px;}
-  .sm{font-size:13px;}
-  .nav-item{font-size:12.75px;padding:7px 9px;}
-  .met-note{font-size:12.5px;}
-  .quote-text{font-size:16px;}
-  .fab{width:42px;height:42px;font-size:11.5px;}
-  .fab-panel button{padding:7px 11px;font-size:11.5px;}
+  .score-grid,.pin-grid{grid-template-columns:1fr;}
 }
 
 /* ── Responsive: large phone ── */
 @media(max-width:768px){
-  .shell{padding:11px 9px 76px;}
-  .hero,.sec{padding:13px;border-radius:14px;}
+  .shell{padding:12px 10px 80px;}
+  .hero,.sec{padding:14px;border-radius:14px;}
   .g2,.g4,.dual.bi-mode{grid-template-columns:1fr;}
-  .g3{grid-template-columns:1fr;}
+  .g3,.score-grid,.pin-grid{grid-template-columns:1fr;}
   .chain-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   .chain-card{min-height:auto;}
   .h1{font-size:24px;}
   .h2{font-size:21px;}
-  .h3{font-size:17.25px;}
-  .quote-text{font-size:15.5px;}
   .sidebar{flex-direction:column;gap:8px;}
   .sidebar .nav-box{min-width:0;}
   .sec-head{flex-direction:column;gap:6px;}
-  .body,.hero-sub{font-size:15.25px;}
-  .htb p,.htb li{font-size:14.75px;}
-  .mc p,.scn p{font-size:13.5px;}
-  .mc h5,.scn h5{font-size:14px;}
-  .sm{font-size:12.5px;}
-  .bb-en{font-size:13.5px;}
-  .bb-zh{font-size:13px;}
-  .nav-item{font-size:13.25px;padding:8px 10px;}
-  .met-val{font-size:20px;}
-  .met-note{font-size:12.25px;}
-  .eq{font-size:13.5px;padding:7px 12px;}
-  .card{padding:12px;}
+  .card{padding:13px;}
   .mt-hero{margin-top:12px;}
-  .fab-wrap{right:10px;bottom:calc(10px + env(safe-area-inset-bottom, 0px));}
-  .fab{width:44px;height:44px;font-size:12px;}
-  .fab-panel button{padding:8px 12px;font-size:12px;}
-  /* table scroll-hint */
+  .fab-wrap{right:12px;bottom:calc(12px + env(safe-area-inset-bottom, 0px));}
+  .fab{width:48px;height:48px;font-size:13px;}
+  .fab-panel button{padding:9px 14px;font-size:13.5px;}
   .tbl-wrap{position:relative;}
-  .tbl-wrap::after{content:"";position:absolute;top:0;right:0;bottom:0;width:18px;pointer-events:none;background:linear-gradient(to left,rgba(252,250,242,0.55),transparent);border-radius:0 10px 10px 0;}
+  .tbl-wrap::after{content:"";position:absolute;top:0;right:0;bottom:0;width:20px;pointer-events:none;background:linear-gradient(to left,rgba(252,250,242,0.6),transparent);border-radius:0 10px 10px 0;}
 }
 
-/* ── Responsive: 375-390px (iPhone SE / 12 mini / 13 mini / 14) ── */
+/* ── Responsive: 375-390px ── */
 @media(max-width:390px){
-  .shell{padding:10px 8px 72px;}
-  .hero,.sec{padding:11px;border-radius:12px;}
+  .shell{padding:10px 8px 76px;}
+  .hero,.sec{padding:12px;border-radius:12px;}
   .h1{font-size:22px;}
   .h2{font-size:19px;}
-  .h3{font-size:16px;}
-  .body,.hero-sub{font-size:14.75px;}
-  .htb p,.htb li{font-size:14.25px;}
+  .htb p,.htb li{font-size:14.5px;}
+  .body,.hero-sub{font-size:14.5px;}
   .bb-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
-  .bb{padding:9px;}
+  .bb{padding:10px;}
   .bb-en{font-size:13.5px;line-height:1.42;}
   .bb-zh{font-size:13px;}
-  .bb-num{font-size:10px;}
   .chain-grid{grid-template-columns:1fr;}
-  .pill{font-size:11px;padding:4px 8px;}
-  .nav-item{font-size:12.75px;padding:7px 9px;}
-  .htb table{min-width:420px;}
-  .scan .htb table{min-width:300px;}
-  .met{padding:8px 9px;}
-  .met-val{font-size:19px;}
-  .met-note{font-size:12.25px;}
-  .chain-head{font-size:13px;}
-  .chain-body{font-size:12.5px;}
-  .scn .big{font-size:22px;}
   .g2-keep{gap:8px;}
-  .st{padding:8px 9px;}
-  .st-top strong{font-size:12.5px;}
-  .badge{font-size:10px;padding:2px 6px;}
-  .kicker{font-size:10.5px;}
-  .sec-source{font-size:11px;padding:3px 8px;}
-  .quote{padding:10px;}
-  .quote-text{font-size:14.5px;}
-  .mc p,.scn p{font-size:13px;}
-  .sm{font-size:12px;}
-  .fab-wrap{right:8px;bottom:calc(8px + env(safe-area-inset-bottom, 0px));}
-  .fab{width:42px;height:42px;font-size:11.5px;}
-  .fab-panel button{padding:7px 11px;font-size:11.5px;}
+  .met-val{font-size:20px;}
+  .quote-text{font-size:15.5px;}
+  .fab{width:44px;height:44px;font-size:12px;}
+  .fab-panel button{padding:8px 12px;font-size:13px;}
 }
 `;
 
@@ -353,6 +323,119 @@ const anchorMetricsZh = [
   { label: "SaferTaxi", val: "$2.2B", note: "三城市設定下的計程車市場錨點。" },
   { label: "Uber", val: "17.7%", note: "Didi 併購 Uber China 後，Uber 保留的持股。" },
 ];
+
+const scorePath = [
+  {
+    stepEn: "Step 1", stepZh: "Step 1",
+    headEn: "Lock the 16-sentence backbone first.", headZh: "先鎖住 16 句 backbone。",
+    bodyEn: "This is the fastest way to secure the framework marks before you go back into detail.", bodyZh: "這是先把 framework 分數抓住，再回頭補細節的最快方法。"
+  },
+  {
+    stepEn: "Step 2", stepZh: "Step 2",
+    headEn: "Run the four anchor cases in order.", headZh: "再依序跑四個核心案例。",
+    bodyEn: "eHarmony, Google, SaferTaxi, Uber China. These cases carry most of the diagnostic moves.", bodyZh: "eHarmony、Google、SaferTaxi、Uber China。大多數判斷動作都集中在這四個案例。"
+  },
+  {
+    stepEn: "Step 3", stepZh: "Step 3",
+    headEn: "Only then lock the numbers.", headZh: "最後再鎖定數字。",
+    bodyEn: "Use the six anchor figures after the logic is stable, not before.", bodyZh: "先穩住邏輯，再記六個數字錨點，不要倒過來。"
+  },
+];
+
+const modulePins = {
+  "module-5": [
+    {
+      labelEn: "Must remember", labelZh: "必背",
+      headEn: "Decision → y → X → f(.)",
+      headZh: "決策 → y → X → f(.)",
+      bodyEn: "The course wants the order right before any model talk starts.",
+      bodyZh: "這門課先看順序有沒有對，再看你講甚麼模型。"
+    },
+    {
+      labelEn: "Case trap", labelZh: "案例陷阱",
+      headEn: "Rich survey does not equal strong learning.",
+      headZh: "問卷豐富，不等於學習能力強。",
+      bodyEn: "eHarmony has richer inputs than Tinder, but a much weaker feedback loop.",
+      bodyZh: "eHarmony 的輸入比 Tinder 豐富，但 feedback loop 弱得多。"
+    },
+    {
+      labelEn: "Exam move", labelZh: "答題動作",
+      headEn: "Ask whether y is observed.",
+      headZh: "先問 y 有沒有被觀測到。",
+      bodyEn: "If yes, supervised. If not, unsupervised grouping is the limit.",
+      bodyZh: "有就是 supervised，沒有就只能往 unsupervised 分群走。"
+    },
+  ],
+  "module-6": [
+    {
+      labelEn: "Must remember", labelZh: "必背",
+      headEn: "LLM = a highly flexible super f(.)",
+      headZh: "LLM = 高彈性的 super f(.)",
+      bodyEn: "It is still a prediction machine, but no longer one-model-for-one-task.",
+      bodyZh: "本質仍是 prediction machine，只是不再是一任務一模型。"
+    },
+    {
+      labelEn: "Case trap", labelZh: "案例陷阱",
+      headEn: "Capability can rise while economics get worse.",
+      headZh: "能力可以更強，經濟卻可能變差。",
+      bodyEn: "Google's case matters because inference cost can flip an incumbent's economics.",
+      bodyZh: "Google 關鍵在於 inference cost 可能把既有巨頭經濟翻掉。"
+    },
+    {
+      labelEn: "Exam move", labelZh: "答題動作",
+      headEn: "Bring cost back into the answer.",
+      headZh: "回答最後一定要拉回成本。",
+      bodyEn: "Do not stop at architecture or capability. Mention inference cost and cannibalization.",
+      bodyZh: "不要停在架構與能力，最後要提 inference cost 與 cannibalization。"
+    },
+  ],
+  "module-7": [
+    {
+      labelEn: "Must remember", labelZh: "必背",
+      headEn: "Takeoff starts with net benefits > adoption cost.",
+      headZh: "起飛先看淨效益是否大於採用成本。",
+      bodyEn: "Critical mass is a threshold, not a slogan.",
+      bodyZh: "Critical mass 是門檻，不是口號。"
+    },
+    {
+      labelEn: "Case trap", labelZh: "案例陷阱",
+      headEn: "Real value can still fail to scale.",
+      headZh: "有真實價值，也可能起飛失敗。",
+      bodyEn: "SaferTaxi's wait-time advantage did not solve its scale and reachable-market problem.",
+      bodyZh: "SaferTaxi 雖有等待時間優勢，但仍沒解掉規模與可觸及市場問題。"
+    },
+    {
+      labelEn: "Exam move", labelZh: "答題動作",
+      headEn: "Write the launch family explicitly.",
+      headZh: "把 launch family 明寫出來。",
+      bodyEn: "State whether the move is coaxing or coordinating and why.",
+      bodyZh: "直接寫出是 coaxing 還是 coordinating，並交代理由。"
+    },
+  ],
+  "module-8": [
+    {
+      labelEn: "Must remember", labelZh: "必背",
+      headEn: "WTA needs all three conditions together.",
+      headZh: "WTA 需要三條件一起成立。",
+      bodyEn: "Two strong conditions are not enough for a clean WTA conclusion.",
+      bodyZh: "只有兩條強，還不夠把市場判成乾淨的 WTA。"
+    },
+    {
+      labelEn: "Case trap", labelZh: "案例陷阱",
+      headEn: "Market war does not prove WTA economics.",
+      headZh: "打得像 WTA，不等於底層經濟真是 WTA。",
+      bodyEn: "Uber China is the case to separate battle intensity from true market structure.",
+      bodyZh: "Uber China 正是拿來拆開戰況激烈與市場結構的案例。"
+    },
+    {
+      labelEn: "Exam move", labelZh: "答題動作",
+      headEn: "Check switching and multi-homing cost last.",
+      headZh: "最後一定要檢查 switching 與 multi-homing cost。",
+      bodyEn: "This is the condition most likely to break an overly fast WTA answer.",
+      bodyZh: "這通常是最容易讓過快的 WTA 判斷出錯的一條。"
+    },
+  ],
+};
 
 // ═══════════════════════════════════════════════════════════════
 // MODULE SECTION DATA (full content)
@@ -533,7 +616,7 @@ function Chevron({ open }) {
   );
 }
 
-function Section({ id, kicker, title, source, quote, lensContent, blocks, mode }) {
+function Section({ id, kicker, title, source, quote, lensContent, pins, blocks, mode }) {
   const [open, setOpen] = useState(true);
   return (
     <section className="sec" id={id}>
@@ -552,12 +635,13 @@ function Section({ id, kicker, title, source, quote, lensContent, blocks, mode }
           {quote && (
             <div className="g2" style={{ marginBottom: 14 }}>
               <div className="quote">
-                <div className="quote-label"><T m={mode} en="Quiz priority" zh="先記這句" /></div>
+                <div className="quote-label"><T m={mode} en="Memorize this" zh="這句要背" /></div>
                 <div className="quote-text"><T m={mode} en={quote.en} zh={quote.zh} /></div>
               </div>
               <div className="card">{lensContent}</div>
             </div>
           )}
+          {pins && <MemoryPins pins={pins} mode={mode} />}
           <div className="g2">
             {blocks.map((b, i) => (
               <div className="card" key={i}>
@@ -624,11 +708,29 @@ function LensWTA({ data, mode }) {
   );
 }
 
+function MemoryPins({ pins, mode, titleEn = "High-yield pins", titleZh = "高分抓點" }) {
+  return (
+    <div className="card" style={{ marginBottom: 14 }}>
+      <div className="kicker kicker-red"><T m={mode} en="Score-first" zh="高分優先" /></div>
+      <h3 className="h3" style={{ marginBottom: 10 }}><T m={mode} en={titleEn} zh={titleZh} /></h3>
+      <div className="pin-grid">
+        {pins.map((pin, i) => (
+          <div className="pin" key={i}>
+            <div className="pin-label"><T m={mode} en={pin.labelEn} zh={pin.labelZh} /></div>
+            <div className="pin-head"><T m={mode} en={pin.headEn} zh={pin.headZh} /></div>
+            <div className="pin-body"><T m={mode} en={pin.bodyEn} zh={pin.bodyZh} /></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ═══════════════════════════════════════════════════════════════
 // MAIN APP
 // ═══════════════════════════════════════════════════════════════
 
-export default function INNO6230QuizV3() {
+export default function INNO6230QuizV8() {
   const [mode, setMode] = useState("en");
   const [fabOpen, setFabOpen] = useState(false);
   const [activeId, setActiveId] = useState("backbone");
@@ -706,6 +808,16 @@ export default function INNO6230QuizV3() {
               zh="先從因果鏈讀起，再進入四個最關鍵案例、會改變診斷的數字，以及考前最值得背的句子。"
             />
           </p>
+
+          <div className="score-grid">
+            {scorePath.map((item, i) => (
+              <div className="score-card" key={i}>
+                <div className="score-step"><T m={mode} en={item.stepEn} zh={item.stepZh} /></div>
+                <div className="score-head"><T m={mode} en={item.headEn} zh={item.headZh} /></div>
+                <div className="score-body"><T m={mode} en={item.bodyEn} zh={item.bodyZh} /></div>
+              </div>
+            ))}
+          </div>
 
           {/* ── Causal Chain ── */}
           <div className="card mt-hero">
@@ -821,6 +933,7 @@ export default function INNO6230QuizV3() {
               source={{ en: "Lecture notes and slides", zh: "課堂 notes 與 slides" }}
               quote={{ en: "Prediction is constrained first by observability, not by model sophistication.", zh: "預測的第一限制不是模型多高級，而是可觀測性。" }}
               lensContent={<LensMiniCards items={sectionLensData["module-5"].items} mode={mode} titleEn={sectionLensData["module-5"].titleEn} titleZh={sectionLensData["module-5"].titleZh} />}
+              pins={modulePins["module-5"]}
               blocks={mod5Blocks}
             />
 
@@ -830,6 +943,7 @@ export default function INNO6230QuizV3() {
               source={{ en: "Lecture notes and slides", zh: "課堂 notes 與 slides" }}
               quote={{ en: "Weak AI means one model for one task. LLMs shift toward a highly flexible general-purpose super f(.).", zh: "弱 AI 是一個任務一個模型。LLM 則把事情推向高度彈性的通用 super f(.)。" }}
               lensContent={<LensTable data={sectionLensData["module-6"]} mode={mode} />}
+              pins={modulePins["module-6"]}
               blocks={mod6Blocks}
             />
 
@@ -839,6 +953,7 @@ export default function INNO6230QuizV3() {
               source={{ en: "Primary quiz source", zh: "主要 quiz 來源" }}
               quote={{ en: "Critical mass requires net benefits above adoption cost.", zh: "要先讓淨效益壓過採用成本，才摸得到 critical mass。" }}
               lensContent={<LensMiniCards items={sectionLensData["module-7"].items} mode={mode} titleEn={sectionLensData["module-7"].titleEn} titleZh={sectionLensData["module-7"].titleZh} />}
+              pins={modulePins["module-7"]}
               blocks={mod7Blocks}
             />
 
@@ -848,6 +963,7 @@ export default function INNO6230QuizV3() {
               source={{ en: "Primary quiz source", zh: "主要 quiz 來源" }}
               quote={{ en: "Platform competition is not only about who has the better position. It is also about which equilibrium the market tips toward.", zh: "平臺競爭不是只問誰位置比較好，還要問市場最後會 tip 到哪個 equilibrium。" }}
               lensContent={<LensWTA data={sectionLensData["module-8"]} mode={mode} />}
+              pins={modulePins["module-8"]}
               blocks={mod8Blocks}
             />
 
@@ -879,22 +995,22 @@ export default function INNO6230QuizV3() {
               <div className="card" style={{ marginTop: 14 }}>
                 <h3 className="h3" style={{ marginBottom: 10 }}><T m={mode} en="Three case traps (30-second drill)" zh="三個案例陷阱（30 秒速講）" /></h3>
                 <div className="g3">
-                  <div className="mc" style={{ borderColor: C.suo, borderWidth: "1.5px" }}>
-                    <h5 style={{ color: C.suo }}>eHarmony</h5>
+                  <div className="trap-card">
+                    <h5>eHarmony</h5>
                     <p><T m={mode}
                       en="One-time survey, six dimensions, no data tracking, no feedback, little scope for learning."
                       zh="一次性 survey，6 維度，no data tracking，no feedback，little scope for learning。"
                     /></p>
                   </div>
-                  <div className="mc" style={{ borderColor: C.suo, borderWidth: "1.5px" }}>
-                    <h5 style={{ color: C.suo }}>Google</h5>
+                  <div className="trap-card">
+                    <h5>Google</h5>
                     <p><T m={mode}
                       en="Baseline highly profitable, but AI search can flip the economics because inference cost is real."
                       zh="Baseline 很賺錢，但 AI search 可能因為 inference cost 真實存在而翻轉經濟。"
                     /></p>
                   </div>
-                  <div className="mc" style={{ borderColor: C.suo, borderWidth: "1.5px" }}>
-                    <h5 style={{ color: C.suo }}>Uber China</h5>
+                  <div className="trap-card">
+                    <h5>Uber China</h5>
                     <p><T m={mode}
                       en="Competed as if WTA, only 2 of 3 conditions met, low switching costs, war of attrition."
                       zh="照 WTA 打，但只滿足 2/3 條件，switching costs 低，war of attrition。"
