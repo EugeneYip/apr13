@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 
 /* ═══════════════════════════════════════════════════════════════
-   INNO6230 Quiz Infrastructure v14
+   INNO6230 Quiz Infrastructure v15
    Scope: Modules 5-8 (Notes + Slides, including optionals)
    ═══════════════════════════════════════════════════════════════ */
 
@@ -365,7 +365,7 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 const chainSteps = [
   { mod: "M5", en: "Data Assets", zh: "資料資產", descEn: "What can be observed shapes what can be predicted.", descZh: "先看得到，才有後續可預測的空間。" },
   { mod: "M5", en: "Prediction Problem", zh: "預測問題", descEn: "Choose the decision and the target before choosing the model.", descZh: "先決策與目標，再談模型。" },
-  { mod: "M5", en: "Algorithm", zh: "演算法", descEn: "Decision rule plus prediction model.", descZh: "決策規則加上預測模型。" },
+  { mod: "M5", en: "Algorithm", zh: "演算法", descEn: "Rule plus prediction model.", descZh: "決策規則加上預測模型。" },
   { mod: "M5", en: "Prediction Factory", zh: "預測工廠", descEn: "Live run, train, refine, feedback.", descZh: "即時執行、訓練精煉、持續回饋。" },
   { mod: "M6", en: "Scale Economics", zh: "規模經濟", descEn: "LLM economics differ because inference cost stays real.", descZh: "LLM 經濟結構不同，推論成本真實存在。" },
   { mod: "M7", en: "Takeoff", zh: "起飛", descEn: "Net benefits must exceed adoption cost for critical mass.", descZh: "淨效益要壓過採用成本，才碰得到 critical mass。" },
@@ -421,19 +421,19 @@ const primerTerms = [
 
 const formulaCards = [
   {
-    formula: "Decision Rule: if condition {ŷ} is met, take action Z",
+    formula: "Decision Rule: if ŷ passes rule, take action Z",
     labelEn: "Operational rule",
     labelZh: "操作規則",
     readEn: "Read it as: once the predicted score or probability is high enough, the platform does something concrete.",
     readZh: "把它讀成：當預測分數或機率高到某個門檻，平臺就採取具體動作。",
-    logicEn: "ŷ is not the action itself. It is an input into a rule. The rule converts prediction into an operational move such as recommend, rank, notify, flag, or approve.",
+    logicEn: "ŷ is not the action itself. It is an input into a rule. The rule converts prediction into an operational move such as recommend, rank notify, flag, or approve.",
     logicZh: "ŷ 本身不是行動，而是行動前的依據。真正把預測轉成營運動作的，是後面的 rule，例如推薦、排序、通知、標記、核准。",
     applyEn: "Application: if predicted match quality is high enough, surface the profile. If predicted violation risk is high enough, send content to review or auto-remove it.",
     applyZh: "應用：若預測 match quality 夠高，就把檔案推上去。若預測違規風險夠高，就送審或直接下架。"
   },
   {
     formula: "ŷ = f(X)",
-    labelEn: "Prediction model",
+    labelEn: "Model",
     labelZh: "預測模型",
     readEn: "Read it as: the model takes observed inputs X and produces its best estimate of the target y.",
     readZh: "把它讀成：模型把可觀測輸入 X 轉成對目標 y 的最佳估計。",
@@ -465,13 +465,13 @@ const formulaCards = [
     applyZh: "應用：在 eHarmony 裡，系統要推估這組男女是否可能是好配對，接著再決定要不要把這組 profile 推成推薦對象。"
   },
   {
-    formula: "Net Benefits = Stand-Alone Benefits + Network Benefits - Adopter Costs",
+    formula: "Net BenefitsStand-Alone Benefits + Network Benefits - Adopter Costs",
     labelEn: "Takeoff formula",
     labelZh: "起飛公式",
     readEn: "Read it as: adoption happens only when total benefits exceed total adoption costs.",
     readZh: "把它讀成：只有當總效益超過總採用成本時，採用才會發生。",
-    logicEn: "Stand-alone benefits exist even if few others join. Network benefits rise as more participants join. Adopter costs include price, hassle, switching, learning, privacy concern, and other frictions. Early takeoff is hard because network benefits are weakest at the start.",
-    logicZh: "Stand-alone benefits 在沒甚麼人加入時也存在。Network benefits 會隨更多人加入而上升。Adopter costs 包括價格、麻煩、轉換、學習成本、隱私顧慮與其他摩擦。起飛難，是因為一開始 network benefits 最弱。",
+    logicEn: "Stand-alone exist even if few others join. Network rise as more participants join. Adopter costs include price, hassle, switching, learning, privacy concern, and other frictions. Early takeoff is hard because network benefits are weakest at the start.",
+    logicZh: "Stand-alone 在沒甚麼人加入時也存在。Network 會隨更多人加入而上升。Adopter costs 包括價格、麻煩、轉換、學習成本、隱私顧慮與其他摩擦。起飛難，是因為一開始 network benefits 最弱。",
     applyEn: "Application: when diagnosing SaferTaxi or any new platform, ask which side has enough stand-alone value to move first, and whether tactics should coax one side or coordinate multiple sides together.",
     applyZh: "應用：在判讀 SaferTaxi 或任何新平臺時，要先問哪一邊有足夠 stand-alone value 能先動，以及應該用 coaxing 還是 coordinating。"
   },
@@ -513,7 +513,7 @@ const sectionScanData = {
     ],
     evidence: [
       { en: "Data inventory asks about source, ownership/access, unit of observation, variables, structure, sampling, coverage, and time form.", zh: "Data inventory 要問 source、ownership/access、unit of observation、variables、structure、sampling、coverage、以及時間形式。" },
-      { en: "eHarmony's 4,000 successful couples are all y = 1, so that sample cannot estimate a supervised match model by itself.", zh: "eHarmony 的 4,000 successful couples 全部都是 y = 1，所以那個樣本本身無法估 supervised 配對模型。" },
+      { en: "eHarmony's 4,000 success couples are all y = 1, so that sample cannot estimate a supervised match model by itself.", zh: "eHarmony 的 4,000 success couples 全部都是 y = 1，所以那個樣本本身無法估 supervised 配對模型。" },
       { en: "Professor's slides show eHarmony collapsed a large survey into six dimensions, then mechanically scored similarity, with little feedback for tuning.", zh: "教授投影片顯示 eHarmony 把大量問卷壓成六個維度，再機械式計算相似度，而且幾乎沒有 feedback 可調整。" },
     ],
   },
@@ -536,7 +536,7 @@ const sectionScanData = {
   },
   "module-7": {
     memorize: [
-      { en: "Net Benefits = Stand-Alone Benefits + Network Benefits - Adopter Costs.", zh: "Net Benefits = Stand-Alone Benefits + Network Benefits - Adopter Costs。" },
+      { en: "Net BenefitsStand-Alone Benefits + Network Benefits - Adopter Costs.", zh: "Net BenefitsStand-Alone Benefits + Network Benefits - Adopter Costs。" },
       { en: "Early adopters face the weakest value and the highest relative cost. That is the chicken-and-egg problem.", zh: "最早採用者面對的是最低價值、相對最高成本，這就是 chicken-and-egg 問題。" },
       { en: "Most platforms do not take off. There is no silver bullet.", zh: "大多數平臺都起飛不了，沒有銀彈。" },
     ],
@@ -547,8 +547,8 @@ const sectionScanData = {
     ],
     evidence: [
       { en: "The 2×2 adoption game uses costs of -1 and benefits of 2 if the other side adopts, creating both no-adoption and adoption equilibria.", zh: "2×2 採用賽局設定成本為 -1、他人採用時效益為 2，所以同時存在不採用與採用均衡。" },
-      { en: "SaferTaxi's three-city setup covers roughly 30 million people and about a $2.2B taxi market, but smartphone penetration was only 9% to 19%.", zh: "SaferTaxi 的三城市合計約 3,000 萬人口、約 $2.2B 計程車市場，但智慧型手機滲透率只有 9% 到 19%。" },
-      { en: "The slide deck shows current spending around $1M per year, only 46 cabs at one point, and revenue needing to grow about 10× just to break even.", zh: "投影片顯示當時年支出約 $1M、一度只有 46 輛車，而且營收約要再長 10 倍才可能打平。" },
+      { en: "SaferTaxi's three-city setup covers roughly 30 million people and about a $2.2B market, but smartphone reach was only 9% to 19%.", zh: "SaferTaxi 的三城市合計約 3,000 萬人口、約 $2.2B 計程車市場，但智慧型手機滲透率只有 9% 到 19%。" },
+      { en: "The slide deck shows current spending around $1M per year, only 46 cabs, and revenue needing to grow about 10× just to break even.", zh: "投影片顯示當時年支出約 $1M、一度只有 46 輛車，而且營收約要再長 10 倍才可能打平。" },
     ],
   },
   "module-8": {
@@ -604,7 +604,7 @@ const sectionLensData = {
     titleEn: "WTA Three-Condition Test", titleZh: "WTA 三條件測試",
     conditions: [
       { label: "Condition 1", en: "Strong increasing returns to scale.", zh: "規模增加報酬要夠強。", badge: "yes" },
-      { label: "Condition 2", en: "Little room for differentiation.", zh: "差異化空間要夠小。", badge: "yes" },
+      { label: "Condition 2", en: "Low differentiation.", zh: "差異化空間要夠小。", badge: "yes" },
       { label: "Condition 3", en: "High switching or multi-homing cost.", zh: "轉換成本或 multi-homing cost 要夠高。", badge: "check" },
     ],
     noteEn: "Use all three together. Two strong conditions are not enough for a clean winner-take-all conclusion.",
@@ -636,13 +636,13 @@ const mod5Blocks = [
   },
   {
     tEn: "eHarmony", tZh: "eHarmony",
-    enH: `<p>This is the canonical survey-rich but feedback-poor case.</p><div class="tbl-wrap"><table><thead><tr><th>Data source</th><th>What it contains</th><th>Coverage and unit</th><th>Time form</th></tr></thead><tbody><tr><td>Questionnaire</td><td>Personality, preferences, demographics, psychographics, location, lifestyle.</td><td>Everyone on the platform, including attempted sign-ups. Individual-level.</td><td>Cross-sectional snapshot.</td></tr><tr><td>Follow-up focus groups</td><td>Rich relationship-dynamics data.</td><td>4,000 successful couples who chose to participate. Dyad-level.</td><td>Cross-sectional snapshot.</td></tr><tr><td>Platform clickstream</td><td>Sign-up, renewal, cancellation, sign-ins, scrolling, time spent, clicks, communications.</td><td>Mostly active users. Individual and dyad.</td><td>Time series.</td></tr><tr><td>Other possible sources</td><td>Census, academic studies, and other enrichment data.</td><td>External, varying unit.</td><td>Variable.</td></tr></tbody></table></div><p>The files show two questionnaire counts, 140 questions and 300 questions compressed to six dimensions. Do not force a false certainty on the count. The stable conclusion is that many survey items were compressed into six factors.</p><h5>Professor-defined six factors</h5><ul><li>Agreeableness.</li><li>Preference for closeness with a partner.</li><li>Degree of sexual and romantic passion.</li><li>Level of extroversion and openness.</li><li>How important spirituality is.</li><li>How optimistic and happy each one is.</li></ul><p>The app-facing labels differ (Altruism, Emotional Intimacy, Athleticism, Relationship Values, Intellect), but for the exam, follow the professor's text version above.</p><h5>Operational weakness</h5><p><strong>No data tracking, no feedback to model tuning, and very little scope for learning.</strong> That is the line to remember.</p><h5>Method traps</h5><ul><li><strong>Method C fails:</strong> 4,000 successful couples means y equals 1 for everyone. A supervised model cannot be estimated when you have no negative outcomes.</li><li><strong>Method D is a hard-coded score:</strong> the developer assembles the formula themselves. f(.) here is not data-driven, but it may serve as a starting point.</li></ul><h5>Two viable paths the professor identifies</h5><ul><li><strong>Unsupervised:</strong> do not model outcomes. Group by similarity and map survey responses into six dimensions of distance.</li><li><strong>Supervised:</strong> use clickstream to observe outcomes and map those outcomes back to traits and behavior.</li></ul><p>eHarmony could have used both types.</p><h5>eHarmony versus Tinder</h5><ul><li>eHarmony: rich survey, proprietary compatibility framing, long-term relationship orientation, limited real-time feedback, slow evolution.</li><li>Tinder: simpler clickstream, ELO-style ranking logic, strong behavioral signals, systematic feedback, faster adaptation.</li></ul><p><strong>Bottom line from the slides:</strong> a simple clickstream with systematic feedback can often outpace richer but static data assets.</p><p><strong>The one line to memorize for eHarmony:</strong> one-time survey, six dimensions, no data tracking, no feedback, little scope for learning.</p>`,
-    zhH: `<p>這是最典型的問卷很豐富，但 feedback 很弱的案例。</p><div class="tbl-wrap"><table><thead><tr><th>資料來源</th><th>內容</th><th>覆蓋與觀察單位</th><th>時間形式</th></tr></thead><tbody><tr><td>Questionnaire</td><td>人格、偏好、人口資料、心理特徵、位置、生活型態。</td><td>平臺上所有人，含曾嘗試註冊者。個體層級。</td><td>橫斷面快照。</td></tr><tr><td>Follow-up Focus Groups</td><td>關係動態的豐富資料。</td><td>4,000 對自願參加的 successful couples。配對層級。</td><td>橫斷面快照。</td></tr><tr><td>Platform Clickstream</td><td>註冊、續約、取消、登入、滑動、停留時間、點擊與溝通。</td><td>以活躍用戶為主。個人與配對。</td><td>時間序列。</td></tr><tr><td>其他可能來源</td><td>人口普查、學術研究與其他補充資料。</td><td>外部，觀察單位不固定。</td><td>不固定。</td></tr></tbody></table></div><p>檔案中同時出現 140 題與 300 題壓成 6 維度兩種寫法。不要硬選一個確定值。真正穩的是：大量 survey 問題最後被壓縮成 6 個因素。</p><h5>教授定義的 6 個因素</h5><ul><li>Agreeableness（和善程度）。</li><li>Preference for closeness with a partner（親密偏好）。</li><li>Degree of sexual and romantic passion（性與浪漫熱情）。</li><li>Level of extroversion and openness（外向與開放）。</li><li>How important spirituality is（靈性重要性）。</li><li>How optimistic and happy each one is（樂觀與快樂）。</li></ul><p>App 端消費者看到的標籤不同（Altruism, Emotional Intimacy, Athleticism, Relationship Values, Intellect），但考試以教授文字版為準。</p><h5>營運弱點</h5><p><strong>No data tracking、no feedback to model tuning、very little scope for learning。</strong> 這句要直接背下來。</p><h5>方法陷阱</h5><ul><li><strong>Method C 行不通：</strong>4,000 successful couples 代表每個 y 都等於 1。若沒有負向結果，就無法估計 supervised model。</li><li><strong>Method D 是 hard-code score：</strong>開發者自行拼湊公式。f(.) 在此不是資料驅動，但也許是個起步方式。</li></ul><h5>教授指出理論上可行的兩條路</h5><ul><li><strong>Unsupervised：</strong>不建模結果，而是把 survey 映射成 6 維距離，再依相似性分群。</li><li><strong>Supervised：</strong>用 clickstream 觀察結果，再把結果回映到個人特徵與行為。</li></ul><p>eHarmony could have used both types.</p><h5>eHarmony 對比 Tinder</h5><ul><li>eHarmony：問卷資料豐富、相容性演算法專有、偏長期關係，但即時回饋有限，演進緩慢。</li><li>Tinder：clickstream 較簡單，但行為訊號強，且有系統性 feedback，因此適應更快。</li></ul><p><strong>投影片結論：</strong>有系統性 feedback 的簡單 clickstream，常常能勝過更豐富但靜態的資料來源。</p><p><strong>eHarmony 最該背的一句：</strong>一次性 survey，6 維度，no data tracking，no feedback，little scope for learning。</p>`,
+    enH: `<p>This is the canonical survey-rich but feedback-poor case.</p><div class="tbl-wrap"><table><thead><tr><th>Data source</th><th>What it contains</th><th>Coverage and unit</th><th>Time form</th></tr></thead><tbody><tr><td>Questionnaire</td><td>Personality, preferences, demographics, psychographics, location, lifestyle.</td><td>Everyone on the platform, including attempted sign-ups. Individual-level.</td><td>Cross-sectional snapshot.</td></tr><tr><td>Follow-up focus groups</td><td>Rich relationship-dynamics data.</td><td>4,000 success couples who chose to participate. Dyad-level.</td><td>Cross-sectional snapshot.</td></tr><tr><td>Platform clickstream</td><td>Sign-up, renewal, cancellation, sign-ins, scrolling, time spent, clicks, communications.</td><td>Mostly active users. Individual and dyad.</td><td>Time series.</td></tr><tr><td>Other possible sources</td><td>Census, academic studies, and other enrichment data.</td><td>External, varying unit.</td><td>Variable.</td></tr></tbody></table></div><p>The files show two questionnaire counts, 140 questions and 300 questions compressed to six dimensions. Do not force a false certainty on the count. The stable conclusion is that many survey items were compressed into six factors.</p><h5>Professor-defined six factors</h5><ul><li>Agreeableness.</li><li>Preference for closeness with a partner.</li><li>Degree of sexual and romantic passion.</li><li>Level of extroversion and openness.</li><li>How important spirituality is.</li><li>How optimistic and happy each one is.</li></ul><p>The app-facing labels differ (Altruism, Emotional Intimacy, Athleticism, Relationship Values, Intellect), but for the exam, follow the professor's text version above.</p><h5>Operational weakness</h5><p><strong>No data tracking, no feedback to model tuning, and very little scope for learning.</strong> That is the line to remember.</p><h5>Method traps</h5><ul><li><strong>Method C fails:</strong> 4,000 success couples means y equals 1 for everyone. A supervised model cannot be estimated when you have no negative outcomes.</li><li><strong>Method D is a hard-coded score:</strong> the developer assembles the formula themselves. f(.) here is not data-driven, but it may serve as a starting point.</li></ul><h5>Two viable paths the professor identifies</h5><ul><li><strong>Unsupervised:</strong> do not model outcomes. Group by similarity and map survey responses into six dimensions of distance.</li><li><strong>Supervised:</strong> use clickstream to observe outcomes and map those outcomes back to traits and behavior.</li></ul><p>eHarmony could have used both types.</p><h5>eHarmony versus Tinder</h5><ul><li>eHarmony: rich survey, proprietary compatibility framing, long-term relationship orientation, limited real-time feedback, slow evolution.</li><li>Tinder: simpler clickstream, ELO-style ranking logic, strong behavioral signals, systematic feedback, faster adaptation.</li></ul><p><strong>Bottom line from the slides:</strong> a simple clickstream with systematic feedback can often outpace richer but static data assets.</p><p><strong>The one line to memorize for eHarmony:</strong> one-time survey, six dimensions, no data tracking, no feedback, little scope for learning.</p>`,
+    zhH: `<p>這是最典型的問卷很豐富，但 feedback 很弱的案例。</p><div class="tbl-wrap"><table><thead><tr><th>資料來源</th><th>內容</th><th>覆蓋與觀察單位</th><th>時間形式</th></tr></thead><tbody><tr><td>Questionnaire</td><td>人格、偏好、人口資料、心理特徵、位置、生活型態。</td><td>平臺上所有人，含曾嘗試註冊者。個體層級。</td><td>橫斷面快照。</td></tr><tr><td>Follow-up Focus Groups</td><td>關係動態的豐富資料。</td><td>4,000 對自願參加的 successful couples。配對層級。</td><td>橫斷面快照。</td></tr><tr><td>Platform Clickstream</td><td>註冊、續約、取消、登入、滑動、停留時間、點擊與溝通。</td><td>以活躍用戶為主。個人與配對。</td><td>時間序列。</td></tr><tr><td>其他可能來源</td><td>人口普查、學術研究與其他補充資料。</td><td>外部，觀察單位不固定。</td><td>不固定。</td></tr></tbody></table></div><p>檔案中同時出現 140 題與 300 題壓成 6 維度兩種寫法。不要硬選一個確定值。真正穩的是：大量 survey 問題最後被壓縮成 6 個因素。</p><h5>教授定義的 6 個因素</h5><ul><li>Agreeableness（和善程度）。</li><li>Preference for closeness with a partner（親密偏好）。</li><li>Degree of sexual and romantic passion（性與浪漫熱情）。</li><li>Level of extroversion and openness（外向與開放）。</li><li>How important spirituality is（靈性重要性）。</li><li>How optimistic and happy each one is（樂觀與快樂）。</li></ul><p>App 端消費者看到的標籤不同（Altruism, Emotional Intimacy, Athleticism, Relationship Values, Intellect），但考試以教授文字版為準。</p><h5>營運弱點</h5><p><strong>No data tracking、no feedback to model tuning、very little scope for learning。</strong> 這句要直接背下來。</p><h5>方法陷阱</h5><ul><li><strong>Method C 行不通：</strong>4,000 success couples 代表每個 y 都等於 1。若沒有負向結果，就無法估計 supervised model。</li><li><strong>Method D 是 hard-code score：</strong>開發者自行拼湊公式。f(.) 在此不是資料驅動，但也許是個起步方式。</li></ul><h5>教授指出理論上可行的兩條路</h5><ul><li><strong>Unsupervised：</strong>不建模結果，而是把 survey 映射成 6 維距離，再依相似性分群。</li><li><strong>Supervised：</strong>用 clickstream 觀察結果，再把結果回映到個人特徵與行為。</li></ul><p>eHarmony could have used both types.</p><h5>eHarmony 對比 Tinder</h5><ul><li>eHarmony：問卷資料豐富、相容性演算法專有、偏長期關係，但即時回饋有限，演進緩慢。</li><li>Tinder：clickstream 較簡單，但行為訊號強，且有系統性 feedback，因此適應更快。</li></ul><p><strong>投影片結論：</strong>有系統性 feedback 的簡單 clickstream，常常能勝過更豐富但靜態的資料來源。</p><p><strong>eHarmony 最該背的一句：</strong>一次性 survey，6 維度，no data tracking，no feedback，little scope for learning。</p>`,
   },
   {
     tEn: "Grow (optional)", tZh: "Grow（Optional）",
-    enH: `<p>The point of Grow is not HR detail. The point is that the same prediction logic can support very different allocations of responsibility between humans and machines.</p><h5>Data assets (seven items)</h5><ul><li>Peer 360-degree behavioral ratings.</li><li>Self competency ratings.</li><li>Personality IAT behavioral data.</li><li>Evaluator bias calibration data.</li><li>Social network graph data.</li><li>Company historical hiring and performance data.</li><li>Recruitment process outcome data.</li></ul><p>The logic is roughly y-hat equals weighted X. It can be built as an unsupervised 25-dimension mapping or as a supervised model with feedback.</p><div class="g2"><div class="mc"><h5>Septeni: AI as Substitute</h5><p>Replaces group interviews, expands the pool, and pushes toward the highest automation.</p></div><div class="mc"><h5>ANA: AI as Screen-In Tool</h5><p>Finds needles in the haystack, adds confidence scores, but keeps humans central.</p></div><div class="mc"><h5>Mitsubishi Corp: AI as Network Expander</h5><p>Uses the social graph of ideal candidates to widen the pipeline while human judgment remains dominant.</p></div><div class="mc"><h5>Managerial prompts</h5><p>Which use case scales best? Where does bias risk rise the most? Which one creates the most company value?</p></div></div>`,
-    zhH: `<p>Grow 的價值不在 HR 細節，而在於：同一套 prediction logic 可以支援非常不同的人機分工配置。</p><h5>資料資產（七項）</h5><ul><li>Peer 360-degree behavioral ratings。</li><li>Self competency ratings。</li><li>Personality IAT behavioral data。</li><li>Evaluator bias calibration data。</li><li>Social network graph data。</li><li>Company historical hiring 與 performance data。</li><li>Recruitment process outcome data。</li></ul><p>模型邏輯可視為 y-hat 近似於加權後的 X。既可走 25 維 mapping 的非監督式，也可走有 feedback 的監督式版本。</p><div class="g2"><div class="mc"><h5>Septeni：AI as Substitute</h5><p>取代團體面試、擴大候選池，並朝最高自動化前進。</p></div><div class="mc"><h5>ANA：AI as Screen-In Tool</h5><p>找大海裡的針，加入信心分數，但人類仍在核心位置。</p></div><div class="mc"><h5>Mitsubishi Corp：AI as Network Expander</h5><p>用理想候選人的社交圖譜擴大管道，而人類判斷仍占主導。</p></div><div class="mc"><h5>管理追問</h5><p>哪個最 scalable？哪個偏誤風險最大？哪個對公司價值最大？</p></div></div>`,
+    enH: `<p>The point of Grow is not HR detail. The point is that the same prediction logic can support very different allocations of responsibility between humans and machines.</p><h5>Data assets (seven items)</h5><ul><li>Peer 360-degree behavioral ratings.</li><li>Self competency ratings.</li><li>Personality IAT behavioral data.</li><li>Evaluator bias calibration data.</li><li>Social network graph data.</li><li>Company historical hiring and performance data.</li><li>Recruitment process outcome data.</li></ul><p>The logic is roughly y-hat equals weighted X. It can be built as an unsupervised 25-dimension mapping or as a supervised model with feedback.</p><div class="g2"><div class="mc"><h5>Septeni: Substitute</h5><p>Replaces group interviews, expands the pool, and pushes toward the highest automation.</p></div><div class="mc"><h5>ANA: Screen-In</h5><p>Finds needles in the haystack, adds confidence scores, but keeps humans central.</p></div><div class="mc"><h5>Mitsubishi: Network Expander</h5><p>Uses the social graph of ideal candidates to widen the pipeline while human judgment remains dominant.</p></div><div class="mc"><h5>Managerial prompts</h5><p>Which use case scales best? Where does bias risk rise the most? Which one creates the most company value?</p></div></div>`,
+    zhH: `<p>Grow 的價值不在 HR 細節，而在於：同一套 prediction logic 可以支援非常不同的人機分工配置。</p><h5>資料資產（七項）</h5><ul><li>Peer 360-degree behavioral ratings。</li><li>Self competency ratings。</li><li>Personality IAT behavioral data。</li><li>Evaluator bias calibration data。</li><li>Social network graph data。</li><li>Company historical hiring 與 performance data。</li><li>Recruitment process outcome data。</li></ul><p>模型邏輯可視為 y-hat 近似於加權後的 X。既可走 25 維 mapping 的非監督式，也可走有 feedback 的監督式版本。</p><div class="g2"><div class="mc"><h5>Septeni：Substitute</h5><p>取代團體面試、擴大候選池，並朝最高自動化前進。</p></div><div class="mc"><h5>ANA：Screen-In</h5><p>找大海裡的針，加入信心分數，但人類仍在核心位置。</p></div><div class="mc"><h5>Mitsubishi：Network Expander</h5><p>用理想候選人的社交圖譜擴大管道，而人類判斷仍占主導。</p></div><div class="mc"><h5>管理追問</h5><p>哪個最 scalable？哪個偏誤風險最大？哪個對公司價值最大？</p></div></div>`,
   },
 ];
 
@@ -659,7 +659,7 @@ const mod6Blocks = [
   },
   {
     tEn: "Terms and scaling logic", tZh: "術語與 scaling 邏輯",
-    enH: `<h5>Terms worth memorizing</h5><ul><li><strong>Training:</strong> learning model parameters from data, often as a large one-off compute event.</li><li><strong>Inference:</strong> running the trained model on new inputs. This is the ongoing cost side.</li><li><strong>Transformer:</strong> attention-based architecture.</li><li><strong>LLM:</strong> a large transformer trained on text.</li><li><strong>Foundation model:</strong> a general-purpose pretrained model that can support many downstream tasks.</li><li><strong>Generative AI:</strong> AI systems that generate new content.</li><li><strong>Embedding:</strong> a numeric vector representation in which distance reflects semantic similarity.</li><li><strong>GPU:</strong> the key hardware for neural network training and inference.</li><li><strong>Frontier model:</strong> the most advanced model tier available at a given point in time.</li></ul><h5>Scaling laws</h5><p>AI performance is presented as a function of parameters, data, compute, and architecture.</p><ul><li><strong>Scaling era, roughly 2012 to 2023:</strong> more parameters, more data, more compute drove improvement.</li><li><strong>Systems era, 2023 onward:</strong> more gains now come from architecture, tools, synthetic data, orchestration, and efficiency.</li><li><strong>Emerging frontier:</strong> possibly shaped by energy infrastructure, closed-loop learning, and physical-system integration.</li></ul><h5>Cost economics</h5><p>Traditional digital products often have high fixed cost and near-zero marginal cost. LLM systems also have huge fixed cost, but they add meaningful inference cost for every prompt. The marginal cost does not approach zero. Anchor ranges: roughly $0.005 to $0.03 per thousand input tokens, $0.015 to $0.12 per thousand output tokens. Costs are declining year over year, but the structure is different from traditional digital products.</p>`,
+    enH: `<h5>Terms worth memorizing</h5><ul><li><strong>Training:</strong> learning model parameters from data, often as a large one-off compute event.</li><li><strong>Inference:</strong> running the trained model on new inputs. This is the ongoing cost side.</li><li><strong>Transformer:</strong> attention-based architecture.</li><li><strong>LLM:</strong> a large transformer trained on text.</li><li><strong>Foundation model:</strong> a general-purpose pretrained model that can support many tasks.</li><li><strong>Generative AI:</strong> AI systems that generate new content.</li><li><strong>Embedding:</strong> a numeric vector representation in which distance reflects semantic similarity.</li><li><strong>GPU:</strong> the key hardware for neural network training and inference.</li><li><strong>Frontier model:</strong> the most advanced model tier available at a given point in time.</li></ul><h5>Scaling laws</h5><p>AI performance is presented as a function of parameters, data, compute, and architecture.</p><ul><li><strong>Scaling era, roughly 2012 to 2023:</strong> more parameters, more data, more compute drove improvement.</li><li><strong>Systems era, 2023 onward:</strong> more gains now come from architecture, tools, synthetic data, orchestration, and efficiency.</li><li><strong>Emerging frontier:</strong> possibly shaped by energy infrastructure, closed-loop learning, and physical-system integration.</li></ul><h5>Cost economics</h5><p>Traditional digital products often have high fixed cost and near-zero marginal cost. LLM systems also have huge fixed cost, but they add meaningful inference cost for every prompt. The marginal cost does not approach zero. Anchor ranges: roughly $0.005 to $0.03 per thousand input tokens, $0.015 to $0.12 per thousand output tokens. Costs are declining year over year, but the structure is different from traditional digital products.</p>`,
     zhH: `<h5>必背術語</h5><ul><li><strong>Training：</strong>從資料中學模型參數，通常是一次性的大型算力事件。</li><li><strong>Inference：</strong>用已訓練好的模型跑新輸入，這是持續發生的成本面。</li><li><strong>Transformer：</strong>基於 attention 的架構。</li><li><strong>LLM：</strong>在文字上訓練的大型 transformer。</li><li><strong>Foundation Model：</strong>可支援多種下游任務的通用預訓練模型。</li><li><strong>Generative AI：</strong>生成新內容的 AI 系統。</li><li><strong>Embedding：</strong>一種數值向量表示法，距離反映語意相近程度。</li><li><strong>GPU：</strong>神經網路訓練與推論的關鍵硬體。</li><li><strong>Frontier Model：</strong>某個時間點最先進的模型層級。</li></ul><h5>Scaling Laws</h5><p>課內整理把 AI 表現概括成參數、資料、算力與架構的函數。</p><ul><li><strong>Scaling era，約 2012 到 2023：</strong>更多參數、更多資料、更多算力主導進步。</li><li><strong>Systems era，2023 之後：</strong>越來越多進步來自架構、工具、合成資料、編排與效率。</li><li><strong>Emerging frontier：</strong>可能更受能源基礎設施、閉環學習與物理系統整合影響。</li></ul><h5>成本經濟學</h5><p>傳統數位產品通常是高固定成本、近零邊際成本。LLM 系統同樣有巨大固定成本，但每個 prompt 還要額外支付真實的 inference cost。邊際成本不會趨近零。錨點範圍約為每千輸入記號 0.005 到 0.03 美元，每千輸出記號 0.015 到 0.12 美元。成本逐年下降，但結構不同於傳統數位產品。</p>`,
   },
   {
@@ -677,8 +677,8 @@ const mod6Blocks = [
 const mod7Blocks = [
   {
     tEn: "Adoption logic, chicken-and-egg, and launch families", tZh: "採用邏輯、Chicken-and-Egg 與起飛策略",
-    enH: `<div class="eq">Net Benefits = Stand-Alone Benefits + Network Benefits - Adopter Costs</div><p>Two minimum conditions must hold for adoption: potential adopters must know about the platform and be able to reach it, and they must also have enough incentive to adopt. Stand-alone benefits exist even if nobody else joins. Network benefits rise as more participants join.</p><h5>Chicken-and-egg</h5><p>The first users are asked to adopt when the platform offers the least value and imposes the highest cost. Critical mass is the threshold beyond which growth becomes self-propelling.</p><p>In the 2x2 launch game: two adopters each face cost $1 and receive benefit $2 only if both adopt. That generates two equilibria: both adopt or nobody adopts.</p><h5>Coaxing</h5><ul><li>Give one side enough stand-alone value to move first.</li><li>Use subsidies or penetration pricing.</li><li>Lock in early adopters, feed influencers or colonizers first.</li><li>Examples: LinkedIn's free page, Zillow's Zestimate teaser function, Amazon's one-side entry by integrating book sales, early creator seeding on TikTok.</li></ul><h5>Coordinating</h5><ul><li>Get multiple sides to move together or believe that others will move together.</li><li>Use bounded launch environments such as campuses or events.</li><li>Borrow from existing networks or piggyback on another system.</li><li>Build self-fulfilling expectations, design virality, manufacture scarcity.</li><li>Target people who play roles on both sides of the platform.</li><li>Examples: Facebook campuses, Diner's Club in Manhattan, Airbnb's "publish on Craigslist" bridge, invitation-only Clubhouse, Etsy's dual-role users, YouTube plus MySpace.</li></ul>`,
-    zhH: `<div class="eq">Net Benefits = Stand-Alone Benefits + Network Benefits - Adopter Costs</div><p>採用至少要滿足兩個基本條件：潛在採用者必須知道這個平臺，且接觸得到；同時也要有足夠誘因願意採用。Stand-alone benefits 在沒別人加入時也存在，Network benefits 則會隨其他人加入而增加。</p><h5>Chicken-and-Egg</h5><p>最早的使用者被要求在平臺價值最少、成本最高時先採用。Critical mass 是成長開始能自我推動的門檻。</p><p>2x2 起點賽局：兩位採用者各自成本 $1，只有雙方都採用時各得益 $2。兩個均衡：全部採用或無人採用。</p><h5>Coaxing</h5><ul><li>先讓某一邊單獨就有足夠價值願意先動。</li><li>用補貼或滲透定價。</li><li>鎖定早期採用者，先餵 influencer 或 colonizer。</li><li>例子：LinkedIn 免費頁面、Zillow Zestimate teaser、Amazon 先單邊進場整合書籍銷售、TikTok 早期創作者種子。</li></ul><h5>Coordinating</h5><ul><li>讓多邊一起動，或至少讓大家相信別人也會一起動。</li><li>用校園或活動這類有邊界的啟動環境。</li><li>借用既有網路，或 piggyback 在別的系統上。</li><li>建立自我實現期望、設計 virality、製造稀缺感。</li><li>鎖定兼具雙邊角色者。</li><li>例子：Facebook 校園、Diner's Club 曼哈頓、Airbnb 對 Craigslist 的橋接、邀請制 Clubhouse、Etsy 雙邊角色、YouTube 加上 MySpace。</li></ul>`,
+    enH: `<div class="eq">Net BenefitsStand-Alone Benefits + Network Benefits - Adopter Costs</div><p>Two minimum conditions must hold for adoption: potential adopters must know about the platform and reach it, and they must also have enough incentive to adopt. Stand-alone exist even if nobody else joins. Network rise as more participants join.</p><h5>Chicken-and-egg</h5><p>The first users are asked to adopt when the platform offers the least value and imposes the highest cost. Critical mass is the threshold beyond which growth becomes self-propelling.</p><p>In the 2x2 launch game: two adopters each face cost $1 and receive benefit $2 only if both adopt. That generates two equilibria: both adopt or nobody adopts.</p><h5>Coaxing</h5><ul><li>Give one side enough stand-alone value to move first.</li><li>Use subsidies or penetration pricing.</li><li>Lock in early adopters, feed influencers or colonizers first.</li><li>Examples: LinkedIn's free page, Zillow's Zestimate teaser function, Amazon's one-side entry by integrating book sales, early creator seeding on TikTok.</li></ul><h5>Coordinating</h5><ul><li>Get multiple sides to move together or believe that others will move together.</li><li>Use bounded launch environments such as campuses or events.</li><li>Borrow from existing networks or piggyback on another system.</li><li>Build self-fulfilling expectations, design virality, manufacture scarcity.</li><li>Target people who play roles on both sides of the platform.</li><li>Examples: Facebook campuses, Diner's Club in Manhattan, Airbnb's "publish on Craigslist" bridge, invitation-only Clubhouse, Etsy's dual-role users, YouTube plus MySpace.</li></ul>`,
+    zhH: `<div class="eq">Net BenefitsStand-Alone Benefits + Network Benefits - Adopter Costs</div><p>採用至少要滿足兩個基本條件：潛在採用者必須知道這個平臺，且接觸得到；同時也要有足夠誘因願意採用。Stand-alone 在沒別人加入時也存在，Network 則會隨其他人加入而增加。</p><h5>Chicken-and-Egg</h5><p>最早的使用者被要求在平臺價值最少、成本最高時先採用。Critical mass 是成長開始能自我推動的門檻。</p><p>2x2 起點賽局：兩位採用者各自成本 $1，只有雙方都採用時各得益 $2。兩個均衡：全部採用或無人採用。</p><h5>Coaxing</h5><ul><li>先讓某一邊單獨就有足夠價值願意先動。</li><li>用補貼或滲透定價。</li><li>鎖定早期採用者，先餵 influencer 或 colonizer。</li><li>例子：LinkedIn 免費頁面、Zillow Zestimate teaser、Amazon 先單邊進場整合書籍銷售、TikTok 早期創作者種子。</li></ul><h5>Coordinating</h5><ul><li>讓多邊一起動，或至少讓大家相信別人也會一起動。</li><li>用校園或活動這類有邊界的啟動環境。</li><li>借用既有網路，或 piggyback 在別的系統上。</li><li>建立自我實現期望、設計 virality、製造稀缺感。</li><li>鎖定兼具雙邊角色者。</li><li>例子：Facebook 校園、Diner's Club 曼哈頓、Airbnb 對 Craigslist 的橋接、邀請制 Clubhouse、Etsy 雙邊角色、YouTube 加上 MySpace。</li></ul>`,
   },
   {
     tEn: "No silver bullet and the rocket checklist", tZh: "沒有銀彈與火箭檢查表",
@@ -700,13 +700,13 @@ const mod8Blocks = [
   },
   {
     tEn: "Switching costs, multi-homing costs, and WTA conditions", tZh: "Switching Costs、Multi-Homing Costs 與 WTA 條件",
-    enH: `<p><strong>Switching cost</strong> is the cost of moving from Platform A to Platform B. <strong>Multi-homing cost</strong> is the cost of using an additional platform while already on one.</p><h5>Raise these costs (leader tactics)</h5><ul><li>Loyalty programs such as Amazon Prime.</li><li>Data that are hard to port, such as iCloud lock-in.</li><li>Exclusive features, such as Spotify podcasts.</li><li>Bundled subscriptions, such as Microsoft 365.</li></ul><h5>Lower these costs (challenger tactics)</h5><ul><li>Seamless onboarding and data migration, such as WhatsApp-style moves.</li><li>Subsidizing the switching burden, such as T-Mobile style offers.</li><li>Compatibility with the rival ecosystem, such as Slack-style integration logic.</li><li>Free trials, such as Netflix.</li></ul><p><strong>Winner-take-all requires all three conditions to be strong:</strong></p><ul><li><strong>(1) Strong scale effects.</strong></li><li><strong>(2) Little scope for differentiation.</strong></li><li><strong>(3) Large switching and multi-homing costs.</strong></li></ul><p>All three must be strong together. Missing any one breaks the clean WTA conclusion.</p><p>Online search: three conditions met = WTA. Magazines: scale effects exist but differentiation space remains, and switching cost is low = not WTA.</p><p><strong>Leaders</strong> strengthen WTA by reinforcing scale effects, compressing differentiation space, and raising switching costs. <strong>Followers</strong> challenge WTA by targeting segments with weaker scale effects, discovering unserved niches, and lowering switching barriers.</p>`,
-    zhH: `<p><strong>Switching cost</strong> 是從平臺 A 移去平臺 B 的成本。<strong>Multi-homing cost</strong> 是已經在一個平臺上時，再多用一個平臺的成本。</p><h5>提高這些成本（leader 策略）</h5><ul><li>像 Amazon Prime 的忠誠計畫。</li><li>像 iCloud 那樣難以移轉的資料。</li><li>獨家功能，例如 Spotify podcasts。</li><li>訂閱綑綁，例如 Microsoft 365。</li></ul><h5>降低這些成本（challenger 策略）</h5><ul><li>像 WhatsApp 那樣的無縫導入與資料遷移。</li><li>補貼轉換成本，例如 T-Mobile 那種做法。</li><li>與對手生態系相容，例如 Slack 類型的整合策略。</li><li>免費試用，例如 Netflix。</li></ul><p><strong>Winner-take-all 必須三條件都很強：</strong></p><ul><li><strong>(1) Strong scale effects。</strong></li><li><strong>(2) Little scope for differentiation。</strong></li><li><strong>(3) Large switching 與 multi-homing costs。</strong></li></ul><p>三個要一起強。缺任何一個就不是完全 WTA。</p><p>Online search：三條件都滿足 = WTA。Magazines：有規模效應，但有差異化空間且低轉換成本 = 不是 WTA。</p><p><strong>Leaders</strong> 強化 WTA：強化規模效應、壓縮差異化空間、提高轉換成本。<strong>Followers</strong> 挑戰 WTA：瞄準規模效應較弱的細分、發現未服務利基、降低轉換門檻。</p>`,
+    enH: `<p><strong>Switching cost</strong> is the cost of moving from Platform A to Platform B. <strong>Multi-homing cost</strong> is the cost of using an additional platform while already on one.</p><h5>Raise these costs (leader tactics)</h5><ul><li>Loyalty programs such as Amazon Prime.</li><li>Data that are hard to port, such as iCloud lock-in.</li><li>Exclusive features, such as Spotify podcasts.</li><li>Bundled subscriptions, such as Microsoft 365.</li></ul><h5>Lower these costs (challenger tactics)</h5><ul><li>Seamless onboarding and data migration, such as WhatsApp-style moves.</li><li>Subsidizing the switching burden, such as T-Mobile style offers.</li><li>Compatibility with the rival ecosystem, such as Slack-style integration logic.</li><li>Free trials, such as Netflix.</li></ul><p><strong>Winner-take-all requires all three conditions to be strong:</strong></p><ul><li><strong>(1) Scale effects.</strong></li><li><strong>(2) Little scope for differentiation.</strong></li><li><strong>(3) Large switching and multi-homing costs.</strong></li></ul><p>All three must be strong together. Missing any one breaks the clean WTA conclusion.</p><p>Online search: three conditions met = WTA. Magazines: scale effects exist but differentiation space remains, and switching cost is low = not WTA.</p><p><strong>Leaders</strong> strengthen WTA by reinforcing scale effects, compressing differentiation space, and raising switching costs. <strong>Followers</strong> challenge WTA by targeting segments with weaker scale effects, discovering unserved niches, and lowering switching barriers.</p>`,
+    zhH: `<p><strong>Switching cost</strong> 是從平臺 A 移去平臺 B 的成本。<strong>Multi-homing cost</strong> 是已經在一個平臺上時，再多用一個平臺的成本。</p><h5>提高這些成本（leader 策略）</h5><ul><li>像 Amazon Prime 的忠誠計畫。</li><li>像 iCloud 那樣難以移轉的資料。</li><li>獨家功能，例如 Spotify podcasts。</li><li>訂閱綑綁，例如 Microsoft 365。</li></ul><h5>降低這些成本（challenger 策略）</h5><ul><li>像 WhatsApp 那樣的無縫導入與資料遷移。</li><li>補貼轉換成本，例如 T-Mobile 那種做法。</li><li>與對手生態系相容，例如 Slack 類型的整合策略。</li><li>免費試用，例如 Netflix。</li></ul><p><strong>Winner-take-all 必須三條件都很強：</strong></p><ul><li><strong>(1) Scale effects。</strong></li><li><strong>(2) Little scope for differentiation。</strong></li><li><strong>(3) Large switching 與 multi-homing costs。</strong></li></ul><p>三個要一起強。缺任何一個就不是完全 WTA。</p><p>Online search：三條件都滿足 = WTA。Magazines：有規模效應，但有差異化空間且低轉換成本 = 不是 WTA。</p><p><strong>Leaders</strong> 強化 WTA：強化規模效應、壓縮差異化空間、提高轉換成本。<strong>Followers</strong> 挑戰 WTA：瞄準規模效應較弱的細分、發現未服務利基、降低轉換門檻。</p>`,
   },
   {
     tEn: "Uber China", tZh: "Uber China",
-    enH: `<p>This case matters because it separates <strong>fighting like winner-take-all</strong> from <strong>actually being in a winner-take-all market</strong>.</p><ul><li>Uber's early form resembled a premium pre-booked black-car service, then it scaled globally and formed Uber China as a separate operating entity to confront Didi.</li><li>A later profitability fact: Uber first reached annual operating profit in 2023 at about $1.1B, driven by scope expansion through Uber Eats and Uber Freight, cost management, and post-pandemic recovery.</li><li>The stable strategic line is <strong>scope rather than scale</strong>.</li></ul><div class="g3"><div class="st"><div class="st-top"><strong>Strong scale effects</strong><span class="badge badge-yes">YES</span></div><p class="sm">The market had meaningful scale effects.</p></div><div class="st"><div class="st-top"><strong>Little scope for differentiation</strong><span class="badge badge-maybe">DEBATABLE</span></div><p class="sm">Differentiation was not absent enough to make it cleanly WTA.</p></div><div class="st"><div class="st-top"><strong>Large switching / multi-homing costs</strong><span class="badge badge-no">NO</span></div><p class="sm">Riders and drivers could multi-home too easily.</p></div></div><p>Because only two of the three WTA conditions were strong, the outcome looks more like a <strong>war of attrition</strong> than a clean network tipping story. Do not mistake intense spending battles as proof that the underlying economics are WTA.</p><h5>Outcome anchors</h5><ul><li>Didi acquired Uber China.</li><li>Didi valuation anchor: about $35B.</li><li>Uber's stake: 17.7%.</li><li>Implied payoff anchor: about $6.2B, roughly six times the invested capital upon exit.</li></ul><h5>Robot-car comparison (slides use this to ask: can a different operating model change Uber's economics?)</h5><div class="tbl-wrap"><table><thead><tr><th>Metric</th><th>Robot cars, Uber-owned</th><th>Human drivers, driver-owned</th></tr></thead><tbody><tr><td>Fixed operating cost</td><td>~$26,800 per year</td><td>$0</td></tr><tr><td>Variable cost</td><td>~$10,000</td><td>~$40,000 in driver earnings</td></tr><tr><td>Annual revenue per car</td><td>$60,000 to $80,000</td><td>$60,000 to $80,000</td></tr><tr><td>Uber's share</td><td>100%</td><td>20% to 30%, about $12,000 to $24,000</td></tr></tbody></table></div><p><strong>Line to memorize:</strong> firms can fight as if the market is winner-take-all even when the market itself is not fully winner-take-all.</p>`,
-    zhH: `<p>這個案例重要，因為它把 <strong>照 winner-take-all 邏輯打仗</strong> 與 <strong>市場本身真的屬於 winner-take-all</strong> 兩件事拆開來了。</p><ul><li>Uber 最初比較像預約黑色禮車服務，之後才快速全球擴張，並設立獨立的 Uber China 來面對 Didi。</li><li>Uber 後來在 2023 年首次達到年度營運獲利約 $1.1B，改善原因包括 Uber Eats 與 Uber Freight 帶來的 scope expansion、成本管理與疫情後復甦。</li><li>最穩的策略結論是 <strong>scope rather than scale</strong>。</li></ul><div class="g3"><div class="st"><div class="st-top"><strong>Strong scale effects</strong><span class="badge badge-yes">YES</span></div><p class="sm">這個市場確實有相當明顯的規模效應。</p></div><div class="st"><div class="st-top"><strong>Little scope for differentiation</strong><span class="badge badge-maybe">DEBATABLE</span></div><p class="sm">差異化空間並沒有小到能把市場判成乾淨的 WTA。</p></div><div class="st"><div class="st-top"><strong>Large switching / multi-homing costs</strong><span class="badge badge-no">NO</span></div><p class="sm">乘客與司機都太容易多棲，轉換與多棲成本不高。</p></div></div><p>因為只滿足 2/3 條件，結果更像 <strong>war of attrition</strong>，而不是乾淨的 network tipping。不要把激烈燒錢競爭，誤以為它必然證明市場底層經濟就是 WTA。</p><h5>結局與數字錨點</h5><ul><li>Didi 買下 Uber China。</li><li>Didi 估值錨點：約 $35B。</li><li>Uber 持股：約 17.7%。</li><li>推算出的 payoff 錨點：約 $6.2B，離場時約為投資額的 6 倍。</li></ul><h5>Robot Car 比較（投影片用途：問換一種 operating model 能否改變 Uber 經濟性）</h5><div class="tbl-wrap"><table><thead><tr><th>指標</th><th>Robot cars，Uber 自有</th><th>Human drivers，司機自有</th></tr></thead><tbody><tr><td>固定營運成本</td><td>~$26,800 / 年</td><td>$0</td></tr><tr><td>變動成本</td><td>~$10,000</td><td>~$40,000 司機收入</td></tr><tr><td>每車年收入</td><td>$60,000 到 $80,000</td><td>$60,000 到 $80,000</td></tr><tr><td>Uber 可拿份額</td><td>100%</td><td>20% 到 30%，約 $12,000 到 $24,000</td></tr></tbody></table></div><p><strong>最該背的一句：</strong>企業可以照 WTA 邏輯開戰，但市場本身未必真的符合 WTA。</p>`,
+    enH: `<p>This case matters because it separates <strong>fighting like winner-take-all</strong> from <strong>actually being in a winner-take-all market</strong>.</p><ul><li>Uber's early form resembled a premium pre-booked black-car service, then it scaled globally and formed Uber China as a separate operating entity to confront Didi.</li><li>A later profitability fact: Uber first reached annual operating profit in 2023 at about $1.1B, driven by scope expansion through Uber Eats and Uber Freight, cost management, and post-pandemic recovery.</li><li>The stable strategic line is <strong>scope rather than scale</strong>.</li></ul><div class="g3"><div class="st"><div class="st-top"><strong>Scale effects</strong><span class="badge badge-yes">YES</span></div><p class="sm">The market had meaningful scale effects.</p></div><div class="st"><div class="st-top"><strong>Little scope for differentiation</strong><span class="badge badge-maybe">DEBATABLE</span></div><p class="sm">Differentiation was not absent enough to make it cleanly WTA.</p></div><div class="st"><div class="st-top"><strong>Large switching / multi-homing costs</strong><span class="badge badge-no">NO</span></div><p class="sm">Riders and drivers could multi-homed easily.</p></div></div><p>Because only two of the three WTA conditions were strong, the outcome looks more like a <strong>war of attrition</strong> than a clean network tipping story. Do not mistake intense spending battles as proof that the underlying economics are WTA.</p><h5>Outcome anchors</h5><ul><li>Didi acquired Uber China.</li><li>Didi valuation anchor: about $35B.</li><li>Uber's stake: 17.7%.</li><li>Implied payoff anchor: about $6.2B, roughly six times the invested capital upon exit.</li></ul><h5>Robot-car comparison (slides use this to ask: can a different operating model change Uber's economics?)</h5><div class="tbl-wrap"><table><thead><tr><th>Metric</th><th>Robot cars, Uber-owned</th><th>Human drivers, driver-owned</th></tr></thead><tbody><tr><td>Fixed operating cost</td><td>~$26,800 per year</td><td>$0</td></tr><tr><td>Variable cost</td><td>~$10,000</td><td>~$40,000 in driver earnings</td></tr><tr><td>Annual revenue per car</td><td>$60,000 to $80,000</td><td>$60,000 to $80,000</td></tr><tr><td>Uber's share</td><td>100%</td><td>20% to 30%, about $12,000 to $24,000</td></tr></tbody></table></div><p><strong>Line to memorize:</strong> firms can fight as if the market is winner-take-all even when the market itself is not fully winner-take-all.</p>`,
+    zhH: `<p>這個案例重要，因為它把 <strong>照 winner-take-all 邏輯打仗</strong> 與 <strong>市場本身真的屬於 winner-take-all</strong> 兩件事拆開來了。</p><ul><li>Uber 最初比較像預約黑色禮車服務，之後才快速全球擴張，並設立獨立的 Uber China 來面對 Didi。</li><li>Uber 後來在 2023 年首次達到年度營運獲利約 $1.1B，改善原因包括 Uber Eats 與 Uber Freight 帶來的 scope expansion、成本管理與疫情後復甦。</li><li>最穩的策略結論是 <strong>scope rather than scale</strong>。</li></ul><div class="g3"><div class="st"><div class="st-top"><strong>Scale effects</strong><span class="badge badge-yes">YES</span></div><p class="sm">這個市場確實有相當明顯的規模效應。</p></div><div class="st"><div class="st-top"><strong>Little scope for differentiation</strong><span class="badge badge-maybe">DEBATABLE</span></div><p class="sm">差異化空間並沒有小到能把市場判成乾淨的 WTA。</p></div><div class="st"><div class="st-top"><strong>Large switching / multi-homing costs</strong><span class="badge badge-no">NO</span></div><p class="sm">乘客與司機都太容易多棲，轉換與多棲成本不高。</p></div></div><p>因為只滿足 2/3 條件，結果更像 <strong>war of attrition</strong>，而不是乾淨的 network tipping。不要把激烈燒錢競爭，誤以為它必然證明市場底層經濟就是 WTA。</p><h5>結局與數字錨點</h5><ul><li>Didi 買下 Uber China。</li><li>Didi 估值錨點：約 $35B。</li><li>Uber 持股：約 17.7%。</li><li>推算出的 payoff 錨點：約 $6.2B，離場時約為投資額的 6 倍。</li></ul><h5>Robot Car 比較（投影片用途：問換一種 operating model 能否改變 Uber 經濟性）</h5><div class="tbl-wrap"><table><thead><tr><th>指標</th><th>Robot cars，Uber 自有</th><th>Human drivers，司機自有</th></tr></thead><tbody><tr><td>固定營運成本</td><td>~$26,800 / 年</td><td>$0</td></tr><tr><td>變動成本</td><td>~$10,000</td><td>~$40,000 司機收入</td></tr><tr><td>每車年收入</td><td>$60,000 到 $80,000</td><td>$60,000 到 $80,000</td></tr><tr><td>Uber 可拿份額</td><td>100%</td><td>20% 到 30%，約 $12,000 到 $24,000</td></tr></tbody></table></div><p><strong>最該背的一句：</strong>企業可以照 WTA 邏輯開戰，但市場本身未必真的符合 WTA。</p>`,
   },
 ];
 
@@ -948,23 +948,23 @@ function PredictionFactoryFlowchart({ mode }) {
           <line x1="974" y1="122" x2="1016" y2="122" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#pfArrow)" />
 
           <SvgMultiText x={139} y={106} en="Input X" zh="Input X" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={139} y={132} en="profiles, clicks," zh="profiles、clicks、" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={139} y={148} en="context, dyad data" zh="context、dyad 資料" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={139} y={132} en="profiles, clicks" zh="profiles、clicks、" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={139} y={148} en="context, dyads" zh="context、dyad 資料" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={375} y={106} en="Prediction model" zh="Prediction model" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={375} y={106} en="Model" zh="Model" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={375} y={132} en="ŷ = f(X)" zh="ŷ = f(X)" mode={mode} size={16} weight={800} fill={C.fuji} />
-          <SvgMultiText x={375} y={148} en="turn observed X into ŷ" zh="把可觀測的 X 轉成 ŷ" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={375} y={148} en="X → ŷ" zh="把可觀測的 X 轉成 ŷ" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={620} y={106} en="Decision rule" zh="Decision rule" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={620} y={132} en="if condition {ŷ} is met" zh="if condition {ŷ} is met" mode={mode} size={14.2} weight={800} fill={C.fuji} />
-          <SvgMultiText x={620} y={148} en="convert prediction into action" zh="把 prediction 轉成 action" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={620} y={106} en="Rule" zh="Rule" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={620} y={132} en="if ŷ passes rule" zh="if ŷ passes rule" mode={mode} size={14.2} weight={800} fill={C.fuji} />
+          <SvgMultiText x={620} y={148} en="ŷ → action" zh="把 prediction 轉成 action" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={869} y={106} en="Automate action Z" zh="Automate action Z" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={869} y={132} en="recommend, rank," zh="recommend、rank、" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={869} y={106} en="Action Z" zh="Action Z" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={869} y={132} en="recommend, rank" zh="recommend、rank、" mode={mode} size={12.6} fill={C.inkSoft} />
           <SvgMultiText x={869} y={148} en="notify, match, flag" zh="notify、match、flag" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={1105} y={106} en="Observe outcome y" zh="Observe outcome y" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={1105} y={132} en="click, reply, convert," zh="click、reply、convert、" mode={mode} size={12.4} fill={C.inkSoft} />
+          <SvgMultiText x={1105} y={106} en="Outcome y" zh="Outcome y" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={1105} y={132} en="click, reply, convert" zh="click、reply、convert、" mode={mode} size={12.4} fill={C.inkSoft} />
           <SvgMultiText x={1105} y={148} en="churn, performance" zh="churn、performance" mode={mode} size={12.4} fill={C.inkSoft} />
 
           <text x="44" y="252" fontFamily={FONT_BODY} fontSize="15" fontWeight="800" fill={C.matsu}>BUILD / TUNE</text>
@@ -974,12 +974,12 @@ function PredictionFactoryFlowchart({ mode }) {
           <line x1="724" y1="330" x2="778" y2="330" stroke={C.matsu} strokeWidth="3" markerEnd="url(#pfArrowSoft)" />
           <line x1="456" y1="330" x2="510" y2="330" stroke={C.matsu} strokeWidth="3" markerEnd="url(#pfArrowSoft)" />
 
-          <SvgMultiText x={349} y={314} en="Train / test / refine f(.)" zh="訓練、測試、精煉 f(.)" mode={mode} size={14.2} fill={C.matsu} />
-          <SvgMultiText x={349} y={340} en="start simple, then add richness" zh="先簡單，再往上加複雜度" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={617} y={314} en="Platform database {Y, X}" zh="Platform database {Y, X}" mode={mode} size={14.2} fill={C.ai} />
-          <SvgMultiText x={617} y={340} en="historical inputs plus outcomes" zh="歷史輸入加上 outcomes" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={886} y={314} en="Feedback loop" zh="Feedback loop" mode={mode} size={14.2} fill={C.ai} />
-          <SvgMultiText x={886} y={340} en="fresh y keeps the next model honest" zh="新的 y 讓下一輪模型不會失真" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={349} y={314} en="Train / test / refine" zh="訓練、測試、精煉 f(.)" mode={mode} size={14.2} fill={C.matsu} />
+          <SvgMultiText x={349} y={340} en="simple first, then richer" zh="先簡單，再往上加複雜度" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={617} y={314} en="Data {Y, X}" zh="Data {Y, X}" mode={mode} size={14.2} fill={C.ai} />
+          <SvgMultiText x={617} y={340} en="past X plus y" zh="歷史輸入加上 outcomes" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={886} y={314} en="Feedback" zh="Feedback" mode={mode} size={14.2} fill={C.ai} />
+          <SvgMultiText x={886} y={340} en="new y updates next round" zh="新的 y 讓下一輪模型不會失真" mode={mode} size={12.6} fill={C.inkSoft} />
 
           <path d="M 1105 166 L 1105 250 L 886 250" fill="none" stroke={C.matsu} strokeWidth="3" markerEnd="url(#pfArrowSoft)" />
           <path d="M 242 330 L 174 330 L 174 166 L 274 166" fill="none" stroke={C.matsu} strokeWidth="3" markerEnd="url(#pfArrowSoft)" />
@@ -1005,7 +1005,7 @@ function EHarmonyFlowchart({ mode }) {
       noteZh="投影片顯示 eHarmony 的實際主路徑，是高度依賴問卷的非監督式流程。它不是沒有輸入資料，而是可靠的 outcome tracking 與 feedback 太弱，所以學習迴路很薄。"
       badges={[
         { kind: 'warn', en: 'Actual path = unsupervised similarity', zh: '實際主路徑 = 非監督式相似度' },
-        { kind: 'bad', en: '4,000 successful couples = all y = 1', zh: '4,000 successful couples = 全部 y = 1' },
+        { kind: 'bad', en: '4,000 success couples = all y = 1', zh: '4,000 success couples = 全部 y = 1' },
         { kind: 'bad', en: 'No tracking / little tuning', zh: 'Tracking 弱 / tuning 少' },
       ]}
     >
@@ -1026,46 +1026,46 @@ function EHarmonyFlowchart({ mode }) {
           <line x1="736" y1="118" x2="782" y2="118" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#ehArrow)" />
           <line x1="976" y1="118" x2="1022" y2="118" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#ehArrow)" />
 
-          <SvgMultiText x={144} y={102} en="Questionnaire X" zh="Questionnaire X" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={144} y={128} en="140 / 300+ questions" zh="140 / 300+ 題" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={144} y={144} en="personality, prefs, demo" zh="人格、偏好、人口資料" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={144} y={102} en="Survey X" zh="Survey X" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={144} y={128} en="140 / 300+ qs" zh="140 / 300+ 題" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={144} y={144} en="traits, prefs, demo" zh="人格、偏好、人口資料" mode={mode} size={12.6} fill={C.inkSoft} />
 
           <SvgMultiText x={394} y={102} en="Collapse into" zh="壓縮成" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={394} y={128} en="6 dimensions" zh="6 個維度" mode={mode} size={16} weight={800} fill={C.fuji} />
-          <SvgMultiText x={394} y={144} en="agreeableness, closeness..." zh="和善、親密偏好…" mode={mode} size={12.2} fill={C.inkSoft} />
+          <SvgMultiText x={394} y={144} en="6 dims" zh="和善、親密偏好…" mode={mode} size={12.2} fill={C.inkSoft} />
 
-          <SvgMultiText x={639} y={102} en="Similarity / distance" zh="Similarity / distance" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={639} y={128} en="rank closest dyads" zh="最接近的 dyad 排前面" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={639} y={144} en="unsupervised path" zh="非監督式路徑" mode={mode} size={12.6} fill={C.fuji} />
+          <SvgMultiText x={639} y={102} en="Similarity" zh="Similarity" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={639} y={128} en="closest dyads first" zh="最接近的 dyad 排前面" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={639} y={144} en="unsupervised" zh="非監督式路徑" mode={mode} size={12.6} fill={C.fuji} />
 
-          <SvgMultiText x={879} y={102} en="Top N matches" zh="Top N matches" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={879} y={128} en="show profile, photo," zh="顯示 profile、照片、" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={879} y={102} en="Top N" zh="Top N" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={879} y={128} en="show profile, photo" zh="顯示 profile、照片、" mode={mode} size={12.6} fill={C.inkSoft} />
           <SvgMultiText x={879} y={144} en="see more" zh="see more" mode={mode} size={12.6} fill={C.inkSoft} />
 
           <SvgMultiText x={1110} y={102} en="User action" zh="使用者行動" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={1110} y={128} en="click / initiate contact" zh="click / initiate contact" mode={mode} size={12.2} fill={C.inkSoft} />
-          <SvgMultiText x={1110} y={144} en="weak platform outcome use" zh="平台 outcome 使用很弱" mode={mode} size={12.2} fill={C.inkSoft} />
+          <SvgMultiText x={1110} y={128} en="click / contact" zh="click / contact" mode={mode} size={12.2} fill={C.inkSoft} />
+          <SvgMultiText x={1110} y={144} en="weak outcome use" zh="平台 outcome 使用很弱" mode={mode} size={12.2} fill={C.inkSoft} />
 
           {rect(82, 284, 234, 104, C.white, C.line)}
           {rect(368, 284, 250, 104, C.beniLight, C.beni)}
           {rect(670, 284, 230, 104, C.aiLight, C.ai)}
           {rect(952, 284, 220, 104, C.paper, C.line)}
 
-          <SvgMultiText x={199} y={314} en="4,000 successful couples" zh="4,000 successful couples" mode={mode} size={14.2} fill={C.ai} />
-          <SvgMultiText x={199} y={340} en="rich follow-up data" zh="follow-up 很豐富" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={199} y={356} en="but every case is y = 1" zh="但每一筆都是 y = 1" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={199} y={314} en="4,000 success couples" zh="4,000 success couples" mode={mode} size={14.2} fill={C.ai} />
+          <SvgMultiText x={199} y={340} en="rich follow-up" zh="follow-up 很豐富" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={199} y={356} en="all cases = y = 1" zh="但每一筆都是 y = 1" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={493} y={314} en="Why Method C fails" zh="為何 Method C 失敗" mode={mode} size={14.2} fill={C.beni} />
-          <SvgMultiText x={493} y={340} en="all positive examples" zh="全部都是正例" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={493} y={356} en="so supervised estimation breaks" zh="所以無法正常估 supervised" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={493} y={314} en="Why C fails" zh="為何 Method C 失敗" mode={mode} size={14.2} fill={C.beni} />
+          <SvgMultiText x={493} y={340} en="all positive" zh="全部都是正例" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={493} y={356} en="supervised breaks" zh="所以無法正常估 supervised" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={785} y={314} en="Better possible path" zh="較好的可能路徑" mode={mode} size={14.2} fill={C.ai} />
-          <SvgMultiText x={785} y={340} en="use clickstream outcomes y" zh="用 clickstream 當 outcomes y" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={785} y={356} en="messages, replies, time series" zh="訊息、回覆、time series" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={785} y={314} en="Better path" zh="較好的可能路徑" mode={mode} size={14.2} fill={C.ai} />
+          <SvgMultiText x={785} y={340} en="use clickstream y" zh="用 clickstream 當 outcomes y" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={785} y={356} en="messages, replies, time" zh="訊息、回覆、time series" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={1062} y={314} en="Actual weakness" zh="實際弱點" mode={mode} size={14.2} fill={C.ai} />
-          <SvgMultiText x={1062} y={340} en="little tracking and" zh="tracking 太弱，而且" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={1062} y={356} en="little feedback to tuning" zh="feedback 幾乎回不到 tuning" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={1062} y={314} en="Weakness" zh="實際弱點" mode={mode} size={14.2} fill={C.ai} />
+          <SvgMultiText x={1062} y={340} en="little tracking" zh="tracking 太弱，而且" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={1062} y={356} en="little tuning feedback" zh="feedback 幾乎回不到 tuning" mode={mode} size={12.6} fill={C.inkSoft} />
 
           <path d="M 1110 164 L 1110 272 L 1062 272" fill="none" stroke={C.beni} strokeWidth="3" strokeDasharray="7 6" markerEnd="url(#ehArrowRed)" />
           <path d="M 785 284 L 785 218 L 700 218 L 700 168" fill="none" stroke={C.ai} strokeWidth="3" strokeDasharray="7 6" markerEnd="url(#ehArrowBlue)" />
@@ -1115,37 +1115,37 @@ function GrowFlowchart({ mode }) {
           <path d="M 908 151 L 940 151 L 940 248 L 972 248" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#grArrow)" />
           <path d="M 908 188 L 940 188 L 940 388 L 972 388" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#grArrow)" />
 
-          <SvgMultiText x={184} y={98} en="Seven core data assets" zh="七類核心資料資產" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={184} y={126} en="peer 360 ratings, self ratings," zh="peer 360、自評、" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={184} y={142} en="personality IAT, evaluator bias," zh="人格 IAT、評分偏誤、" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={184} y={158} en="social graph, historical hiring," zh="社交圖譜、歷史 hiring、" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={184} y={174} en="recruitment outcomes" zh="recruitment outcomes" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={184} y={98} en="7 data assets" zh="七類核心資料資產" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={184} y={126} en="peer 360, self ratings," zh="peer 360、自評、" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={184} y={142} en="IAT, bias calibration," zh="人格 IAT、評分偏誤、" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={184} y={158} en="social graph, hiring," zh="社交圖譜、歷史 hiring、" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={184} y={174} en="recruiting outcomes" zh="recruiting outcomes" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={508} y={98} en="Profile / fit engine" zh="Profile / fit engine" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={508} y={126} en="map inputs into 25 dimensions" zh="把 inputs 映射成 25 維" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={508} y={142} en="or weighted fit score ŷ ≈ weights·X" zh="或轉成加權 fit score ŷ ≈ weights·X" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={508} y={158} en="can start hard-coded, then refine" zh="可先 hard-code，再慢慢 refine" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={508} y={98} en="Fit engine" zh="Fit engine" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={508} y={126} en="X → 25 dims" zh="把 inputs 映射成 25 維" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={508} y={142} en="or ŷ ≈ weights·X" zh="或轉成加權 fit score ŷ ≈ weights·X" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={508} y={158} en="start hard-coded, then refine" zh="可先 hard-code，再慢慢 refine" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={801} y={98} en="Optional supervised layer" zh="可選的 supervised layer" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={801} y={126} en="fit true weights using hiring" zh="用 hiring / performance outcomes" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={801} y={142} en="or performance outcomes y" zh="去估比較真的 weights" mode={mode} size={12.6} fill={C.inkSoft} />
-          <SvgMultiText x={801} y={158} en="feedback improves the next model" zh="feedback 再回修下一輪模型" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={801} y={98} en="Optional supervised" zh="可選的 supervised layer" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={801} y={126} en="fit weights from hiring" zh="用 hiring / performance outcomes" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={801} y={142} en="or performance y" zh="去估比較真的 weights" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={801} y={158} en="feedback improves next model" zh="feedback 再回修下一輪模型" mode={mode} size={12.6} fill={C.inkSoft} />
 
           <SvgMultiText x={1071} y={92} en="Septeni" zh="Septeni" mode={mode} size={14.8} fill={C.ai} />
-          <SvgMultiText x={1071} y={120} en="AI as Substitute" zh="AI as Substitute" mode={mode} size={13.2} fill={C.fuji} />
+          <SvgMultiText x={1071} y={120} en="Substitute" zh="Substitute" mode={mode} size={13.2} fill={C.fuji} />
           <SvgMultiText x={1071} y={136} en="highest automation" zh="自動化程度最高" mode={mode} size={12.4} fill={C.inkSoft} />
 
           <SvgMultiText x={1071} y={232} en="ANA" zh="ANA" mode={mode} size={14.8} fill={C.ai} />
-          <SvgMultiText x={1071} y={260} en="AI as Screen-In Tool" zh="AI as Screen-In Tool" mode={mode} size={13.2} fill={C.fuji} />
-          <SvgMultiText x={1071} y={276} en="confidence score, humans central" zh="加信心分數，人仍在中央" mode={mode} size={12.1} fill={C.inkSoft} />
+          <SvgMultiText x={1071} y={260} en="Screen-In" zh="Screen-In" mode={mode} size={13.2} fill={C.fuji} />
+          <SvgMultiText x={1071} y={276} en="score added, humans central" zh="加信心分數，人仍在中央" mode={mode} size={12.1} fill={C.inkSoft} />
 
-          <SvgMultiText x={1071} y={372} en="Mitsubishi Corp" zh="Mitsubishi Corp" mode={mode} size={14.8} fill={C.ai} />
-          <SvgMultiText x={1071} y={400} en="AI as Network Expander" zh="AI as Network Expander" mode={mode} size={13.2} fill={C.fuji} />
-          <SvgMultiText x={1071} y={416} en="social graph widens pipeline" zh="social graph 擴大 pipeline" mode={mode} size={12.1} fill={C.inkSoft} />
+          <SvgMultiText x={1071} y={372} en="Mitsubishi" zh="Mitsubishi" mode={mode} size={14.8} fill={C.ai} />
+          <SvgMultiText x={1071} y={400} en="Network Expander" zh="Network Expander" mode={mode} size={13.2} fill={C.fuji} />
+          <SvgMultiText x={1071} y={416} en="graph widens pipeline" zh="social graph 擴大 pipeline" mode={mode} size={12.1} fill={C.inkSoft} />
 
           {rect(694, 316, 214, 92, C.aiLight, C.ai)}
-          <SvgMultiText x={801} y={348} en="Observed outcomes y" zh="Observed outcomes y" mode={mode} size={14.5} fill={C.ai} />
-          <SvgMultiText x={801} y={374} en="hiring success, performance" zh="錄用結果、績效結果" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={801} y={348} en="Outcomes y" zh="Outcomes y" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={801} y={374} en="hiring, performance" zh="錄用結果、績效結果" mode={mode} size={12.6} fill={C.inkSoft} />
           <path d="M 801 316 L 801 250" fill="none" stroke={C.matsu} strokeWidth="3" markerEnd="url(#grArrowSoft)" />
           <text x="820" y="285" fontFamily={FONT_BODY} fontSize="12" fontWeight="800" fill={C.matsu}>{mode === 'zh' ? 'feedback' : mode === 'bi' ? 'feedback / 回流' : 'feedback'}</text>
         </svg>
@@ -1198,22 +1198,22 @@ function LLMFlowchart({ mode }) {
           <line x1="612" y1="121" x2="664" y2="121" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m6ArrowA)" />
           <line x1="890" y1="121" x2="942" y2="121" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m6ArrowA)" />
 
-          <SvgMultiText x={163} y={102} en="Prompt + context = X" zh="Prompt + context = X" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={163} y={132} en="question, docs, code," zh="問題、文件、程式碼、" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={163} y={148} en="history, images..." zh="歷史對話、圖片…" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={163} y={102} en="Prompt + context" zh="Prompt + context" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={163} y={132} en="question, docs, code" zh="問題、文件、程式碼、" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={163} y={148} en="history, images" zh="歷史對話、圖片…" mode={mode} size={12.7} fill={C.inkSoft} />
 
-          <SvgMultiText x={471} y={100} en="General-purpose model" zh="通用型模型" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={471} y={100} en="General model" zh="通用型模型" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={471} y={127} en="super f(.)" zh="super f(.)" mode={mode} size={16} weight={800} fill={C.fuji} />
           <SvgMultiText x={471} y={150} en="foundation model, not one" zh="foundation model，不是只有" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={471} y={166} en="specialized task" zh="單一 specialized task" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={471} y={166} en="single task" zh="單一 single task" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <SvgMultiText x={777} y={102} en="Transformer +" zh="Transformer 加上" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={777} y={127} en="tokens / embeddings" zh="tokens / embeddings" mode={mode} size={14.5} weight={800} fill={C.fuji} />
           <SvgMultiText x={777} y={150} en="attention learns long-range" zh="attention 抓長距離關係" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={777} y={166} en="relations across sequences" zh="跨序列關聯" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={777} y={166} en="sequence relations" zh="跨序列關聯" mode={mode} size={12.5} fill={C.inkSoft} />
 
-          <SvgMultiText x={1064} y={102} en="Generated output ŷ" zh="輸出 ŷ" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={1064} y={130} en="text, code, summary," zh="文字、程式、摘要、" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={1064} y={102} en="Output ŷ" zh="輸出 ŷ" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={1064} y={130} en="text, code, summary" zh="文字、程式、摘要、" mode={mode} size={12.7} fill={C.inkSoft} />
           <SvgMultiText x={1064} y={146} en="translation, image prompt" zh="翻譯、圖片指令" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <text x="42" y="252" fontFamily={FONT_BODY} fontSize="15" fontWeight="800" fill={C.matsu}>TRAINING / WHY IT WORKS</text>
@@ -1225,21 +1225,21 @@ function LLMFlowchart({ mode }) {
           <line x1="600" y1="335" x2="652" y2="335" stroke={C.ai} strokeWidth="3" markerEnd="url(#m6ArrowB)" />
           <line x1="888" y1="335" x2="940" y2="335" stroke={C.ai} strokeWidth="3" markerEnd="url(#m6ArrowB)" />
 
-          <SvgMultiText x={187} y={316} en="Massive raw text" zh="海量原始文字" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={187} y={316} en="Raw text" zh="海量原始文字" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={187} y={343} en="internet, books, code" zh="網路、書籍、程式碼" mode={mode} size={12.7} fill={C.inkSoft} />
           <SvgMultiText x={187} y={359} en="mostly unlabeled" zh="多半原本沒有標籤" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <SvgMultiText x={482} y={312} en="The big hack" zh="那個大 hack" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={482} y={339} en="wordᵢ = f(wordᵢ₋₁, …)" zh="wordᵢ = f(wordᵢ₋₁, …)" mode={mode} size={14.6} weight={800} fill={C.fuji} />
-          <SvgMultiText x={482} y={360} en="predict next token" zh="預測下一個 token" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={482} y={360} en="next-token prediction" zh="預測下一個 token" mode={mode} size={12.7} fill={C.inkSoft} />
 
-          <SvgMultiText x={770} y={316} en="Unlabeled → labeled" zh="Unlabeled → labeled" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={770} y={343} en="the data labels itself" zh="資料自己帶出標籤" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={770} y={359} en="at internet scale" zh="而且是 internet scale" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={770} y={316} en="unlabeled → labeled" zh="unlabeled → labeled" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={770} y={343} en="data labels itself" zh="資料自己帶出標籤" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={770} y={359} en="internet scale" zh="而且是 internet scale" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <SvgMultiText x={1056} y={316} en="Result" zh="結果" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={1056} y={343} en="one model can perform" zh="同一個模型可以執行" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={1056} y={359} en="many downstream tasks" zh="很多 downstream 任務" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={1056} y={343} en="one model handles" zh="同一個模型可以執行" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={1056} y={359} en="many tasks" zh="很多 downstream 任務" mode={mode} size={12.7} fill={C.inkSoft} />
         </svg>
       </div>
       <div className="flow-caption"><T m={mode} en="The mental move is: an LLM still follows prediction logic, but it learns a much richer mapping than weak AI. The course keeps asking you to preserve both truths at the same time." zh="真正的心智轉換是：LLM 仍然符合 prediction logic，但它學到的是遠比 weak AI 更豐富的 mapping。這門課一直要你同時保留這兩件事。" /></div>
@@ -1279,21 +1279,21 @@ function EconomicsAgentsFlowchart({ mode }) {
           <line x1="912" y1="138" x2="976" y2="138" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m6ArrowC)" />
 
           <SvgMultiText x={173} y={112} en="Training" zh="Training" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={173} y={138} en="build the factory" zh="先把工廠蓋起來" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={173} y={154} en="huge upfront fixed cost" zh="巨大的 upfront 固定成本" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={173} y={138} en="build factory" zh="先把工廠蓋起來" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={173} y={154} en="huge fixed cost" zh="巨大的 upfront 固定成本" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <SvgMultiText x={477} y={112} en="Inference" zh="Inference" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={477} y={138} en="run the factory" zh="持續跑工廠" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={477} y={154} en="every query consumes compute" zh="每個 query 都消耗算力" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={477} y={138} en="run factory" zh="持續跑工廠" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={477} y={154} en="each query uses compute" zh="每個 query 都消耗算力" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <SvgMultiText x={789} y={108} en="Google paradox" zh="Google 的悖論" mode={mode} size={15} fill={C.beni} />
-          <SvgMultiText x={789} y={136} en="baseline search is very profitable" zh="原本 search 很賺錢" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={789} y={152} en="but AI search adds real inference cost" zh="但 AI search 會加進真實 inference cost" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={789} y={168} en="so value creation can hurt value capture" zh="價值創造反而可能傷到 value capture" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={789} y={136} en="baseline search is profitable" zh="原本 search 很賺錢" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={789} y={152} en="AI search adds inference cost" zh="但 AI search 會加進真實 inference cost" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={789} y={168} en="creation can hurt capture" zh="價值創造反而可能傷到 value capture" mode={mode} size={12.5} fill={C.inkSoft} />
 
           <SvgMultiText x={1082} y={108} en="Agents" zh="Agents" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={1082} y={136} en="observe → think → act" zh="observe → think → act" mode={mode} size={13.5} weight={800} fill={C.fuji} />
-          <SvgMultiText x={1082} y={156} en="the model becomes the interface" zh="模型開始往上層變成介面" mode={mode} size={12.4} fill={C.inkSoft} />
+          <SvgMultiText x={1082} y={156} en="model becomes interface" zh="模型開始往上層變成介面" mode={mode} size={12.4} fill={C.inkSoft} />
 
           {rect(70, 276, 170, 118, C.white, C.line)}
           {rect(286, 276, 170, 118, C.white, C.line)}
@@ -1310,21 +1310,21 @@ function EconomicsAgentsFlowchart({ mode }) {
           <SvgMultiText x={155} y={350} en="Claude / GPT / Gemini" zh="Claude / GPT / Gemini" mode={mode} size={12.3} fill={C.inkSoft} />
 
           <SvgMultiText x={371} y={310} en="Tools" zh="Tools" mode={mode} size={14.5} fill={C.ai} />
-          <SvgMultiText x={371} y={334} en="browser, files," zh="瀏覽器、檔案、" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={371} y={334} en="browser, files" zh="瀏覽器、檔案、" mode={mode} size={12.7} fill={C.inkSoft} />
           <SvgMultiText x={371} y={350} en="apps, APIs" zh="apps、APIs" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <SvgMultiText x={587} y={310} en="Task loop" zh="Task loop" mode={mode} size={14.5} fill={C.ai} />
           <SvgMultiText x={587} y={334} en="keep going until" zh="一路做下去，直到" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={587} y={350} en="the job is done" zh="任務完成" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={587} y={350} en="job is done" zh="任務完成" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <SvgMultiText x={803} y={310} en="App layer" zh="App layer" mode={mode} size={14.5} fill={C.ai} />
           <SvgMultiText x={803} y={334} en="gets thinner" zh="可能被變薄" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={803} y={350} en="or turns into tools" zh="或被降成工具" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={803} y={350} en="or become tools" zh="或被降成工具" mode={mode} size={12.7} fill={C.inkSoft} />
 
-          <SvgMultiText x={1049} y={305} en="Strategic implication" zh="策略含意" mode={mode} size={14.5} fill={C.ai} />
-          <SvgMultiText x={1049} y={332} en="LLMs do not just raise capability;" zh="LLM 不只是能力更強；" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={1049} y={348} en="they can rewrite cost curves and" zh="還會改寫成本曲線，並且" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={1049} y={364} en="shift where value is captured" zh="改變價值被誰拿走" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={1049} y={305} en="Implication" zh="策略含意" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={1049} y={332} en="LLMs raise capability," zh="LLM 不只是能力更強；" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={1049} y={348} en="rewrite cost curves," zh="還會改寫成本曲線，並且" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={1049} y={364} en="shift value capture" zh="改變價值被誰拿走" mode={mode} size={12.7} fill={C.inkSoft} />
         </svg>
       </div>
       <div className="flow-caption"><T m={mode} en="This is the clean business-model reading of Module 6: cost structure changes first, then competitive position, then the interface layer. That is why the course places Google and Anthropic after the technical explanation." zh="這才是 Module 6 的商業模式讀法：先看成本結構怎麼變，再看競爭位置怎麼變，最後看介面層怎麼變。因此課程才會在技術原理之後接 Google 與 Anthropic。" /></div>
@@ -1373,20 +1373,20 @@ function TakeoffFlowchart({ mode }) {
           <line x1="1018" y1="130" x2="1066" y2="130" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m7ArrowA)" />
 
           <SvgMultiText x={145} y={112} en="Awareness / access" zh="Awareness / access" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={145} y={140} en="people must know" zh="使用者先要知道、" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={145} y={156} en="and be able to reach it" zh="也要接觸得到" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={145} y={140} en="users must know" zh="使用者先要知道、" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={145} y={156} en="and reach it" zh="也要接觸得到" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <SvgMultiText x={401} y={110} en="Net Benefits =" zh="Net Benefits =" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={401} y={136} en="stand-alone + network" zh="stand-alone + network" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={401} y={152} en="benefits - adopter costs" zh="benefits - adopter costs" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={401} y={152} en="benefits - costs" zh="benefits - costs" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <SvgMultiText x={676} y={112} en="Chicken-and-egg" zh="Chicken-and-egg" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={676} y={138} en="early users face the" zh="早期使用者面對的是" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={676} y={154} en="least value, highest friction" zh="最低價值、最高阻力" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={676} y={138} en="early users face" zh="早期使用者面對的是" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={676} y={154} en="low value, high friction" zh="最低價值、最高阻力" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <SvgMultiText x={927} y={112} en="Critical mass" zh="Critical mass" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={927} y={140} en="the point where growth" zh="成長開始能夠" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={927} y={156} en="starts feeding itself" zh="自我推進的門檻" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={927} y={140} en="where growth" zh="成長開始能夠" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={927} y={156} en="self-feeds" zh="自我推進的門檻" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <SvgMultiText x={1127} y={112} en="Takeoff" zh="Takeoff" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={1127} y={142} en="or fail" zh="或失敗" mode={mode} size={13.2} fill={C.matsu} />
@@ -1395,15 +1395,15 @@ function TakeoffFlowchart({ mode }) {
           {rect(390, 272, 228, 114, C.white, C.line)}
           {rect(670, 272, 228, 114, C.white, C.line)}
           {rect(950, 272, 188, 114, C.white, C.line)}
-          <SvgMultiText x={224} y={302} en="Stand-alone benefits" zh="Stand-alone benefits" mode={mode} size={14.5} fill={C.ai} />
-          <SvgMultiText x={224} y={330} en="LinkedIn free page," zh="像 LinkedIn free page、" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={224} y={302} en="Stand-alone" zh="Stand-alone" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={224} y={330} en="LinkedIn page," zh="像 LinkedIn free page、" mode={mode} size={12.7} fill={C.inkSoft} />
           <SvgMultiText x={224} y={346} en="Zillow teaser" zh="Zillow teaser" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={504} y={302} en="Network benefits" zh="Network benefits" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={504} y={302} en="Network" zh="Network" mode={mode} size={14.5} fill={C.ai} />
           <SvgMultiText x={504} y={330} en="value rises when" zh="別人加入後，價值才" mode={mode} size={12.7} fill={C.inkSoft} />
           <SvgMultiText x={504} y={346} en="others join" zh="明顯上升" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={784} y={302} en="Coaxing or coordinating" zh="Coaxing 或 coordinating" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={784} y={302} en="Coax or coordinate" zh="Coaxing 或 coordinating" mode={mode} size={14.5} fill={C.ai} />
           <SvgMultiText x={784} y={330} en="coax one side, or move" zh="不是先 coax 一邊，" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={784} y={346} en="both sides together" zh="就是協調多邊一起動" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={784} y={346} en="both together" zh="就是協調多邊一起動" mode={mode} size={12.7} fill={C.inkSoft} />
           <SvgMultiText x={1044} y={302} en="Rocket rule" zh="火箭規則" mode={mode} size={14.5} fill={C.ai} />
           <SvgMultiText x={1044} y={330} en="write actual user numbers" zh="critical mass 要寫成" mode={mode} size={12.7} fill={C.inkSoft} />
           <SvgMultiText x={1044} y={346} en="for each side" zh="每一邊的實際數字" mode={mode} size={12.7} fill={C.inkSoft} />
@@ -1429,7 +1429,7 @@ function SaferTaxiFlowchart({ mode }) {
       badges={[
         { kind: 'good', en: 'Real wait-time advantage', zh: '確實有等待時間優勢' },
         { kind: 'warn', en: 'Smartphone penetration stayed low', zh: '手機滲透率仍偏低' },
-        { kind: 'bad', en: 'Revenue needed to grow 10x to break even', zh: '要成長 10 倍才可能打平' },
+        { kind: 'bad', en: 'Revenue needed 10x growth to break even', zh: '要成長 10 倍才可能打平' },
       ]}
     >
       <div className="dia flow-svg">
@@ -1445,21 +1445,21 @@ function SaferTaxiFlowchart({ mode }) {
           <line x1="788" y1="122" x2="836" y2="122" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m7ArrowB)" />
           <line x1="1060" y1="122" x2="1084" y2="122" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m7ArrowB)" />
 
-          <SvgMultiText x={149} y={100} en="Three-city market" zh="三城市市場" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={149} y={100} en="3-city market" zh="三城市市場" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={149} y={127} en="~30M people," zh="約 3,000 萬人口、" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={149} y={143} en="$2.2B taxi market" zh="$2.2B taxi market" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={149} y={143} en="$2.2B market" zh="$2.2B market" mode={mode} size={12.7} fill={C.inkSoft} />
 
-          <SvgMultiText x={410} y={100} en="Value proposition" zh="價值主張" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={410} y={100} en="Value prop" zh="價值主張" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={410} y={127} en="wait time drops to" zh="等待時間降到" mode={mode} size={12.7} fill={C.inkSoft} />
           <SvgMultiText x={410} y={143} en="9 / 6 / 12 min" zh="9 / 6 / 12 分鐘" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <SvgMultiText x={677} y={100} en="Reach problem" zh="可觸及市場問題" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={677} y={127} en="smartphone penetration" zh="smartphone penetration" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={677} y={127} en="smartphone reach" zh="smartphone reach" mode={mode} size={12.7} fill={C.inkSoft} />
           <SvgMultiText x={677} y={143} en="only 9% to 19%" zh="只有 9% 到 19%" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <SvgMultiText x={948} y={100} en="Growth tactics" zh="成長 tactics" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={948} y={127} en="driver phones, training," zh="司機手機、培訓、" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={948} y={143} en="corp contracts, events" zh="企業合約、活動" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={948} y={127} en="phones, training," zh="司機手機、培訓、" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={948} y={143} en="corp deals, events" zh="企業合約、活動" mode={mode} size={12.5} fill={C.inkSoft} />
 
           <SvgMultiText x={1140} y={100} en="Still" zh="最後仍然" mode={mode} size={15} fill={C.beni} />
           <SvgMultiText x={1140} y={127} en="too small" zh="太小" mode={mode} size={13.5} fill={C.beni} />
@@ -1470,13 +1470,13 @@ function SaferTaxiFlowchart({ mode }) {
           {rect(692, 260, 236, 112, C.white, C.line)}
           {rect(980, 260, 176, 112, C.beniLight, C.beni)}
           <SvgMultiText x={234} y={290} en="Cost side" zh="成本端" mode={mode} size={14.5} fill={C.ai} />
-          <SvgMultiText x={234} y={317} en="~$1M annual spending" zh="每年成本約 $1M" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={234} y={333} en="18 staff, ads, phone subsidy" zh="18 人、廣告、手機補貼" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={234} y={317} en="~$1M annual cost" zh="每年成本約 $1M" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={234} y={333} en="staff, ads, phone subsidy" zh="18 人、廣告、手機補貼" mode={mode} size={12.7} fill={C.inkSoft} />
           <SvgMultiText x={522} y={290} en="Current scale" zh="當下規模" mode={mode} size={14.5} fill={C.ai} />
-          <SvgMultiText x={522} y={317} en="only 46 cabs at one point" zh="一度只有 46 輛車" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={522} y={333} en="hoping for 1,000s" zh="卻希望做到 1,000s" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={810} y={290} en="Revenue implication" zh="收入含意" mode={mode} size={14.5} fill={C.ai} />
-          <SvgMultiText x={810} y={317} en="needed to grow 10x" zh="至少要再成長 10 倍" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={522} y={317} en="only 46 cabs" zh="一度只有 46 輛車" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={522} y={333} en="wanted 1,000s" zh="卻希望做到 1,000s" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={810} y={290} en="Revenue" zh="收入含意" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={810} y={317} en="needed 10x growth" zh="至少要再成長 10 倍" mode={mode} size={12.7} fill={C.inkSoft} />
           <SvgMultiText x={810} y={333} en="just to break even" zh="才可能碰到損平" mode={mode} size={12.7} fill={C.inkSoft} />
           <SvgMultiText x={1068} y={290} en="Diagnosis" zh="診斷" mode={mode} size={14.5} fill={C.beni} />
           <SvgMultiText x={1068} y={317} en="value exists, but" zh="不是沒價值，而是" mode={mode} size={12.7} fill={C.inkSoft} />
@@ -1530,24 +1530,24 @@ function CompetitionFlowchart({ mode }) {
           <line x1="802" y1="145" x2="864" y2="145" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowA)" />
 
           <SvgMultiText x={158} y={124} en="Non-adoption" zh="Non-adoption" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={158} y={150} en="starting equilibrium" zh="起始均衡" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={158} y={166} en="nobody has tipped yet" zh="市場還沒被推向任何一邊" mode={mode} size={12.3} fill={C.inkSoft} />
+          <SvgMultiText x={158} y={150} en="start equilibrium" zh="起始均衡" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={158} y={166} en="no tipping yet" zh="市場還沒被推向任何一邊" mode={mode} size={12.3} fill={C.inkSoft} />
 
-          <SvgMultiText x={413} y={105} en="Platform α wins" zh="Platform α 勝" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={413} y={131} en="one adoption equilibrium" zh="其中一個 adoption equilibrium" mode={mode} size={12.4} fill={C.inkSoft} />
-          <SvgMultiText x={413} y={247} en="Platform β wins" zh="Platform β 勝" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={413} y={273} en="another possible equilibrium" zh="另一個可能均衡" mode={mode} size={12.4} fill={C.inkSoft} />
+          <SvgMultiText x={413} y={105} en="Alpha wins" zh="Platform α 勝" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={413} y={131} en="one equilibrium" zh="其中一個 adoption equilibrium" mode={mode} size={12.4} fill={C.inkSoft} />
+          <SvgMultiText x={413} y={247} en="Beta wins" zh="Platform β 勝" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={413} y={273} en="another equilibrium" zh="另一個可能均衡" mode={mode} size={12.4} fill={C.inkSoft} />
 
           <SvgMultiText x={695} y={124} en="Path dependence" zh="Path dependence" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={695} y={150} en="small early lead can" zh="早期小領先會" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={695} y={166} en="become lasting dominance" zh="放大成持久優勢" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={695} y={150} en="small early lead" zh="早期小領先會" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={695} y={166} en="can lock in" zh="放大成持久優勢" mode={mode} size={12.7} fill={C.inkSoft} />
 
-          <SvgMultiText x={1016} y={104} en="Winner-take-all test" zh="WTA 測試" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={1016} y={140} en="1. Strong scale effects" zh="1. Strong scale effects" mode={mode} size={13.5} fill={C.inkSoft} />
-          <SvgMultiText x={1016} y={168} en="2. Little room for differentiation" zh="2. 差異化空間要夠小" mode={mode} size={13.5} fill={C.inkSoft} />
-          <SvgMultiText x={1016} y={196} en="3. High switching / multi-home costs" zh="3. Switching / multi-home costs 要高" mode={mode} size={13.5} fill={C.inkSoft} />
-          <SvgMultiText x={1016} y={234} en="Only if all three are strong" zh="只有三個都強" mode={mode} size={13.5} fill={C.fuji} />
-          <SvgMultiText x={1016} y={254} en="does the clean WTA story hold" zh="才比較接近乾淨的 WTA" mode={mode} size={13.5} fill={C.fuji} />
+          <SvgMultiText x={1016} y={104} en="WTA test" zh="WTA 測試" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={1016} y={140} en="1. Scale effects" zh="1. Scale effects" mode={mode} size={13.5} fill={C.inkSoft} />
+          <SvgMultiText x={1016} y={168} en="2. Low differentiation" zh="2. 差異化空間要夠小" mode={mode} size={13.5} fill={C.inkSoft} />
+          <SvgMultiText x={1016} y={196} en="3. High switching / MH costs" zh="3. Switching / MH costs 要高" mode={mode} size={13.5} fill={C.inkSoft} />
+          <SvgMultiText x={1016} y={234} en="Only if all 3 are strong" zh="只有三個都強" mode={mode} size={13.5} fill={C.fuji} />
+          <SvgMultiText x={1016} y={254} en="does clean WTA hold" zh="才比較接近乾淨的 WTA" mode={mode} size={13.5} fill={C.fuji} />
         </svg>
       </div>
       <div className="flow-caption"><T m={mode} en="The core diagnostic move is to distinguish 'platform competition is dynamic' from 'this market is actually WTA.' Multiple equilibria make outcomes path dependent, but the clean WTA claim still requires all three structural conditions." zh="核心判斷動作，是把『平臺競爭有動態』與『這個市場真的屬於 WTA』分開。多重均衡會讓結果變得路徑依賴，但要下乾淨的 WTA 結論，仍然必須三個結構條件都成立。" /></div>
@@ -1586,20 +1586,20 @@ function UberChinaFlowchart({ mode }) {
           <line x1="808" y1="134" x2="850" y2="134" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowB)" />
           <line x1="1020" y1="134" x2="1060" y2="134" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowB)" />
 
-          <SvgMultiText x={179} y={111} en="Strong scale effects" zh="Strong scale effects" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={179} y={111} en="Scale effects" zh="Scale effects" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={179} y={139} en="yes" zh="是" mode={mode} size={14.5} weight={800} fill={C.matsu} />
-          <SvgMultiText x={179} y={158} en="more drivers, faster pickups," zh="司機更多、接得更快、" mode={mode} size={12.3} fill={C.inkSoft} />
-          <SvgMultiText x={179} y={174} en="coverage and demand reinforce" zh="coverage 與 demand 互相增強" mode={mode} size={12.3} fill={C.inkSoft} />
+          <SvgMultiText x={179} y={158} en="more drivers, faster pickup," zh="司機更多、接得更快、" mode={mode} size={12.3} fill={C.inkSoft} />
+          <SvgMultiText x={179} y={174} en="coverage + demand reinforce" zh="coverage 與 demand 互相增強" mode={mode} size={12.3} fill={C.inkSoft} />
 
-          <SvgMultiText x={441} y={111} en="Little room for differentiation" zh="Little room for differentiation" mode={mode} size={14.2} fill={C.ai} />
+          <SvgMultiText x={441} y={111} en="Low differentiation" zh="Low differentiation" mode={mode} size={14.2} fill={C.ai} />
           <SvgMultiText x={441} y={139} en="debatable" zh="有爭議" mode={mode} size={14.5} weight={800} fill={C.kitsune} />
           <SvgMultiText x={441} y={158} en="some room still existed" zh="仍有一些定位空間" mode={mode} size={12.3} fill={C.inkSoft} />
-          <SvgMultiText x={441} y={174} en="so not a clean WTA case" zh="所以不是乾淨的 WTA" mode={mode} size={12.3} fill={C.inkSoft} />
+          <SvgMultiText x={441} y={174} en="so not clean WTA" zh="所以不是乾淨的 WTA" mode={mode} size={12.3} fill={C.inkSoft} />
 
-          <SvgMultiText x={703} y={111} en="Switching / multi-home costs" zh="Switching / multi-home costs" mode={mode} size={14.2} fill={C.ai} />
+          <SvgMultiText x={703} y={111} en="Switching / MH costs" zh="Switching / MH costs" mode={mode} size={14.2} fill={C.ai} />
           <SvgMultiText x={703} y={139} en="low" zh="低" mode={mode} size={14.5} weight={800} fill={C.beni} />
-          <SvgMultiText x={703} y={158} en="riders and drivers could" zh="乘客與司機都能" mode={mode} size={12.3} fill={C.inkSoft} />
-          <SvgMultiText x={703} y={174} en="multi-home too easily" zh="太容易 multi-home" mode={mode} size={12.3} fill={C.inkSoft} />
+          <SvgMultiText x={703} y={158} en="riders and drivers" zh="乘客與司機都能" mode={mode} size={12.3} fill={C.inkSoft} />
+          <SvgMultiText x={703} y={174} en="multi-homed easily" zh="太容易 multi-home" mode={mode} size={12.3} fill={C.inkSoft} />
 
           <SvgMultiText x={935} y={111} en="Result" zh="結果" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={935} y={139} en="war of attrition" zh="war of attrition" mode={mode} size={13.8} weight={800} fill={C.fuji} />
@@ -1612,14 +1612,14 @@ function UberChinaFlowchart({ mode }) {
           {rect(146, 270, 278, 112, C.white, C.line)}
           {rect(480, 270, 278, 112, C.white, C.line)}
           {rect(814, 270, 278, 112, C.white, C.line)}
-          <SvgMultiText x={285} y={300} en="What firms assumed" zh="企業實際假設" mode={mode} size={14.5} fill={C.ai} />
-          <SvgMultiText x={285} y={328} en="get-big-fast, spend hard, win the market" zh="先搶到規模、重砸資源、把市場拿下" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={619} y={300} en="What the course says" zh="課堂真正要你說的" mode={mode} size={14.5} fill={C.ai} />
-          <SvgMultiText x={619} y={328} en="fighting like WTA is not the same as" zh="照 WTA 打，不等於市場本身就是" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={619} y={344} en="actually being in a WTA market" zh="真正的 WTA 市場" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={285} y={300} en="Firms assumed" zh="企業實際假設" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={285} y={328} en="get big fast, win market" zh="先搶到規模、重砸資源、把市場拿下" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={619} y={300} en="Course says" zh="課堂真正要你說的" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={619} y={328} en="fighting like WTA ≠" zh="照 WTA 打，不等於市場本身就是" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={619} y={344} en="being in WTA" zh="真正的 WTA 市場" mode={mode} size={12.7} fill={C.inkSoft} />
           <SvgMultiText x={953} y={300} en="Anchor numbers" zh="數字錨點" mode={mode} size={14.5} fill={C.ai} />
-          <SvgMultiText x={953} y={328} en="Didi ≈ $35B valuation," zh="Didi 估值約 $35B，" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={953} y={344} en="Uber stake 17.7%, payoff ≈ $6.2B" zh="Uber 持股 17.7%，payoff 約 $6.2B" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={953} y={328} en="Didi ≈ $35B," zh="Didi 估值約 $35B，" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={953} y={344} en="Uber 17.7%, payoff ≈ $6.2B" zh="Uber 持股 17.7%，payoff 約 $6.2B" mode={mode} size={12.7} fill={C.inkSoft} />
         </svg>
       </div>
       <div className="flow-caption"><T m={mode} en="This is the line to keep straight in the quiz: Uber and Didi competed under a WTA assumption, but the market failed the full three-condition test. That is why the stronger label is war of attrition, not clean network tipping." zh="這是 quiz 最容易混掉的一句：Uber 與 Didi 的確照 WTA 邏輯競爭，但市場本身沒有通過完整三條件測試，所以更強的標籤是 war of attrition，而不是乾淨的 network tipping。" /></div>
@@ -1717,7 +1717,7 @@ function PrimerSection({ mode }) {
 // MAIN APP
 // ═══════════════════════════════════════════════════════════════
 
-export default function INNO6230QuizV14() {
+export default function INNO6230QuizV15() {
   const [mode, setMode] = useState("en");
   const [fabOpen, setFabOpen] = useState(false);
   const [activeId, setActiveId] = useState("backbone");
@@ -1993,7 +1993,7 @@ export default function INNO6230QuizV14() {
 
                   <div className="final10-td"><strong>eHarmony</strong></div>
                   <div className="final10-td"><T m={mode} en="Rich survey X, but weak feedback and little scope for learning." zh="問卷 X 很豐富，但 feedback 弱，學習空間很小。" /></div>
-                  <div className="final10-td"><T m={mode} en="4,000 successful couples are all y = 1. Six dimensions compress the survey." zh="4,000 successful couples 全是 y = 1。大量問卷被壓成六維。" /></div>
+                  <div className="final10-td"><T m={mode} en="4,000 success couples are all y = 1. Six dimensions compress the survey." zh="4,000 success couples 全是 y = 1。大量問卷被壓成六維。" /></div>
 
                   <div className="final10-td"><strong>Google</strong></div>
                   <div className="final10-td"><T m={mode} en="LLMs create value, but real inference cost can damage search economics." zh="LLM 會創造價值，但真實推論成本會傷搜尋經濟。" /></div>
@@ -2001,7 +2001,7 @@ export default function INNO6230QuizV14() {
 
                   <div className="final10-td"><strong>SaferTaxi</strong></div>
                   <div className="final10-td"><T m={mode} en="The offer had value, but scale, smartphone reach, and cost structure did not fit." zh="價值主張有力，但規模、手機滲透與成本結構不配。" /></div>
-                  <div className="final10-td"><T m={mode} en="About a $2.2B market, smartphone penetration only 9% to 19%, and revenue needed to grow about 10 times to break even." zh="市場約 $2.2B，手機滲透率只有 9% 到 19%，而且營收約要再長 10 倍才可能打平。" /></div>
+                  <div className="final10-td"><T m={mode} en="About a $2.2B market, smartphone reach only 9% to 19%, and revenue needed to grow about 10 times to break even." zh="市場約 $2.2B，手機滲透率只有 9% 到 19%，而且營收約要再長 10 倍才可能打平。" /></div>
 
                   <div className="final10-td"><strong>Uber China</strong></div>
                   <div className="final10-td"><T m={mode} en="The battle looked WTA, but low switching and multi-homing costs made it closer to attrition." zh="戰爭看起來像 WTA，但低 switching 與 multi-homing costs 使它更像 attrition。" /></div>
