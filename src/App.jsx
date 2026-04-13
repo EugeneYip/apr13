@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 
 /* ═══════════════════════════════════════════════════════════════
-   INNO6230 Quiz Infrastructure v12
+   INNO6230 Quiz Infrastructure v13
    Scope: Modules 5-8 (Notes + Slides, including optionals)
    ═══════════════════════════════════════════════════════════════ */
 
@@ -223,18 +223,24 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 
 
 /* ── Module 5 flowchart visuals ── */
-.module5-viz{display:grid;gap:14px;margin:14px 0 16px;}
-.flow-viz-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
-.flow-viz-card{background:${C.white};border:1px solid ${C.line};border-radius:14px;padding:15px;display:grid;gap:10px;overflow:hidden;}
-.flow-viz-head{display:grid;gap:4px;}
-.flow-viz-note{font-size:13px;line-height:1.6;color:${C.inkSoft};max-width:76ch;}
+.module5-viz{display:grid;gap:16px;margin:14px 0 16px;}
+.flow-viz-grid{display:grid;grid-template-columns:1fr;gap:16px;}
+.flow-viz-card{background:${C.white};border:1px solid ${C.line};border-radius:16px;padding:18px;display:grid;gap:12px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,0.02);}
+.flow-viz-head{display:grid;gap:5px;}
+.flow-viz-note{font-size:14px;line-height:1.68;color:${C.inkSoft};max-width:82ch;}
 .flow-badges{display:flex;flex-wrap:wrap;gap:6px;}
 .flow-badge{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:0.04em;border:1px solid ${C.lineLight};}
 .flow-badge.good{background:${C.matsuLight};color:${C.matsu};}
 .flow-badge.warn{background:${C.kitsuneLight};color:${C.kitsune};}
 .flow-badge.bad{background:${C.beniLight};color:${C.beni};}
 .flow-badge.info{background:${C.aiLight};color:${C.ai};}
-.flow-caption{font-size:12.5px;line-height:1.58;color:${C.muted};}
+.flow-caption{font-size:13.5px;line-height:1.62;color:${C.muted};max-width:84ch;}
+.flow-svg{border:1px solid ${C.lineLight};border-radius:14px;background:linear-gradient(180deg,#fffdf7,${C.paper});padding:10px;}
+.flow-svg svg{width:100%;height:auto;min-width:980px;display:block;}
+.flow-oral{border:1px solid ${C.line};border-left:4px solid ${C.fuji};border-radius:12px;background:${C.fujiLight};padding:12px 14px;display:grid;gap:7px;}
+.flow-oral-kicker{font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.fuji};}
+.flow-oral-copy{font-size:14px;line-height:1.62;color:${C.ink};font-weight:600;max-width:84ch;}
+.flow-oral-copy strong{color:${C.ai};}
 .svg-label{font-family:${FONT_BODY};fill:${C.inkSoft};}
 .final10-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
 .final10-card{background:${C.white};border:1px solid ${C.line};border-top:4px solid ${C.matsu};border-radius:12px;padding:12px 13px;}
@@ -296,6 +302,7 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
   .scan-grid{grid-template-columns:1fr;}
   .g4{grid-template-columns:repeat(2,minmax(0,1fr));}
   .formula-grid,.final10-grid,.final10-say,.flow-viz-grid{grid-template-columns:1fr;}
+  .flow-svg svg{min-width:900px;}
   .final10-table{grid-template-columns:1fr;}
   .final10-th{display:none;}
   .final10-td{border-right:0;}
@@ -307,6 +314,11 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
   .hero,.sec{padding:14px;border-radius:14px;}
   .g2,.g4,.dual.bi-mode{grid-template-columns:1fr;}
   .primer-grid,.primer-terms,.scan3,.formula-grid,.final10-grid,.final10-say,.flow-viz-grid{grid-template-columns:1fr;}
+  .flow-viz-card{padding:14px;}
+  .flow-viz-note{font-size:14.5px;}
+  .flow-caption,.flow-oral-copy{font-size:14px;}
+  .flow-svg{padding:8px;}
+  .flow-svg svg{min-width:860px;}
   .g3{grid-template-columns:1fr;}
   .chain-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   .chain-card{min-height:auto;}
@@ -342,6 +354,7 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
   .quote-text{font-size:15.5px;}
   .fab{width:44px;height:44px;font-size:12px;}
   .fab-panel button{padding:8px 12px;font-size:13px;}
+  .flow-svg svg{min-width:820px;}
 }
 `;
 
@@ -891,6 +904,15 @@ function FlowVizCard({ mode, kickerEn, kickerZh, titleEn, titleZh, noteEn, noteZ
   );
 }
 
+function FlowOral({ mode, en, zh }) {
+  return (
+    <div className="flow-oral">
+      <div className="flow-oral-kicker"><T m={mode} en="15-second oral version" zh="15 秒口述版" /></div>
+      <div className="flow-oral-copy"><T m={mode} en={en} zh={zh} /></div>
+    </div>
+  );
+}
+
 function PredictionFactoryFlowchart({ mode }) {
   const rect = (x, y, w, h, fill, stroke = C.line) => <rect x={x} y={y} width={w} height={h} rx={14} fill={fill} stroke={stroke} strokeWidth="1.5" />;
   const arrow = (x1, y1, x2, y2, color = C.kitsune, dashed = false) => (
@@ -913,7 +935,7 @@ function PredictionFactoryFlowchart({ mode }) {
         { kind: 'warn', en: 'No feedback = no real learning loop', zh: '沒有 feedback 就沒有真正學習迴路' },
       ]}
     >
-      <div className="dia">
+      <div className="dia flow-svg">
         <svg viewBox="0 0 1100 350" role="img" aria-label="Prediction factory flowchart">
           <defs>
             <marker id="pfArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
@@ -980,6 +1002,7 @@ function PredictionFactoryFlowchart({ mode }) {
         </svg>
       </div>
       <div className="flow-caption"><T m={mode} en="The managerial point is simple: the formula alone does nothing. It only becomes a prediction factory when the model is actually run inside the product flow and fresh outcomes return to the system." zh="管理上的重點很直接：光有公式不會自己產生價值。只有當模型真的嵌進產品流程裡運行，且新 outcomes 會回流，才算是 prediction factory。" /></div>
+      <FlowOral mode={mode} en="In 15 seconds: first observe X, then run ŷ = f(X), then apply a rule to trigger an action. If the outcome y comes back and retrains the model, you have a prediction factory. If it does not, you only have a one-shot algorithm." zh="15 秒講法：先觀測 X，再跑 ŷ = f(X)，再用 rule 觸發 action。若結果 y 會回流並重新訓練模型，這才叫 prediction factory。若不會回流，你只有一次性的演算法。" />
     </FlowVizCard>
   );
 }
@@ -1002,7 +1025,7 @@ function EHarmonyFlowchart({ mode }) {
         { kind: 'bad', en: 'No tracking / little feedback', zh: 'No tracking / feedback 很少' },
       ]}
     >
-      <div className="dia">
+      <div className="dia flow-svg">
         <svg viewBox="0 0 1100 420" role="img" aria-label="eHarmony flowchart">
           <defs>
             <marker id="ehArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
@@ -1073,6 +1096,7 @@ function EHarmonyFlowchart({ mode }) {
         </svg>
       </div>
       <div className="flow-caption"><T m={mode} en="The key exam move is to separate what eHarmony actually did from what it could have done. Actual path: unsupervised similarity from survey data. Better supervised path would have required reliable outcome logging and feedback." zh="考試最關鍵的動作，是把 eHarmony 實際做的，和理論上本來可以做的拆開。實際主路徑是 survey data 的非監督式相似度；若要走更好的 supervised 路徑，就必須有可靠的 outcome logging 與 feedback。" /></div>
+      <FlowOral mode={mode} en="In 15 seconds: eHarmony had rich survey X, compressed it into six dimensions, and matched by similarity. The weakness was not no data, but no reliable outcome y and almost no feedback, so learning stayed weak." zh="15 秒講法：eHarmony 有很豐富的 survey X，先壓成六維，再用相似度配對。真正弱點不是沒資料，而是缺可靠的 outcome y，也幾乎沒有 feedback，所以學習很弱。" />
     </FlowVizCard>
   );
 }
@@ -1095,7 +1119,7 @@ function GrowFlowchart({ mode }) {
         { kind: 'warn', en: 'Use case choice changes automation level', zh: '不同 use case 會改變自動化程度' },
       ]}
     >
-      <div className="dia">
+      <div className="dia flow-svg">
         <svg viewBox="0 0 1100 440" role="img" aria-label="Grow flowchart">
           <defs>
             <marker id="grArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
@@ -1164,6 +1188,7 @@ function GrowFlowchart({ mode }) {
         </svg>
       </div>
       <div className="flow-caption"><T m={mode} en="The exam point is not HR trivia. The exam point is that one prediction architecture can be embedded into very different operating models depending on how much autonomy the firm gives the machine." zh="考試重點不是 HR 細節本身，而是同一套 prediction architecture，可以因為公司賦予機器不同程度的自主性，而嵌進非常不同的 operating model。" /></div>
+      <FlowOral mode={mode} en="In 15 seconds: Grow collects many inputs X, turns them into a fit score, and then uses the same prediction logic in three different ways. The real managerial choice is not just the model, but how much of the hiring process the machine should control." zh="15 秒講法：Grow 先收很多輸入 X，把它們轉成 fit score，再把同一套預測邏輯放進三種不同用法。真正的管理選擇，不只是哪個模型，而是要把多少招聘流程交給機器。" />
     </FlowVizCard>
   );
 }
@@ -1260,7 +1285,7 @@ function PrimerSection({ mode }) {
 // MAIN APP
 // ═══════════════════════════════════════════════════════════════
 
-export default function INNO6230QuizV12() {
+export default function INNO6230QuizV13() {
   const [mode, setMode] = useState("en");
   const [fabOpen, setFabOpen] = useState(false);
   const [activeId, setActiveId] = useState("backbone");
