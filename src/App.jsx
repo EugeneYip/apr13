@@ -33,7 +33,7 @@ const styles = `
   }
 
   .quiz-app { min-height: 100vh; background: var(--bg); color: var(--ink); }
-  .quiz-shell { max-width: var(--max); margin: 0 auto; padding: 24px 24px 56px; }
+  .quiz-shell { max-width: var(--max); margin: 0 auto; padding: 20px 22px 64px; }
 
   .hero, .section, .nav-card, .core-card, .footer-card {
     border: 1px solid var(--line);
@@ -41,10 +41,10 @@ const styles = `
     border-radius: 26px;
   }
 
-  .hero { padding: 26px; margin-bottom: 22px; }
-  .section { padding: 22px; }
-  .nav-card { padding: 16px; }
-  .core-card, .footer-card { padding: 18px; background: var(--white); border-radius: 20px; }
+  .hero { padding: 22px; margin-bottom: 18px; }
+  .section { padding: 18px; }
+  .nav-card { padding: 14px; }
+  .core-card, .footer-card { padding: 16px; background: var(--white); border-radius: 20px; }
 
   .meta-strip {
     display: flex;
@@ -90,11 +90,11 @@ const styles = `
 
   .hero-subtitle, .body-copy, .small-copy, .html-block p, .html-block li, .html-block td, .html-block th, .html-block blockquote {
     color: var(--ink-soft);
-    font-size: 14px;
-    line-height: 1.65;
+    font-size: 13.5px;
+    line-height: 1.58;
   }
 
-  .hero-subtitle { font-size: 16px; max-width: 920px; margin: 10px 0 0; }
+  .hero-subtitle { font-size: 15px; max-width: 760px; margin: 10px 0 0; }
   .small-copy { font-size: 12px; line-height: 1.55; }
 
   .toggle-wrap { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
@@ -110,7 +110,7 @@ const styles = `
     background: transparent;
     color: var(--muted);
     padding: 10px 14px;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     cursor: pointer;
   }
@@ -121,9 +121,9 @@ const styles = `
     gap: 16px;
   }
 
-  .hero-grid { grid-template-columns: 1.25fr 1fr; margin-top: 18px; }
+  .hero-grid { grid-template-columns: 1.2fr 0.95fr; margin-top: 14px; }
   .overview-grid { grid-template-columns: 1fr 1fr; }
-  .section-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .section-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .footer-grid { grid-template-columns: 1.1fr 0.9fr; }
 
   .chain-wrap { display: grid; gap: 10px; }
@@ -136,8 +136,8 @@ const styles = `
     border: 1px solid var(--line);
     border-radius: 18px;
     background: var(--white);
-    padding: 14px 12px;
-    min-height: 112px;
+    padding: 12px 11px;
+    min-height: 104px;
   }
   .chain-kicker {
     color: var(--gold);
@@ -149,7 +149,7 @@ const styles = `
   }
   .chain-head {
     color: var(--teal);
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 800;
     line-height: 1.28;
     margin-bottom: 8px;
@@ -174,23 +174,23 @@ const styles = `
 
   .layout {
     display: grid;
-    grid-template-columns: 290px minmax(0, 1fr);
-    gap: 22px;
+    grid-template-columns: 270px minmax(0, 1fr);
+    gap: 18px;
     align-items: start;
   }
 
   .side-nav {
     position: sticky;
-    top: 18px;
+    top: 14px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
   }
 
   .nav-list { display: grid; gap: 8px; }
   .nav-link {
     display: block;
-    padding: 12px 12px;
+    padding: 10px 11px;
     border-radius: 14px;
     border: 1px solid var(--line);
     background: var(--white);
@@ -306,14 +306,15 @@ const styles = `
   }
   .html-block p { margin: 0 0 10px; }
   .html-block ul, .html-block ol { margin: 0; padding-left: 18px; display: grid; gap: 8px; }
-  .html-block table { width: 100%; border-collapse: collapse; min-width: 680px; }
-  .html-block .scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; }
+  .html-block table { width: 100%; border-collapse: collapse; min-width: 620px; table-layout: fixed; }
+  .html-block .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: 16px; }
   .html-block th, .html-block td {
     border-right: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
-    padding: 10px 10px;
+    padding: 8px 9px;
     vertical-align: top;
     text-align: left;
+    overflow-wrap: anywhere;
   }
   .html-block th { background: #FBF7ED; color: var(--teal); font-weight: 800; }
   .html-block td:last-child, .html-block th:last-child { border-right: 0; }
@@ -395,24 +396,128 @@ const styles = `
   .html-block .badge.no { background: var(--soft-rust); color: var(--rust); }
   .html-block .badge.debatable { background: var(--soft-gold); color: var(--gold); }
 
-  @media (max-width: 1200px) {
+  
+  .scanboard-grid {
+    display: grid;
+    grid-template-columns: 1.08fr 1.02fr 0.9fr;
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .scan-card {
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--white);
+    padding: 16px;
+    display: grid;
+    gap: 10px;
+    min-height: 100%;
+  }
+  .scan-kicker {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .scan-title {
+    color: var(--plum);
+    font-size: 18px;
+    line-height: 1.15;
+    font-weight: 800;
+    margin: 0;
+    font-family: "Source Serif 4", Georgia, serif;
+  }
+  .scan-card .html-block h5:first-child { margin-top: 0; }
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .metric-card {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #FFFCF6;
+    padding: 11px 12px;
+  }
+  .metric-label {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.4;
+    margin-bottom: 6px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .metric-value {
+    color: var(--teal);
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin-bottom: 4px;
+  }
+  .metric-note {
+    color: var(--ink-soft);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .floating-lang {
+    position: fixed;
+    right: 14px;
+    bottom: 14px;
+    z-index: 90;
+    display: grid;
+    gap: 8px;
+    justify-items: end;
+  }
+  .floating-fab {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(31, 41, 51, 0.12);
+    background: var(--plum);
+    color: var(--white);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 800;
+    box-shadow: 0 8px 24px rgba(31, 41, 51, 0.16);
+  }
+  .floating-panel {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 28px rgba(31, 41, 51, 0.12);
+  }
+  .floating-panel .toggle-btn {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+@media (max-width: 1200px) {
     .layout { grid-template-columns: 1fr; }
     .side-nav { position: static; }
-    .hero-grid, .overview-grid, .section-grid, .footer-grid, .backbone-grid { grid-template-columns: 1fr; }
+    .hero-grid, .overview-grid, .section-grid, .footer-grid, .backbone-grid, .scanboard-grid { grid-template-columns: 1fr; }
     .chain-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .arrow-row { display: none; }
   }
 
   @media (max-width: 820px) {
-    .quiz-shell { padding: 16px 14px 44px; }
-    .hero, .section { padding: 16px; border-radius: 22px; }
+    .quiz-shell { padding: 14px 12px 54px; }
+    .hero, .section { padding: 15px; border-radius: 22px; }
     .hero-top { flex-direction: column; }
     .toggle-wrap { align-items: flex-start; }
     .dual.bi { grid-template-columns: 1fr; }
     .chain-row { grid-template-columns: 1fr; }
     .backbone-grid { grid-template-columns: 1fr; }
     .html-block .mini-grid, .html-block .scenario-grid, .html-block .status-grid { grid-template-columns: 1fr; }
-    .hero-title { font-size: 34px; }
+    .hero-title { font-size: 33px; }
+    .floating-lang { right: 10px; bottom: 10px; }
+    .floating-fab { width: 40px; height: 40px; }
+    .floating-panel .toggle-btn { padding: 7px 9px; font-size: 11px; }
   }
 `;
 
@@ -555,6 +660,189 @@ const overviewFocusZh = `
     <li><strong>考前最後動作。</strong> 把 16 句主幹讀到能不看稿複述，再練案例陷阱與數字錨點。</li>
   </ul>
 `;
+
+
+const scanModuleMapEn = `
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th>Module</th><th>Core question</th><th>What changes the diagnosis</th><th>One line to keep</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>5</td><td>What can the platform actually predict?</td><td>Whether there is a real feedback loop.</td><td>Observability comes before sophistication.</td></tr>
+        <tr><td>6</td><td>What is genuinely different about LLMs?</td><td>Inference cost, generality, and cannibalization risk.</td><td>LLMs are broader prediction machines, not magic.</td></tr>
+        <tr><td>7</td><td>Can the platform get past zero?</td><td>Whether net benefits clear adoption cost on each side.</td><td>Most platforms never take off.</td></tr>
+        <tr><td>8</td><td>Will the market tip?</td><td>All three WTA conditions must be strong together.</td><td>Fighting like WTA is not the same as being WTA.</td></tr>
+      </tbody>
+    </table>
+  </div>
+`;
+const scanModuleMapZh = `
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th>模組</th><th>核心問題</th><th>真正改變判斷的點</th><th>最值得記的一句</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>5</td><td>平臺到底能預測甚麼？</td><td>有沒有真的 feedback loop。</td><td>先看 observability，再談 sophistication。</td></tr>
+        <tr><td>6</td><td>LLM 到底特別在哪裡？</td><td>Inference cost、通用性、自我侵蝕風險。</td><td>LLM 是更廣的 prediction machine，不是魔法。</td></tr>
+        <tr><td>7</td><td>平臺能不能過零起飛？</td><td>各邊淨效益能不能壓過 adoption cost。</td><td>大多數平臺其實起飛不了。</td></tr>
+        <tr><td>8</td><td>市場會不會 tip？</td><td>三個 WTA 條件要一起強。</td><td>照 WTA 打，不等於市場真的 WTA。</td></tr>
+      </tbody>
+    </table>
+  </div>
+`;
+const scanCaseMapEn = `
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th>Case</th><th>Engine</th><th>Main trap</th><th>Fast diagnosis</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>eHarmony</td><td>Survey-heavy matching</td><td>Rich inputs but weak feedback.</td><td>Good one-shot matching logic, weak ongoing learning logic.</td></tr>
+        <tr><td>Google</td><td>Search plus GenAI</td><td>GenAI can improve user value while damaging incumbent economics.</td><td>Use value creation and value capture at the same time.</td></tr>
+        <tr><td>SaferTaxi</td><td>Takeoff in local ride-hailing</td><td>Value exists, but reachable scale may still be too small.</td><td>The issue is not zero value. It is fit between scale, cost, and market reach.</td></tr>
+        <tr><td>Uber China</td><td>Platform war</td><td>War behavior can exceed what economics strictly supports.</td><td>Two WTA conditions were strong, but the third was not strong enough.</td></tr>
+      </tbody>
+    </table>
+  </div>
+`;
+const scanCaseMapZh = `
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th>案例</th><th>核心引擎</th><th>主要陷阱</th><th>快速診斷</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>eHarmony</td><td>高問卷比重配對</td><td>輸入很豐富，但 feedback 很弱。</td><td>一次性配對邏輯不差，但持續學習邏輯很弱。</td></tr>
+        <tr><td>Google</td><td>搜尋加上 GenAI</td><td>GenAI 可能提升使用者價值，卻傷到既有經濟。</td><td>必須同時看 value creation 與 value capture。</td></tr>
+        <tr><td>SaferTaxi</td><td>本地叫車平臺起飛</td><td>有價值，不代表可達規模也夠大。</td><td>問題不是零價值，而是規模、成本與市場可觸及範圍的匹配。</td></tr>
+        <tr><td>Uber China</td><td>平臺戰爭</td><td>企業行為可能比純經濟邏輯更激烈。</td><td>三個 WTA 條件只有兩個夠強，第三個不夠。</td></tr>
+      </tbody>
+    </table>
+  </div>
+`;
+const scanAnchorNumbersEn = `
+  <div class="metric-grid">
+    <div class="metric-card"><div class="metric-label">eHarmony</div><div class="metric-value">4,000</div><div class="metric-note">Successful couples in follow-up focus groups, but all are y = 1.</div></div>
+    <div class="metric-card"><div class="metric-label">eHarmony</div><div class="metric-value">6</div><div class="metric-note">Survey data are compressed into six dimensions.</div></div>
+    <div class="metric-card"><div class="metric-label">Google</div><div class="metric-value">$27.5B</div><div class="metric-note">Baseline annual search profit anchor in the supplied study file.</div></div>
+    <div class="metric-card"><div class="metric-label">Google</div><div class="metric-value">-$150.5B</div><div class="metric-note">Illustrative AI-search profit if inference cost expands sharply.</div></div>
+    <div class="metric-card"><div class="metric-label">SaferTaxi</div><div class="metric-value">$2.2B</div><div class="metric-note">Taxi market anchor across the three-city setup.</div></div>
+    <div class="metric-card"><div class="metric-label">Uber</div><div class="metric-value">17.7%</div><div class="metric-note">Uber’s retained stake after Didi acquired Uber China.</div></div>
+  </div>
+`;
+const scanAnchorNumbersZh = `
+  <div class="metric-grid">
+    <div class="metric-card"><div class="metric-label">eHarmony</div><div class="metric-value">4,000</div><div class="metric-note">成功 couples 的 focus groups，但全部都是 y = 1。</div></div>
+    <div class="metric-card"><div class="metric-label">eHarmony</div><div class="metric-value">6</div><div class="metric-note">大量問卷最後被壓成六個維度。</div></div>
+    <div class="metric-card"><div class="metric-label">Google</div><div class="metric-value">$27.5B</div><div class="metric-note">整合 study file 的 baseline 年度搜尋獲利錨點。</div></div>
+    <div class="metric-card"><div class="metric-label">Google</div><div class="metric-value">-$150.5B</div><div class="metric-note">若 AI 搜尋推論成本大幅擴張時的示意獲利結果。</div></div>
+    <div class="metric-card"><div class="metric-label">SaferTaxi</div><div class="metric-value">$2.2B</div><div class="metric-note">三城市設定下的計程車市場錨點。</div></div>
+    <div class="metric-card"><div class="metric-label">Uber</div><div class="metric-value">17.7%</div><div class="metric-note">Didi 併購 Uber China 後，Uber 保留的持股。</div></div>
+  </div>
+`;
+
+const sectionLens = {
+  "module-5": {
+    titleEn: "Quick diagnostic",
+    titleZh: "快速診斷圖",
+    enHtml: `<div class="mini-grid">
+      <div class="mini-card"><h5>Ask first</h5><p>What decision is being automated?</p></div>
+      <div class="mini-card"><h5>Then ask</h5><p>What is the best observable proxy for y?</p></div>
+      <div class="mini-card"><h5>Core split</h5><p>Labeled data push toward supervised methods. Missing y pushes toward unsupervised grouping.</p></div>
+      <div class="mini-card"><h5>Case clue</h5><p>Rich survey data do not compensate for weak behavioral feedback.</p></div>
+    </div>`,
+    zhHtml: `<div class="mini-grid">
+      <div class="mini-card"><h5>先問</h5><p>到底要自動化哪個決策？</p></div>
+      <div class="mini-card"><h5>再問</h5><p>最好的可觀測 y 代理是甚麼？</p></div>
+      <div class="mini-card"><h5>核心分流</h5><p>有標籤就往 supervised，沒有 y 就只能做 unsupervised 分群。</p></div>
+      <div class="mini-card"><h5>案例訊號</h5><p>問卷再豐富，也補不了行為回饋太弱的問題。</p></div>
+    </div>`
+  },
+  "module-6": {
+    titleEn: "Weak AI versus LLMs",
+    titleZh: "弱 AI 與 LLM 對照",
+    enHtml: `<div class="scroll"><table><thead><tr><th></th><th>Weak AI</th><th>LLM / GenAI</th></tr></thead><tbody>
+      <tr><td>Problem setup</td><td>One task at a time</td><td>One flexible model across many tasks</td></tr>
+      <tr><td>Training labels</td><td>Usually human-labeled</td><td>Next-token prediction lets text self-label</td></tr>
+      <tr><td>Output form</td><td>Score, class, ranking</td><td>Text, code, image, audio, structured output</td></tr>
+      <tr><td>Economic wrinkle</td><td>Often low marginal compute</td><td>Inference cost remains real</td></tr>
+    </tbody></table></div>`,
+    zhHtml: `<div class="scroll"><table><thead><tr><th></th><th>弱 AI</th><th>LLM / GenAI</th></tr></thead><tbody>
+      <tr><td>問題設定</td><td>一次做一個任務</td><td>同一個彈性模型做很多任務</td></tr>
+      <tr><td>訓練標籤</td><td>多半靠人標註</td><td>下一個 token 預測讓文字自我標註</td></tr>
+      <tr><td>輸出形式</td><td>分數、分類、排序</td><td>文字、程式、圖片、音訊、結構化輸出</td></tr>
+      <tr><td>經濟學差異</td><td>邊際算力成本常較低</td><td>Inference cost 持續存在</td></tr>
+    </tbody></table></div>`
+  },
+  "module-7": {
+    titleEn: "Takeoff screen",
+    titleZh: "起飛判斷圖",
+    enHtml: `<div class="mini-grid">
+      <div class="mini-card"><h5>Step 1</h5><p>Specify the sides. No side definition, no takeoff diagnosis.</p></div>
+      <div class="mini-card"><h5>Step 2</h5><p>Write down critical mass by side in actual numbers.</p></div>
+      <div class="mini-card"><h5>Step 3</h5><p>Choose between coaxing and coordinating tactics.</p></div>
+      <div class="mini-card"><h5>Red flag</h5><p>A good value proposition may still fail because the economics of scale never lock in.</p></div>
+    </div>`,
+    zhHtml: `<div class="mini-grid">
+      <div class="mini-card"><h5>Step 1</h5><p>先定義 sides，沒有 sides 就沒有起飛診斷。</p></div>
+      <div class="mini-card"><h5>Step 2</h5><p>把每一邊的 critical mass 寫成實際數字。</p></div>
+      <div class="mini-card"><h5>Step 3</h5><p>在 coaxing 與 coordinating 戰術間做選擇。</p></div>
+      <div class="mini-card"><h5>紅旗</h5><p>價值主張再好，也可能因為規模經濟鎖不住而起飛失敗。</p></div>
+    </div>`
+  },
+  "module-8": {
+    titleEn: "WTA test",
+    titleZh: "WTA 三條件測試",
+    enHtml: `<div class="status-grid">
+      <div class="status"><div class="top"><strong>Condition 1</strong><span class="badge yes">YES</span></div><p>Strong increasing returns to scale.</p></div>
+      <div class="status"><div class="top"><strong>Condition 2</strong><span class="badge yes">YES</span></div><p>High switching or multi-homing cost.</p></div>
+      <div class="status"><div class="top"><strong>Condition 3</strong><span class="badge debatable">CHECK</span></div><p>Little room for differentiation.</p></div>
+    </div>
+    <p>Use all three together. Two strong conditions are not enough for a clean winner-take-all conclusion.</p>`,
+    zhHtml: `<div class="status-grid">
+      <div class="status"><div class="top"><strong>Condition 1</strong><span class="badge yes">YES</span></div><p>規模增加報酬要夠強。</p></div>
+      <div class="status"><div class="top"><strong>Condition 2</strong><span class="badge yes">YES</span></div><p>轉換成本或 multi-homing cost 要夠高。</p></div>
+      <div class="status"><div class="top"><strong>Condition 3</strong><span class="badge debatable">CHECK</span></div><p>差異化空間要夠小。</p></div>
+    </div>
+    <p>三條件要一起看。只有兩條強，還不夠把市場判成乾淨的 winner-take-all。</p>`
+  }
+};
+
+const finalReviewEn = `
+  <ol>
+    <li>Read the causal chain once from left to right.</li>
+    <li>Recite the sixteen backbone lines without looking.</li>
+    <li>Run the four anchor cases in order: eHarmony, Google, SaferTaxi, Uber China.</li>
+    <li>Check the anchor numbers only after the logic is stable.</li>
+  </ol>
+`;
+const finalReviewZh = `
+  <ol>
+    <li>先把因果鏈從左到右讀一遍。</li>
+    <li>把 16 句 backbone 練到不看稿能講。</li>
+    <li>依序跑四個核心案例：eHarmony、Google、SaferTaxi、Uber China。</li>
+    <li>邏輯穩定後，再回頭確認數字錨點。</li>
+  </ol>
+`;
+const finalMistakesEn = `
+  <ul>
+    <li>Do not confuse data richness with learning quality.</li>
+    <li>Do not discuss GenAI only in terms of capability. Always bring economics back in.</li>
+    <li>Do not call a market winner-take-all just because the battle is intense.</li>
+    <li>Do not diagnose takeoff without writing the sides and the critical mass numbers.</li>
+  </ul>
+`;
+const finalMistakesZh = `
+  <ul>
+    <li>不要把資料豐富誤當成學習品質高。</li>
+    <li>不要只談 GenAI 能力，最後一定要拉回經濟學。</li>
+    <li>不要因為競爭很兇，就直接把市場判成 WTA。</li>
+    <li>沒有寫出 sides 與 critical mass 數字，就不要談起飛診斷。</li>
+  </ul>
+`;
+
 
 const sections = [
   {
@@ -1055,8 +1343,8 @@ const sections = [
     kickerZh: "模組 7",
     titleEn: "Platform Early Growth and Takeoff",
     titleZh: "平臺早期成長與起飛",
-    sourceEn: "Built from the supplied master file",
-    sourceZh: "依整合 master file 重建",
+    sourceEn: "Primary quiz source",
+    sourceZh: "主要 quiz 來源",
     quoteEn: "Critical mass requires net benefits above adoption cost.",
     quoteZh: "要先讓淨效益壓過採用成本，才摸得到 critical mass。",
     blocks: [
@@ -1214,8 +1502,8 @@ const sections = [
     kickerZh: "模組 8",
     titleEn: "Platform Competition",
     titleZh: "平臺競爭",
-    sourceEn: "Built from the supplied master file",
-    sourceZh: "依整合 master file 重建",
+    sourceEn: "Primary quiz source",
+    sourceZh: "主要 quiz 來源",
     quoteEn: "Platform competition is not only about who has the better position. It is also about which equilibrium the market tips toward.",
     quoteZh: "平臺競爭不是只問誰位置比較好，還要問市場最後會 tip 到哪個 equilibrium。",
     blocks: [
@@ -1367,6 +1655,7 @@ const sections = [
 
 export default function INNO6230QuizInfrastructure() {
   const [mode, setMode] = useState("en");
+  const [langOpen, setLangOpen] = useState(false);
 
   const navSections = useMemo(
     () => [
@@ -1375,7 +1664,7 @@ export default function INNO6230QuizInfrastructure() {
       { id: "module-6", en: "Module 6", zh: "模組 6" },
       { id: "module-7", en: "Module 7", zh: "模組 7" },
       { id: "module-8", en: "Module 8", zh: "模組 8" },
-      { id: "integrity", en: "Coverage & Source Discipline", zh: "涵蓋範圍與來源紀律" },
+      { id: "final-review", en: "Final Review", zh: "最後複習" },
     ],
     []
   );
@@ -1386,35 +1675,24 @@ export default function INNO6230QuizInfrastructure() {
       <div className="quiz-shell">
         <section className="hero">
           <div className="meta-strip">
-            <span className="meta-pill">INNO6230 Quiz Infrastructure</span>
-            <span className="meta-pill">Primary scope: Modules 5 to 8</span>
-            <span className="meta-pill">React JSX, responsive, English-first</span>
-            <span className="meta-pill">Background: #FCFAF2</span>
+            <span className="meta-pill">Modules 5 to 8</span>
+            <span className="meta-pill">Prediction factories</span>
+            <span className="meta-pill">LLMs and economics</span>
+            <span className="meta-pill">Takeoff and platform wars</span>
           </div>
 
           <div className="hero-top">
             <div>
               <h1 className="hero-title">
-                <HeadingDual mode={mode} en="INNO6230 Quiz Study Infrastructure" zh="INNO6230 Quiz 視覺化學習基礎設施" />
+                <HeadingDual mode={mode} en="INNO6230 Quiz Guide" zh="INNO6230 Quiz 重點總覽" />
               </h1>
               <p className="hero-subtitle">
                 {mode === "zh"
-                  ? "以英文為主版本，並提供純中文與雙語切換。結構依因果鏈重建，重點不是堆疊術語，而是讓讀者快速看懂 framework、案例診斷、數字錨點，以及考前最後該背甚麼。"
+                  ? "先從因果鏈讀起，再進入四個最關鍵案例、會改變診斷的數字，以及考前最值得背的句子。"
                   : mode === "bi"
-                  ? "English-first study build with Chinese and bilingual modes. The structure follows the causal chain rather than file order, so readers can move from framework to case diagnosis to anchor numbers with less friction."
-                  : "English-first study build with Chinese and bilingual modes. The structure follows the causal chain rather than file order, so readers can move from framework to case diagnosis to anchor numbers with less friction."}
+                  ? "Start from the causal chain, then move into the four anchor cases, the numbers that shift the diagnosis, and the lines most worth memorizing before the quiz."
+                  : "Start from the causal chain, then move into the four anchor cases, the numbers that shift the diagnosis, and the lines most worth memorizing before the quiz."}
               </p>
-            </div>
-
-            <div className="toggle-wrap">
-              <div className="toggle-group" aria-label="Language mode toggle">
-                <button className={`toggle-btn ${mode === "en" ? "active" : ""}`} onClick={() => setMode("en")}>EN</button>
-                <button className={`toggle-btn ${mode === "zh" ? "active" : ""}`} onClick={() => setMode("zh")}>中文</button>
-                <button className={`toggle-btn ${mode === "bi" ? "active" : ""}`} onClick={() => setMode("bi")}>EN + 中文</button>
-              </div>
-              <span className="small-copy">
-                {mode === "zh" ? "預設密度偏高，適合複習與考前快速掃描。" : "Dense by design. Built for study, scanning, and case recall."}
-              </span>
             </div>
           </div>
 
@@ -1445,8 +1723,26 @@ export default function INNO6230QuizInfrastructure() {
             </div>
 
             <div className="core-card">
-              <h3 className="core-title"><HeadingDual mode={mode} en="Reader Priority" zh="讀者優先重點" /></h3>
+              <h3 className="core-title"><HeadingDual mode={mode} en="Reader Priority" zh="先看這裡" /></h3>
               <HtmlDual mode={mode} enHtml={overviewFocusEn} zhHtml={overviewFocusZh} />
+            </div>
+          </div>
+
+          <div className="scanboard-grid">
+            <div className="scan-card">
+              <div className="scan-kicker">{mode === "zh" ? "全局地圖" : "Full-map view"}</div>
+              <h3 className="scan-title"><HeadingDual mode={mode} en="Module-to-Question Map" zh="模組與問題對照" /></h3>
+              <HtmlDual mode={mode} enHtml={scanModuleMapEn} zhHtml={scanModuleMapZh} />
+            </div>
+            <div className="scan-card">
+              <div className="scan-kicker">{mode === "zh" ? "案例比較" : "Case comparison"}</div>
+              <h3 className="scan-title"><HeadingDual mode={mode} en="Four Anchor Cases" zh="四個核心案例" /></h3>
+              <HtmlDual mode={mode} enHtml={scanCaseMapEn} zhHtml={scanCaseMapZh} />
+            </div>
+            <div className="scan-card">
+              <div className="scan-kicker">{mode === "zh" ? "數字錨點" : "Number anchors"}</div>
+              <h3 className="scan-title"><HeadingDual mode={mode} en="Six Figures Worth Keeping" zh="六個最值得記的數字" /></h3>
+              <HtmlDual mode={mode} enHtml={scanAnchorNumbersEn} zhHtml={scanAnchorNumbersZh} />
             </div>
           </div>
         </section>
@@ -1488,7 +1784,7 @@ export default function INNO6230QuizInfrastructure() {
                   <div className="section-kicker">Backbone</div>
                   <h2 className="section-title"><HeadingDual mode={mode} en="Sixteen Sentences to Memorize" zh="考前最後 16 句主幹" /></h2>
                 </div>
-                <span className="section-source">{mode === "zh" ? "來源：整合 master file" : mode === "bi" ? "Source: supplied master file / 來源：整合 master file" : "Source: supplied master file"}</span>
+                <span className="section-source">{mode === "zh" ? "主要 quiz 來源" : mode === "bi" ? "Primary quiz source / 主要 quiz 來源" : "Primary quiz source"}</span>
               </div>
               <div className="backbone-grid">
                 {backbone.map((item, index) => (
@@ -1507,18 +1803,14 @@ export default function INNO6230QuizInfrastructure() {
                   <span className="section-source">{mode === "zh" ? section.sourceZh : mode === "bi" ? `${section.sourceEn} / ${section.sourceZh}` : section.sourceEn}</span>
                 </div>
 
-                <div className="overview-grid" style={{ marginBottom: 16 }}>
+                <div className="overview-grid" style={{ marginBottom: 14 }}>
                   <div className="quote-band">
                     <div className="quote-kicker">Core line</div>
                     <div className="quote-text">{mode === "zh" ? section.quoteZh : mode === "bi" ? `${section.quoteEn} / ${section.quoteZh}` : section.quoteEn}</div>
                   </div>
                   <div className="core-card">
-                    <h3 className="core-title"><HeadingDual mode={mode} en="Coverage note" zh="涵蓋說明" /></h3>
-                    <Dual
-                      mode={mode}
-                      en={<>This section is reader-facing. It preserves the supplied study content and reorders it into a more teachable sequence, without adding unsupported new claims.</>}
-                      zh={<>這個區塊是面向讀者的。它保留您提供的學習內容，只是改成更好讀、更好教的順序，沒有另外捏造新的主張。</>}
-                    />
+                    <h3 className="core-title"><HeadingDual mode={mode} en={sectionLens[section.id].titleEn} zh={sectionLens[section.id].titleZh} /></h3>
+                    <HtmlDual mode={mode} enHtml={sectionLens[section.id].enHtml} zhHtml={sectionLens[section.id].zhHtml} />
                   </div>
                 </div>
 
@@ -1533,61 +1825,45 @@ export default function INNO6230QuizInfrastructure() {
               </section>
             ))}
 
-            <section className="section" id="integrity">
+            <section className="section" id="final-review">
               <div className="section-head">
                 <div>
-                  <div className="section-kicker">Coverage and source discipline</div>
-                  <h2 className="section-title"><HeadingDual mode={mode} en="What is covered, and what is not invented" zh="哪些有涵蓋，哪些沒有被捏造" /></h2>
+                  <div className="section-kicker">{mode === "zh" ? "最後複習" : "Final review"}</div>
+                  <h2 className="section-title"><HeadingDual mode={mode} en="Last Pass Before the Quiz" zh="考前最後一輪" /></h2>
                 </div>
-                <span className="section-source">{mode === "zh" ? "面向讀者的透明說明" : mode === "bi" ? "Reader-facing transparency note / 面向讀者的透明說明" : "Reader-facing transparency note"}</span>
+                <span className="section-source">{mode === "zh" ? "建議閱讀順序" : mode === "bi" ? "Suggested review order / 建議閱讀順序" : "Suggested review order"}</span>
               </div>
 
               <div className="footer-grid">
                 <div className="footer-card">
-                  <h3 className="core-title"><HeadingDual mode={mode} en="What this file does" zh="這份檔案做了甚麼" /></h3>
-                  <HtmlDual
-                    mode={mode}
-                    enHtml={`
-                      <ul>
-                        <li>Rebuilt the supplied integrated quiz content into a single, dense study interface.</li>
-                        <li>Shifted the structure from file order to causal logic, so the reader can move from data to competition without fragmentation.</li>
-                        <li>Added comparison views, loops, tables, and anchor-number layouts to speed up understanding.</li>
-                        <li>Kept English as the main presentation layer while supporting pure Chinese and bilingual use.</li>
-                      </ul>
-                    `}
-                    zhHtml={`
-                      <ul>
-                        <li>把您提供的整合 quiz 內容，重建成單一且高密度的學習介面。</li>
-                        <li>把原本按檔名的材料，改成按因果邏輯排列，讓讀者能從資料一路讀到競爭，不必被檔案切碎。</li>
-                        <li>加入對照視角、流程、表格與數字錨點版面，讓理解速度更快。</li>
-                        <li>以英文作為主呈現層，同時支援純中文與雙語模式。</li>
-                      </ul>
-                    `}
-                  />
+                  <h3 className="core-title"><HeadingDual mode={mode} en="Recommended order" zh="建議順序" /></h3>
+                  <HtmlDual mode={mode} enHtml={finalReviewEn} zhHtml={finalReviewZh} />
                 </div>
                 <div className="footer-card">
-                  <h3 className="core-title"><HeadingDual mode={mode} en="What was intentionally not done" zh="刻意沒有做的事" /></h3>
-                  <HtmlDual
-                    mode={mode}
-                    enHtml={`
-                      <ul>
-                        <li>No unsupported new framework claims were added beyond the supplied master file and uploaded class materials.</li>
-                        <li>No raw-file certainty was claimed for Modules 7 and 8 beyond what exists in the supplied integrated quiz source within this workspace.</li>
-                        <li>No decorative simplification was used that would strip away anchor numbers, traps, or case distinctions.</li>
-                      </ul>
-                    `}
-                    zhHtml={`
-                      <ul>
-                        <li>沒有超出您提供的 master file 與目前上傳課內檔案去擅自增加新框架主張。</li>
-                        <li>對模組 7 與 8，沒有假裝擁有額外 raw files 的確定性，只依目前工作區中的整合 quiz 原文處理。</li>
-                        <li>沒有為了好看而把數字錨點、案例陷阱或關鍵差異刪掉。</li>
-                      </ul>
-                    `}
-                  />
+                  <h3 className="core-title"><HeadingDual mode={mode} en="Mistakes to avoid" zh="最容易失手的地方" /></h3>
+                  <HtmlDual mode={mode} enHtml={finalMistakesEn} zhHtml={finalMistakesZh} />
                 </div>
               </div>
             </section>
           </main>
+        </div>
+
+        <div className="floating-lang">
+          {langOpen && (
+            <div className="floating-panel" aria-label="Language mode toggle">
+              <button className={`toggle-btn ${mode === "en" ? "active" : ""}`} onClick={() => { setMode("en"); setLangOpen(false); }}>EN</button>
+              <button className={`toggle-btn ${mode === "zh" ? "active" : ""}`} onClick={() => { setMode("zh"); setLangOpen(false); }}>中文</button>
+              <button className={`toggle-btn ${mode === "bi" ? "active" : ""}`} onClick={() => { setMode("bi"); setLangOpen(false); }}>雙語</button>
+            </div>
+          )}
+          <button
+            className="floating-fab"
+            onClick={() => setLangOpen((v) => !v)}
+            aria-label="Open language switcher"
+            aria-expanded={langOpen}
+          >
+            {mode === "zh" ? "語" : mode === "bi" ? "中" : "EN"}
+          </button>
         </div>
       </div>
     </div>
