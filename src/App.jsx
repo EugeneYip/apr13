@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 
 /* ═══════════════════════════════════════════════════════════════
-   INNO6230 Quiz Infrastructure v13
+   INNO6230 Quiz Infrastructure v14
    Scope: Modules 5-8 (Notes + Slides, including optionals)
    ═══════════════════════════════════════════════════════════════ */
 
@@ -915,11 +915,6 @@ function FlowOral({ mode, en, zh }) {
 
 function PredictionFactoryFlowchart({ mode }) {
   const rect = (x, y, w, h, fill, stroke = C.line) => <rect x={x} y={y} width={w} height={h} rx={14} fill={fill} stroke={stroke} strokeWidth="1.5" />;
-  const arrow = (x1, y1, x2, y2, color = C.kitsune, dashed = false) => (
-    <g>
-      <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={color} strokeWidth="3" strokeDasharray={dashed ? '7 6' : undefined} markerEnd="url(#pfArrow)" />
-    </g>
-  );
   return (
     <FlowVizCard
       mode={mode}
@@ -927,81 +922,71 @@ function PredictionFactoryFlowchart({ mode }) {
       kickerZh="流程圖 1"
       titleEn="Prediction Factory from Formula to Operating Model"
       titleZh="從公式走到營運模型的 Prediction Factory"
-      noteEn="This is the logic Professor Boudreau repeats across the notes and slides: first decide Z and y, then use observed X to run ŷ = f(X), then convert ŷ into an action, observe the outcome, and feed that information back into the model."
-      noteZh="這是教授在 notes 與 slides 反覆使用的主邏輯：先決定 Z 與 y，再用可觀測的 X 跑出 ŷ = f(X)，接著把 ŷ 轉成行動，觀察結果，再把新資訊餵回模型。"
+      noteEn="This is the core Module 5 picture. The point is not just writing ŷ = f(X). The point is turning that formula into a live operating loop that observes inputs, triggers decisions, watches outcomes, and learns again."
+      noteZh="這是 Module 5 最核心的一張圖。重點不是只寫出 ŷ = f(X)，而是把這個公式嵌進實際運作的 loop 裡，讓系統會觀測輸入、做決策、看結果，再重新學習。"
       badges={[
         { kind: 'info', en: 'Top row = live use', zh: '上排 = live use' },
         { kind: 'good', en: 'Bottom row = build / tune', zh: '下排 = build / tune' },
-        { kind: 'warn', en: 'No feedback = no real learning loop', zh: '沒有 feedback 就沒有真正學習迴路' },
+        { kind: 'warn', en: 'Feedback is the make-or-break link', zh: 'Feedback 是關鍵連結' },
       ]}
     >
       <div className="dia flow-svg">
-        <svg viewBox="0 0 1100 350" role="img" aria-label="Prediction factory flowchart">
+        <svg viewBox="0 0 1240 430" role="img" aria-label="Prediction factory flowchart">
           <defs>
-            <marker id="pfArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-              <path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} />
-            </marker>
-            <marker id="pfArrowSoft" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-              <path d="M0,0 L12,6 L0,12 z" fill={C.matsu} />
-            </marker>
+            <marker id="pfArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker>
+            <marker id="pfArrowSoft" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.matsu} /></marker>
           </defs>
-          <text x="44" y="32" fontFamily={FONT_BODY} fontSize="15" fontWeight="800" fill={C.ai}>LIVE USE</text>
-          <text x="44" y="205" fontFamily={FONT_BODY} fontSize="15" fontWeight="800" fill={C.matsu}>BUILD / TUNE</text>
-          {rect(40, 55, 150, 72, C.kitsuneLight, C.kitsune)}
-          {rect(220, 55, 170, 72, C.aiLight, C.ai)}
-          {rect(420, 55, 170, 72, C.fujiLight, C.fuji)}
-          {rect(620, 55, 180, 72, C.paper, C.kitsune)}
-          {rect(830, 55, 210, 72, C.matsuLight, C.matsu)}
-          {rect(250, 220, 180, 76, C.paper, C.matsu)}
-          {rect(470, 218, 200, 80, C.white, C.line)}
-          {rect(720, 220, 170, 78, C.aiLight, C.ai)}
+          <text x="44" y="38" fontFamily={FONT_BODY} fontSize="15" fontWeight="800" fill={C.ai}>LIVE USE</text>
+          {rect(46, 78, 186, 88, C.kitsuneLight, C.kitsune)}
+          {rect(274, 78, 202, 88, C.aiLight, C.ai)}
+          {rect(518, 78, 204, 88, C.fujiLight, C.fuji)}
+          {rect(764, 78, 210, 88, C.paper, C.kitsune)}
+          {rect(1016, 78, 178, 88, C.matsuLight, C.matsu)}
+          <line x1="232" y1="122" x2="274" y2="122" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#pfArrow)" />
+          <line x1="476" y1="122" x2="518" y2="122" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#pfArrow)" />
+          <line x1="722" y1="122" x2="764" y2="122" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#pfArrow)" />
+          <line x1="974" y1="122" x2="1016" y2="122" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#pfArrow)" />
 
-          {arrow(190, 91, 220, 91)}
-          {arrow(390, 91, 420, 91)}
-          {arrow(590, 91, 620, 91)}
-          {arrow(800, 91, 830, 91)}
-          <line x1="820" y1="128" x2="805" y2="250" stroke={C.matsu} strokeWidth="3" fill="none" />
-          <line x1="805" y1="250" x2="890" y2="250" stroke={C.matsu} strokeWidth="3" fill="none" markerEnd="url(#pfArrowSoft)" />
-          <line x1="720" y1="258" x2="670" y2="258" stroke={C.matsu} strokeWidth="3" markerEnd="url(#pfArrowSoft)" />
-          <line x1="250" y1="258" x2="220" y2="258" stroke={C.matsu} strokeWidth="3" />
-          <line x1="220" y1="258" x2="220" y2="130" stroke={C.matsu} strokeWidth="3" markerEnd="url(#pfArrowSoft)" />
+          <SvgMultiText x={139} y={106} en="Input X" zh="Input X" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={139} y={132} en="profiles, clicks," zh="profiles、clicks、" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={139} y={148} en="context, dyad data" zh="context、dyad 資料" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={115} y={78} en="Observe inputs X" zh="先觀測輸入 X" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={115} y={108} en="profiles, clicks," zh="profile、clicks、" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={115} y={123} en="context, dyad data" zh="context、dyad 資料" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={375} y={106} en="Prediction model" zh="Prediction model" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={375} y={132} en="ŷ = f(X)" zh="ŷ = f(X)" mode={mode} size={16} weight={800} fill={C.fuji} />
+          <SvgMultiText x={375} y={148} en="turn observed X into ŷ" zh="把可觀測的 X 轉成 ŷ" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={305} y={79} en="Run model" zh="跑模型" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={305} y={104} en="ŷ = f(X)" zh="ŷ = f(X)" mode={mode} size={15} weight={800} fill={C.fuji} />
-          <SvgMultiText x={305} y={124} en="generate prediction" zh="產生預測" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={620} y={106} en="Decision rule" zh="Decision rule" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={620} y={132} en="if condition {ŷ} is met" zh="if condition {ŷ} is met" mode={mode} size={14.2} weight={800} fill={C.fuji} />
+          <SvgMultiText x={620} y={148} en="convert prediction into action" zh="把 prediction 轉成 action" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={505} y={78} en="Decision rule" zh="決策規則" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={505} y={103} en="if condition {ŷ}" zh="if condition {ŷ}" mode={mode} size={14} weight={800} fill={C.fuji} />
-          <SvgMultiText x={505} y={123} en="is met, act" zh="若過門檻就行動" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={869} y={106} en="Automate action Z" zh="Automate action Z" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={869} y={132} en="recommend, rank," zh="recommend、rank、" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={869} y={148} en="notify, match, flag" zh="notify、match、flag" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={710} y={78} en="Automate feature /" zh="自動觸發 feature /" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={710} y={103} en="function or action Z" zh="function 或 action Z" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={710} y={123} en="recommend, rank," zh="推薦、排序、" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={710} y={138} en="notify, match" zh="通知、配對" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={1105} y={106} en="Observe outcome y" zh="Observe outcome y" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={1105} y={132} en="click, reply, convert," zh="click、reply、convert、" mode={mode} size={12.4} fill={C.inkSoft} />
+          <SvgMultiText x={1105} y={148} en="churn, performance" zh="churn、performance" mode={mode} size={12.4} fill={C.inkSoft} />
 
-          <SvgMultiText x={935} y={78} en="Observe outcomes y" zh="觀察 outcomes y" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={935} y={103} en="click, reply, convert," zh="click、reply、convert、" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={935} y={118} en="churn, performance" zh="churn、performance" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={935} y={138} en="this is the feedback source" zh="這裡就是 feedback 來源" mode={mode} size={12} fill={C.matsu} />
+          <text x="44" y="252" fontFamily={FONT_BODY} fontSize="15" fontWeight="800" fill={C.matsu}>BUILD / TUNE</text>
+          {rect(242, 286, 214, 88, C.paper, C.matsu)}
+          {rect(510, 286, 214, 88, C.white, C.line)}
+          {rect(778, 286, 216, 88, C.aiLight, C.ai)}
+          <line x1="724" y1="330" x2="778" y2="330" stroke={C.matsu} strokeWidth="3" markerEnd="url(#pfArrowSoft)" />
+          <line x1="456" y1="330" x2="510" y2="330" stroke={C.matsu} strokeWidth="3" markerEnd="url(#pfArrowSoft)" />
 
-          <SvgMultiText x={340} y={243} en="Train / test / refine f(.)" zh="訓練、測試、精煉 f(.)" mode={mode} size={14} fill={C.matsu} />
-          <SvgMultiText x={340} y={268} en="pick the simplest model that" zh="先用最簡單可行模型" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={340} y={283} en="beats the baseline" zh="打贏 baseline" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={349} y={314} en="Train / test / refine f(.)" zh="訓練、測試、精煉 f(.)" mode={mode} size={14.2} fill={C.matsu} />
+          <SvgMultiText x={349} y={340} en="start simple, then add richness" zh="先簡單，再往上加複雜度" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={617} y={314} en="Platform database {Y, X}" zh="Platform database {Y, X}" mode={mode} size={14.2} fill={C.ai} />
+          <SvgMultiText x={617} y={340} en="historical inputs plus outcomes" zh="歷史輸入加上 outcomes" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={886} y={314} en="Feedback loop" zh="Feedback loop" mode={mode} size={14.2} fill={C.ai} />
+          <SvgMultiText x={886} y={340} en="fresh y keeps the next model honest" zh="新的 y 讓下一輪模型不會失真" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={570} y={245} en="Platform database {Y, X}" zh="Platform database {Y, X}" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={570} y={270} en="historical inputs plus" zh="歷史輸入加上" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={570} y={285} en="observed outcomes" zh="已觀察 outcome" mode={mode} size={12.5} fill={C.inkSoft} />
-
-          <SvgMultiText x={805} y={244} en="Feedback loop" zh="Feedback loop" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={805} y={268} en="new y updates the next" zh="新的 y 會更新下一輪" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={805} y={283} en="round of tuning" zh="調整與訓練" mode={mode} size={12.5} fill={C.inkSoft} />
+          <path d="M 1105 166 L 1105 250 L 886 250" fill="none" stroke={C.matsu} strokeWidth="3" markerEnd="url(#pfArrowSoft)" />
+          <path d="M 242 330 L 174 330 L 174 166 L 274 166" fill="none" stroke={C.matsu} strokeWidth="3" markerEnd="url(#pfArrowSoft)" />
+          <text x="1086" y="240" fontFamily={FONT_BODY} fontSize="12" fontWeight="800" fill={C.matsu}>{mode === 'zh' ? 'feedback' : mode === 'bi' ? 'feedback / 回流' : 'feedback'}</text>
         </svg>
       </div>
-      <div className="flow-caption"><T m={mode} en="The managerial point is simple: the formula alone does nothing. It only becomes a prediction factory when the model is actually run inside the product flow and fresh outcomes return to the system." zh="管理上的重點很直接：光有公式不會自己產生價值。只有當模型真的嵌進產品流程裡運行，且新 outcomes 會回流，才算是 prediction factory。" /></div>
+      <div className="flow-caption"><T m={mode} en="The formula is only the middle of the story. The full story is X enters, ŷ is produced, a rule fires, an action happens, and new y either returns to the system or does not. That last step determines whether the platform can really learn." zh="公式只是故事的中段。完整故事是：X 進來，產生 ŷ，rule 被觸發，action 發生，而新的 y 會不會回流到系統裡。最後這一步，才決定平臺到底能不能真的學習。" /></div>
       <FlowOral mode={mode} en="In 15 seconds: first observe X, then run ŷ = f(X), then apply a rule to trigger an action. If the outcome y comes back and retrains the model, you have a prediction factory. If it does not, you only have a one-shot algorithm." zh="15 秒講法：先觀測 X，再跑 ŷ = f(X)，再用 rule 觸發 action。若結果 y 會回流並重新訓練模型，這才叫 prediction factory。若不會回流，你只有一次性的演算法。" />
     </FlowVizCard>
   );
@@ -1009,7 +994,6 @@ function PredictionFactoryFlowchart({ mode }) {
 
 function EHarmonyFlowchart({ mode }) {
   const rect = (x, y, w, h, fill, stroke = C.line) => <rect x={x} y={y} width={w} height={h} rx={14} fill={fill} stroke={stroke} strokeWidth="1.5" />;
-  const arrow = (x1, y1, x2, y2, color = C.kitsune, dashed = false) => <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={color} strokeWidth="3" strokeDasharray={dashed ? '7 6' : undefined} markerEnd="url(#ehArrow)" />;
   return (
     <FlowVizCard
       mode={mode}
@@ -1017,85 +1001,79 @@ function EHarmonyFlowchart({ mode }) {
       kickerZh="流程圖 2"
       titleEn="eHarmony: Actual Flow, Missing Loop"
       titleZh="eHarmony：實際流程與缺掉的學習迴路"
-      noteEn="The slides show eHarmony's real logic as a survey-heavy unsupervised path: compress many questions into six dimensions, compute similarity or distance, rank top matches, and show profiles. The problem is not zero data. The problem is weak outcome tracking and almost no tuning loop."
-      noteZh="投影片顯示 eHarmony 的實際邏輯偏向 survey-heavy 的非監督式路徑：先把大量問卷壓成六個維度，再計算相似度或距離，排出 top matches，接著顯示 profiles。問題不是沒有資料，而是 outcome tracking 太弱，幾乎沒有 tuning loop。"
+      noteEn="The slides show eHarmony's actual path as a survey-heavy unsupervised flow. The service had rich inputs, but the learning loop was weak because reliable outcome tracking and feedback were limited."
+      noteZh="投影片顯示 eHarmony 的實際主路徑，是高度依賴問卷的非監督式流程。它不是沒有輸入資料，而是可靠的 outcome tracking 與 feedback 太弱，所以學習迴路很薄。"
       badges={[
         { kind: 'warn', en: 'Actual path = unsupervised similarity', zh: '實際主路徑 = 非監督式相似度' },
         { kind: 'bad', en: '4,000 successful couples = all y = 1', zh: '4,000 successful couples = 全部 y = 1' },
-        { kind: 'bad', en: 'No tracking / little feedback', zh: 'No tracking / feedback 很少' },
+        { kind: 'bad', en: 'No tracking / little tuning', zh: 'Tracking 弱 / tuning 少' },
       ]}
     >
       <div className="dia flow-svg">
-        <svg viewBox="0 0 1100 420" role="img" aria-label="eHarmony flowchart">
+        <svg viewBox="0 0 1240 470" role="img" aria-label="eHarmony flowchart">
           <defs>
-            <marker id="ehArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-              <path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} />
-            </marker>
-            <marker id="ehArrowRed" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-              <path d="M0,0 L12,6 L0,12 z" fill={C.beni} />
-            </marker>
+            <marker id="ehArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker>
+            <marker id="ehArrowRed" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.beni} /></marker>
+            <marker id="ehArrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.ai} /></marker>
           </defs>
-          {rect(40, 42, 190, 78, C.aiLight, C.ai)}
-          {rect(275, 42, 185, 78, C.kitsuneLight, C.kitsune)}
-          {rect(505, 42, 180, 78, C.fujiLight, C.fuji)}
-          {rect(730, 42, 165, 78, C.paper, C.kitsune)}
-          {rect(930, 42, 130, 78, C.matsuLight, C.matsu)}
+          {rect(42, 72, 204, 92, C.aiLight, C.ai)}
+          {rect(292, 72, 204, 92, C.kitsuneLight, C.kitsune)}
+          {rect(542, 72, 194, 92, C.fujiLight, C.fuji)}
+          {rect(782, 72, 194, 92, C.paper, C.kitsune)}
+          {rect(1022, 72, 176, 92, C.matsuLight, C.matsu)}
+          <line x1="246" y1="118" x2="292" y2="118" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#ehArrow)" />
+          <line x1="496" y1="118" x2="542" y2="118" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#ehArrow)" />
+          <line x1="736" y1="118" x2="782" y2="118" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#ehArrow)" />
+          <line x1="976" y1="118" x2="1022" y2="118" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#ehArrow)" />
 
-          {arrow(230, 81, 275, 81)}
-          {arrow(460, 81, 505, 81)}
-          {arrow(685, 81, 730, 81)}
-          {arrow(895, 81, 930, 81)}
+          <SvgMultiText x={144} y={102} en="Questionnaire X" zh="Questionnaire X" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={144} y={128} en="140 / 300+ questions" zh="140 / 300+ 題" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={144} y={144} en="personality, prefs, demo" zh="人格、偏好、人口資料" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={135} y={67} en="Questionnaire X" zh="Questionnaire X" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={135} y={92} en="140 / 300+ questions" zh="140 / 300+ 題" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={135} y={107} en="personality, prefs," zh="人格、偏好、" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={135} y={122} en="demographics" zh="demographics" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={394} y={102} en="Collapse into" zh="壓縮成" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={394} y={128} en="6 dimensions" zh="6 個維度" mode={mode} size={16} weight={800} fill={C.fuji} />
+          <SvgMultiText x={394} y={144} en="agreeableness, closeness..." zh="和善、親密偏好…" mode={mode} size={12.2} fill={C.inkSoft} />
 
-          <SvgMultiText x={367} y={67} en="Collapse survey into" zh="把問卷壓縮成" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={367} y={92} en="6 dimensions" zh="6 個維度" mode={mode} size={15} weight={800} fill={C.fuji} />
-          <SvgMultiText x={367} y={112} en="agreeableness, closeness," zh="和善、親密偏好、" mode={mode} size={12.2} fill={C.inkSoft} />
-          <SvgMultiText x={367} y={127} en="passion, openness..." zh="熱情、開放性…" mode={mode} size={12.2} fill={C.inkSoft} />
+          <SvgMultiText x={639} y={102} en="Similarity / distance" zh="Similarity / distance" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={639} y={128} en="rank closest dyads" zh="最接近的 dyad 排前面" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={639} y={144} en="unsupervised path" zh="非監督式路徑" mode={mode} size={12.6} fill={C.fuji} />
 
-          <SvgMultiText x={595} y={67} en="Compute distance /" zh="計算 distance /" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={595} y={92} en="similarity score" zh="similarity score" mode={mode} size={15} weight={800} fill={C.fuji} />
-          <SvgMultiText x={595} y={112} en="closest dyads rank best" zh="最接近的 dyad 排前面" mode={mode} size={12.3} fill={C.inkSoft} />
+          <SvgMultiText x={879} y={102} en="Top N matches" zh="Top N matches" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={879} y={128} en="show profile, photo," zh="顯示 profile、照片、" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={879} y={144} en="see more" zh="see more" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={812} y={72} en="Top N matches" zh="Top N matches" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={812} y={97} en="surface photos," zh="秀照片、profile、" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={812} y={112} en="profile, see more" zh="see more" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={1110} y={102} en="User action" zh="使用者行動" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={1110} y={128} en="click / initiate contact" zh="click / initiate contact" mode={mode} size={12.2} fill={C.inkSoft} />
+          <SvgMultiText x={1110} y={144} en="weak platform outcome use" zh="平台 outcome 使用很弱" mode={mode} size={12.2} fill={C.inkSoft} />
 
-          <SvgMultiText x={995} y={72} en="User action" zh="使用者行動" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={995} y={97} en="click / initiate" zh="click / initiate" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={995} y={112} en="contact" zh="contact" mode={mode} size={12.5} fill={C.inkSoft} />
+          {rect(82, 284, 234, 104, C.white, C.line)}
+          {rect(368, 284, 250, 104, C.beniLight, C.beni)}
+          {rect(670, 284, 230, 104, C.aiLight, C.ai)}
+          {rect(952, 284, 220, 104, C.paper, C.line)}
 
-          {rect(65, 182, 210, 88, C.white, C.line)}
-          {rect(320, 182, 235, 88, C.beniLight, C.beni)}
-          {rect(600, 182, 230, 88, C.aiLight, C.ai)}
-          {rect(875, 182, 175, 88, C.paper, C.line)}
+          <SvgMultiText x={199} y={314} en="4,000 successful couples" zh="4,000 successful couples" mode={mode} size={14.2} fill={C.ai} />
+          <SvgMultiText x={199} y={340} en="rich follow-up data" zh="follow-up 很豐富" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={199} y={356} en="but every case is y = 1" zh="但每一筆都是 y = 1" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={170} y={208} en="Follow-up focus groups" zh="Follow-up focus groups" mode={mode} size={13.5} fill={C.ai} />
-          <SvgMultiText x={170} y={233} en="4,000 successful couples" zh="4,000 successful couples" mode={mode} size={12.8} fill={C.inkSoft} />
-          <SvgMultiText x={170} y={248} en="rich but all positive" zh="資料豐富，但全是正例" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={493} y={314} en="Why Method C fails" zh="為何 Method C 失敗" mode={mode} size={14.2} fill={C.beni} />
+          <SvgMultiText x={493} y={340} en="all positive examples" zh="全部都是正例" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={493} y={356} en="so supervised estimation breaks" zh="所以無法正常估 supervised" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={437} y={208} en="Method C fails for" zh="Method C 為何失敗" mode={mode} size={14} fill={C.beni} />
-          <SvgMultiText x={437} y={233} en="supervised training" zh="無法做 supervised" mode={mode} size={13.5} fill={C.beni} />
-          <SvgMultiText x={437} y={248} en="all y = 1, no negative cases" zh="因為全部 y = 1，沒有反例" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={785} y={314} en="Better possible path" zh="較好的可能路徑" mode={mode} size={14.2} fill={C.ai} />
+          <SvgMultiText x={785} y={340} en="use clickstream outcomes y" zh="用 clickstream 當 outcomes y" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={785} y={356} en="messages, replies, time series" zh="訊息、回覆、time series" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={715} y={208} en="Possible better path" zh="其實可走的較佳路徑" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={715} y={233} en="observe clickstream y" zh="觀察 clickstream y" mode={mode} size={13.5} fill={C.fuji} />
-          <SvgMultiText x={715} y={248} en="messages, replies, time series" zh="訊息、回覆、time series" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={1062} y={314} en="Actual weakness" zh="實際弱點" mode={mode} size={14.2} fill={C.ai} />
+          <SvgMultiText x={1062} y={340} en="little tracking and" zh="tracking 太弱，而且" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={1062} y={356} en="little feedback to tuning" zh="feedback 幾乎回不到 tuning" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={962} y={208} en="Actual weakness" zh="實際弱點" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={962} y={233} en="little tracking," zh="追蹤很弱、" mode={mode} size={12.8} fill={C.beni} />
-          <SvgMultiText x={962} y={248} en="little tuning" zh="幾乎不調模型" mode={mode} size={12.8} fill={C.beni} />
-
-          <line x1="970" y1="120" x2="970" y2="182" stroke={C.beni} strokeWidth="3" strokeDasharray="7 6" markerEnd="url(#ehArrowRed)" />
-          <line x1="830" y1="226" x2="875" y2="226" stroke={C.ai} strokeWidth="3" strokeDasharray="7 6" markerEnd="url(#ehArrow)" />
-          <path d="M 760 182 C 760 150, 650 138, 610 128" fill="none" stroke={C.ai} strokeWidth="3" strokeDasharray="7 6" markerEnd="url(#ehArrow)" />
-          <text x="703" y="154" fontFamily={FONT_BODY} fontSize="12" fontWeight="800" fill={C.ai}>{mode === 'zh' ? '可用 outcome 回訓' : mode === 'bi' ? 'could retrain with outcome / 可用 outcome 回訓' : 'could retrain with outcome'}</text>
+          <path d="M 1110 164 L 1110 272 L 1062 272" fill="none" stroke={C.beni} strokeWidth="3" strokeDasharray="7 6" markerEnd="url(#ehArrowRed)" />
+          <path d="M 785 284 L 785 218 L 700 218 L 700 168" fill="none" stroke={C.ai} strokeWidth="3" strokeDasharray="7 6" markerEnd="url(#ehArrowBlue)" />
+          <path d="M 316 336 L 368 336" fill="none" stroke={C.beni} strokeWidth="3" markerEnd="url(#ehArrowRed)" />
+          <text x="718" y="208" fontFamily={FONT_BODY} fontSize="12" fontWeight="800" fill={C.ai}>{mode === 'zh' ? '理論上可用 outcome 回訓' : mode === 'bi' ? 'could retrain with outcome / 可回訓' : 'could retrain with outcome'}</text>
         </svg>
       </div>
-      <div className="flow-caption"><T m={mode} en="The key exam move is to separate what eHarmony actually did from what it could have done. Actual path: unsupervised similarity from survey data. Better supervised path would have required reliable outcome logging and feedback." zh="考試最關鍵的動作，是把 eHarmony 實際做的，和理論上本來可以做的拆開。實際主路徑是 survey data 的非監督式相似度；若要走更好的 supervised 路徑，就必須有可靠的 outcome logging 與 feedback。" /></div>
+      <div className="flow-caption"><T m={mode} en="The exam move is to separate what eHarmony actually did from what it could have done. Actual path: unsupervised similarity from survey data. Better supervised path would have required reliable outcome logging and feedback." zh="考試最關鍵的動作，是把 eHarmony 實際做的，和理論上本來可以做的拆開。實際主路徑是 survey data 的非監督式相似度；若要走更好的 supervised 路徑，就必須有可靠的 outcome logging 與 feedback。" /></div>
       <FlowOral mode={mode} en="In 15 seconds: eHarmony had rich survey X, compressed it into six dimensions, and matched by similarity. The weakness was not no data, but no reliable outcome y and almost no feedback, so learning stayed weak." zh="15 秒講法：eHarmony 有很豐富的 survey X，先壓成六維，再用相似度配對。真正弱點不是沒資料，而是缺可靠的 outcome y，也幾乎沒有 feedback，所以學習很弱。" />
     </FlowVizCard>
   );
@@ -1103,7 +1081,6 @@ function EHarmonyFlowchart({ mode }) {
 
 function GrowFlowchart({ mode }) {
   const rect = (x, y, w, h, fill, stroke = C.line) => <rect x={x} y={y} width={w} height={h} rx={14} fill={fill} stroke={stroke} strokeWidth="1.5" />;
-  const arrow = (x1, y1, x2, y2, color = C.kitsune, dashed = false) => <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={color} strokeWidth="3" strokeDasharray={dashed ? '7 6' : undefined} markerEnd="url(#grArrow)" />;
   return (
     <FlowVizCard
       mode={mode}
@@ -1111,80 +1088,66 @@ function GrowFlowchart({ mode }) {
       kickerZh="流程圖 3"
       titleEn="Grow: Same Prediction Logic, Different Human-Machine Allocation"
       titleZh="Grow：同一套預測邏輯，不同人機分工配置"
-      noteEn="The Grow slides make a different point from eHarmony. The system can combine many internal inputs, map them into dimensions or weighted profiles, then use that score in different operating models: substitute, screen-in, or network expansion."
-      noteZh="Grow 投影片要講的和 eHarmony 不同。它示範的是：系統可以整合很多內部輸入，先把人映射成維度或加權 profile，再把同一個分數嵌進不同營運模型，形成 substitute、screen-in 或 network expansion。"
+      noteEn="Grow extends Module 5 in a different direction from eHarmony. The same core prediction logic can be embedded into different operating models depending on how much authority the firm gives the machine."
+      noteZh="Grow 把 Module 5 往另一個方向延伸。它要說明的是：同一套 prediction logic，可以因為公司願意給機器多少權限，而被嵌進很不同的 operating model。"
       badges={[
         { kind: 'info', en: 'Inputs = 7 core data assets', zh: '輸入 = 7 類核心資料資產' },
         { kind: 'good', en: 'Can be unsupervised or supervised', zh: '可走 unsupervised 或 supervised' },
-        { kind: 'warn', en: 'Use case choice changes automation level', zh: '不同 use case 會改變自動化程度' },
+        { kind: 'warn', en: 'Use case choice changes automation level', zh: 'use case 會改變自動化程度' },
       ]}
     >
       <div className="dia flow-svg">
-        <svg viewBox="0 0 1100 440" role="img" aria-label="Grow flowchart">
+        <svg viewBox="0 0 1240 500" role="img" aria-label="Grow flowchart">
           <defs>
-            <marker id="grArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-              <path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} />
-            </marker>
-            <marker id="grArrowSoft" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-              <path d="M0,0 L12,6 L0,12 z" fill={C.matsu} />
-            </marker>
+            <marker id="grArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker>
+            <marker id="grArrowSoft" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.matsu} /></marker>
           </defs>
-          {rect(38, 52, 250, 182, C.aiLight, C.ai)}
-          {rect(350, 58, 180, 96, C.kitsuneLight, C.kitsune)}
-          {rect(350, 182, 180, 96, C.white, C.line)}
-          {rect(595, 120, 185, 96, C.fujiLight, C.fuji)}
-          {rect(835, 56, 205, 84, C.paper, C.kitsune)}
-          {rect(835, 164, 205, 84, C.paper, C.kitsune)}
-          {rect(835, 272, 205, 84, C.paper, C.kitsune)}
-          {rect(600, 296, 175, 84, C.matsuLight, C.matsu)}
+          {rect(46, 70, 276, 162, C.aiLight, C.ai)}
+          {rect(388, 70, 240, 162, C.kitsuneLight, C.kitsune)}
+          {rect(694, 70, 214, 162, C.white, C.line)}
+          {rect(972, 56, 198, 104, C.paper, C.kitsune)}
+          {rect(972, 196, 198, 104, C.fujiLight, C.fuji)}
+          {rect(972, 336, 198, 104, C.matsuLight, C.matsu)}
 
-          <SvgMultiText x={163} y={78} en="Inputs X" zh="輸入 X" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={163} y={103} en="1) peer 360 ratings" zh="1) peer 360 ratings" mode={mode} size={12.4} fill={C.inkSoft} anchor="middle" />
-          <SvgMultiText x={163} y={118} en="2) self competency ratings" zh="2) self competency ratings" mode={mode} size={12.4} fill={C.inkSoft} />
-          <SvgMultiText x={163} y={133} en="3) personality IAT data" zh="3) personality IAT data" mode={mode} size={12.4} fill={C.inkSoft} />
-          <SvgMultiText x={163} y={148} en="4) evaluator bias calibration" zh="4) evaluator bias calibration" mode={mode} size={12.4} fill={C.inkSoft} />
-          <SvgMultiText x={163} y={163} en="5) social graph" zh="5) social graph" mode={mode} size={12.4} fill={C.inkSoft} />
-          <SvgMultiText x={163} y={178} en="6) hiring + performance history" zh="6) hiring + performance history" mode={mode} size={12.4} fill={C.inkSoft} />
-          <SvgMultiText x={163} y={193} en="7) recruitment outcomes" zh="7) recruitment outcomes" mode={mode} size={12.4} fill={C.inkSoft} />
+          <line x1="322" y1="151" x2="388" y2="151" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#grArrow)" />
+          <line x1="628" y1="151" x2="694" y2="151" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#grArrow)" />
+          <path d="M 908 114 L 940 114 L 940 108 L 972 108" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#grArrow)" />
+          <path d="M 908 151 L 940 151 L 940 248 L 972 248" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#grArrow)" />
+          <path d="M 908 188 L 940 188 L 940 388 L 972 388" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#grArrow)" />
 
-          {arrow(288, 110, 350, 106)}
-          {arrow(288, 180, 350, 230)}
-          {arrow(530, 106, 595, 150)}
-          {arrow(530, 230, 595, 186)}
-          {arrow(780, 168, 835, 98)}
-          {arrow(780, 168, 835, 206)}
-          {arrow(780, 168, 835, 314)}
-          <line x1="928" y1="248" x2="928" y2="294" stroke={C.matsu} strokeWidth="3" markerEnd="url(#grArrowSoft)" />
-          <line x1="600" y1="338" x2="532" y2="338" stroke={C.matsu} strokeWidth="3" />
-          <line x1="532" y1="338" x2="532" y2="232" stroke={C.matsu} strokeWidth="3" markerEnd="url(#grArrowSoft)" />
+          <SvgMultiText x={184} y={98} en="Seven core data assets" zh="七類核心資料資產" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={184} y={126} en="peer 360 ratings, self ratings," zh="peer 360、自評、" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={184} y={142} en="personality IAT, evaluator bias," zh="人格 IAT、評分偏誤、" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={184} y={158} en="social graph, historical hiring," zh="社交圖譜、歷史 hiring、" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={184} y={174} en="recruitment outcomes" zh="recruitment outcomes" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={440} y={88} en="Unsupervised path" zh="Unsupervised 路徑" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={440} y={112} en="map inputs into" zh="把輸入映射成" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={440} y={127} en="25 dimensions" zh="25 維度" mode={mode} size={14} weight={800} fill={C.fuji} />
+          <SvgMultiText x={508} y={98} en="Profile / fit engine" zh="Profile / fit engine" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={508} y={126} en="map inputs into 25 dimensions" zh="把 inputs 映射成 25 維" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={508} y={142} en="or weighted fit score ŷ ≈ weights·X" zh="或轉成加權 fit score ŷ ≈ weights·X" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={508} y={158} en="can start hard-coded, then refine" zh="可先 hard-code，再慢慢 refine" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={440} y={212} en="Supervised / feedback path" zh="Supervised / feedback 路徑" mode={mode} size={13.5} fill={C.ai} />
-          <SvgMultiText x={440} y={237} en="use historical outcomes y" zh="用歷史 outcomes y" mode={mode} size={12.5} fill={C.inkSoft} />
-          <SvgMultiText x={440} y={252} en="to estimate better weights" zh="估更好的 weights" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={801} y={98} en="Optional supervised layer" zh="可選的 supervised layer" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={801} y={126} en="fit true weights using hiring" zh="用 hiring / performance outcomes" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={801} y={142} en="or performance outcomes y" zh="去估比較真的 weights" mode={mode} size={12.6} fill={C.inkSoft} />
+          <SvgMultiText x={801} y={158} en="feedback improves the next model" zh="feedback 再回修下一輪模型" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <SvgMultiText x={687} y={146} en="Prediction / score" zh="Prediction / score" mode={mode} size={14.5} fill={C.ai} />
-          <SvgMultiText x={687} y={171} en="ŷ ≈ weights · X" zh="ŷ ≈ weights · X" mode={mode} size={15} weight={800} fill={C.fuji} />
-          <SvgMultiText x={687} y={191} en="candidate fit or match quality" zh="candidate fit / match quality" mode={mode} size={12.3} fill={C.inkSoft} />
+          <SvgMultiText x={1071} y={92} en="Septeni" zh="Septeni" mode={mode} size={14.8} fill={C.ai} />
+          <SvgMultiText x={1071} y={120} en="AI as Substitute" zh="AI as Substitute" mode={mode} size={13.2} fill={C.fuji} />
+          <SvgMultiText x={1071} y={136} en="highest automation" zh="自動化程度最高" mode={mode} size={12.4} fill={C.inkSoft} />
 
-          <SvgMultiText x={938} y={86} en="Septeni" zh="Septeni" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={938} y={111} en="AI as Substitute" zh="AI as Substitute" mode={mode} size={13.5} fill={C.fuji} />
-          <SvgMultiText x={938} y={126} en="replace interviews," zh="取代面試、擴大 pool" mode={mode} size={12.2} fill={C.inkSoft} />
+          <SvgMultiText x={1071} y={232} en="ANA" zh="ANA" mode={mode} size={14.8} fill={C.ai} />
+          <SvgMultiText x={1071} y={260} en="AI as Screen-In Tool" zh="AI as Screen-In Tool" mode={mode} size={13.2} fill={C.fuji} />
+          <SvgMultiText x={1071} y={276} en="confidence score, humans central" zh="加信心分數，人仍在中央" mode={mode} size={12.1} fill={C.inkSoft} />
 
-          <SvgMultiText x={938} y={194} en="ANA" zh="ANA" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={938} y={219} en="AI as Screen-In Tool" zh="AI as Screen-In Tool" mode={mode} size={13.5} fill={C.fuji} />
-          <SvgMultiText x={938} y={234} en="find needles, human stays" zh="找出少數好人選，人仍在中心" mode={mode} size={12.2} fill={C.inkSoft} />
+          <SvgMultiText x={1071} y={372} en="Mitsubishi Corp" zh="Mitsubishi Corp" mode={mode} size={14.8} fill={C.ai} />
+          <SvgMultiText x={1071} y={400} en="AI as Network Expander" zh="AI as Network Expander" mode={mode} size={13.2} fill={C.fuji} />
+          <SvgMultiText x={1071} y={416} en="social graph widens pipeline" zh="social graph 擴大 pipeline" mode={mode} size={12.1} fill={C.inkSoft} />
 
-          <SvgMultiText x={938} y={302} en="Mitsubishi Corp" zh="Mitsubishi Corp" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={938} y={327} en="AI as Network Expander" zh="AI as Network Expander" mode={mode} size={13.2} fill={C.fuji} />
-          <SvgMultiText x={938} y={342} en="social graph widens pipeline" zh="用 social graph 擴大 pipeline" mode={mode} size={12.2} fill={C.inkSoft} />
-
-          <SvgMultiText x={687} y={321} en="Observed hiring /" zh="觀察 hiring /" mode={mode} size={14} fill={C.ai} />
-          <SvgMultiText x={687} y={346} en="performance outcomes y" zh="performance outcomes y" mode={mode} size={13.5} fill={C.ai} />
-          <SvgMultiText x={687} y={366} en="used to refine the next model" zh="再回頭修正下一輪模型" mode={mode} size={12.2} fill={C.inkSoft} />
+          {rect(694, 316, 214, 92, C.aiLight, C.ai)}
+          <SvgMultiText x={801} y={348} en="Observed outcomes y" zh="Observed outcomes y" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={801} y={374} en="hiring success, performance" zh="錄用結果、績效結果" mode={mode} size={12.6} fill={C.inkSoft} />
+          <path d="M 801 316 L 801 250" fill="none" stroke={C.matsu} strokeWidth="3" markerEnd="url(#grArrowSoft)" />
+          <text x="820" y="285" fontFamily={FONT_BODY} fontSize="12" fontWeight="800" fill={C.matsu}>{mode === 'zh' ? 'feedback' : mode === 'bi' ? 'feedback / 回流' : 'feedback'}</text>
         </svg>
       </div>
       <div className="flow-caption"><T m={mode} en="The exam point is not HR trivia. The exam point is that one prediction architecture can be embedded into very different operating models depending on how much autonomy the firm gives the machine." zh="考試重點不是 HR 細節本身，而是同一套 prediction architecture，可以因為公司賦予機器不同程度的自主性，而嵌進非常不同的 operating model。" /></div>
@@ -1197,10 +1160,479 @@ function Module5Visuals({ mode }) {
   return (
     <>
       <PredictionFactoryFlowchart mode={mode} />
-      <div className="flow-viz-grid">
-        <EHarmonyFlowchart mode={mode} />
-        <GrowFlowchart mode={mode} />
+      <EHarmonyFlowchart mode={mode} />
+      <GrowFlowchart mode={mode} />
+    </>
+  );
+}
+
+function LLMFlowchart({ mode }) {
+  const rect = (x, y, w, h, fill, stroke = C.line) => <rect x={x} y={y} width={w} height={h} rx={14} fill={fill} stroke={stroke} strokeWidth="1.5" />;
+  return (
+    <FlowVizCard
+      mode={mode}
+      kickerEn="Flowchart 4"
+      kickerZh="流程圖 4"
+      titleEn="LLMs: From Prediction Logic to a General-Purpose Super f(.)"
+      titleZh="LLMs：從預測邏輯走到通用型 super f(.)"
+      noteEn="Module 6 only makes sense if you keep the bridge to Module 5. An LLM is still a prediction machine, but instead of one narrow f(.) for one task, it trains a much more flexible model that can map prompt-plus-context into many kinds of outputs."
+      noteZh="Module 6 只有在你先接回 Module 5 時才會清楚。LLM 仍然是 prediction machine，只是它不再是一個任務一個狹窄的 f(.)，而是把 prompt 加 context 丟進一個更彈性的模型，產生很多類型輸出。"
+      badges={[
+        { kind: 'info', en: 'Still prediction logic', zh: '本質仍是 prediction logic' },
+        { kind: 'good', en: 'One flexible model, many tasks', zh: '一個彈性模型，做很多任務' },
+        { kind: 'warn', en: 'Next-word hack creates labels at scale', zh: '下一個字的 hack 讓資料自帶標籤' },
+      ]}
+    >
+      <div className="dia flow-svg">
+        <svg viewBox="0 0 1240 430" role="img" aria-label="LLM flowchart">
+          <defs>
+            <marker id="m6ArrowA" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker>
+            <marker id="m6ArrowB" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.ai} /></marker>
+          </defs>
+          <text x="42" y="34" fontFamily={FONT_BODY} fontSize="15" fontWeight="800" fill={C.ai}>INFERENCE / RUN TIME</text>
+          {rect(48, 70, 230, 102, C.aiLight, C.ai)}
+          {rect(330, 70, 282, 102, C.fujiLight, C.fuji)}
+          {rect(664, 70, 226, 102, C.kitsuneLight, C.kitsune)}
+          {rect(942, 70, 244, 102, C.matsuLight, C.matsu)}
+          <line x1="278" y1="121" x2="330" y2="121" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m6ArrowA)" />
+          <line x1="612" y1="121" x2="664" y2="121" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m6ArrowA)" />
+          <line x1="890" y1="121" x2="942" y2="121" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m6ArrowA)" />
+
+          <SvgMultiText x={163} y={102} en="Prompt + context = X" zh="Prompt + context = X" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={163} y={132} en="question, docs, code," zh="問題、文件、程式碼、" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={163} y={148} en="history, images..." zh="歷史對話、圖片…" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={471} y={100} en="General-purpose model" zh="通用型模型" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={471} y={127} en="super f(.)" zh="super f(.)" mode={mode} size={16} weight={800} fill={C.fuji} />
+          <SvgMultiText x={471} y={150} en="foundation model, not one" zh="foundation model，不是只有" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={471} y={166} en="specialized task" zh="單一 specialized task" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={777} y={102} en="Transformer +" zh="Transformer 加上" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={777} y={127} en="tokens / embeddings" zh="tokens / embeddings" mode={mode} size={14.5} weight={800} fill={C.fuji} />
+          <SvgMultiText x={777} y={150} en="attention learns long-range" zh="attention 抓長距離關係" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={777} y={166} en="relations across sequences" zh="跨序列關聯" mode={mode} size={12.5} fill={C.inkSoft} />
+
+          <SvgMultiText x={1064} y={102} en="Generated output ŷ" zh="輸出 ŷ" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={1064} y={130} en="text, code, summary," zh="文字、程式、摘要、" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={1064} y={146} en="translation, image prompt" zh="翻譯、圖片指令" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <text x="42" y="252" fontFamily={FONT_BODY} fontSize="15" fontWeight="800" fill={C.matsu}>TRAINING / WHY IT WORKS</text>
+          {rect(62, 284, 250, 102, C.paper, C.line)}
+          {rect(364, 284, 236, 102, C.kitsuneLight, C.kitsune)}
+          {rect(652, 284, 236, 102, C.aiLight, C.ai)}
+          {rect(940, 284, 232, 102, C.white, C.line)}
+          <line x1="312" y1="335" x2="364" y2="335" stroke={C.ai} strokeWidth="3" markerEnd="url(#m6ArrowB)" />
+          <line x1="600" y1="335" x2="652" y2="335" stroke={C.ai} strokeWidth="3" markerEnd="url(#m6ArrowB)" />
+          <line x1="888" y1="335" x2="940" y2="335" stroke={C.ai} strokeWidth="3" markerEnd="url(#m6ArrowB)" />
+
+          <SvgMultiText x={187} y={316} en="Massive raw text" zh="海量原始文字" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={187} y={343} en="internet, books, code" zh="網路、書籍、程式碼" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={187} y={359} en="mostly unlabeled" zh="多半原本沒有標籤" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={482} y={312} en="The big hack" zh="那個大 hack" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={482} y={339} en="wordᵢ = f(wordᵢ₋₁, …)" zh="wordᵢ = f(wordᵢ₋₁, …)" mode={mode} size={14.6} weight={800} fill={C.fuji} />
+          <SvgMultiText x={482} y={360} en="predict next token" zh="預測下一個 token" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={770} y={316} en="Unlabeled → labeled" zh="Unlabeled → labeled" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={770} y={343} en="the data labels itself" zh="資料自己帶出標籤" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={770} y={359} en="at internet scale" zh="而且是 internet scale" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={1056} y={316} en="Result" zh="結果" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={1056} y={343} en="one model can perform" zh="同一個模型可以執行" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={1056} y={359} en="many downstream tasks" zh="很多 downstream 任務" mode={mode} size={12.7} fill={C.inkSoft} />
+        </svg>
       </div>
+      <div className="flow-caption"><T m={mode} en="The mental move is: an LLM still follows prediction logic, but it learns a much richer mapping than weak AI. The course keeps asking you to preserve both truths at the same time." zh="真正的心智轉換是：LLM 仍然符合 prediction logic，但它學到的是遠比 weak AI 更豐富的 mapping。這門課一直要你同時保留這兩件事。" /></div>
+      <FlowOral mode={mode} en="In 15 seconds: LLMs are still prediction machines. X is now prompt plus context, f(.) is a flexible foundation model, and the training trick is next-token prediction, which turns massive raw text into labeled data." zh="15 秒講法：LLM 仍然是 prediction machine。X 現在是 prompt 加 context，f(.) 變成彈性的 foundation model，而訓練的關鍵 trick 是下一個 token 預測，它把海量原始文字變成自帶標籤的資料。" />
+    </FlowVizCard>
+  );
+}
+
+function EconomicsAgentsFlowchart({ mode }) {
+  const rect = (x, y, w, h, fill, stroke = C.line) => <rect x={x} y={y} width={w} height={h} rx={14} fill={fill} stroke={stroke} strokeWidth="1.5" />;
+  return (
+    <FlowVizCard
+      mode={mode}
+      kickerEn="Flowchart 5"
+      kickerZh="流程圖 5"
+      titleEn="Training vs. Inference, Google's Paradox, and Why Agents Matter"
+      titleZh="Training vs. Inference、Google 悖論，以及 Agents 為何重要"
+      noteEn="Module 6 becomes strategic when you connect cost structure to competitive position. Traditional digital goods push marginal cost toward zero. LLM systems do not. That is why Google's search economics and the move toward agents matter."
+      noteZh="Module 6 只有拉回競爭與商業模式時，才算真的讀懂。傳統數位產品的邊際成本會往零靠近，但 LLM 系統不會。這就是為甚麼 Google 搜尋經濟與 agents 轉向都重要。"
+      badges={[
+        { kind: 'warn', en: 'Training = fixed cost', zh: 'Training = 固定成本' },
+        { kind: 'bad', en: 'Inference = real variable cost', zh: 'Inference = 真實變動成本' },
+        { kind: 'info', en: 'Agents move the model up the stack', zh: 'Agents 讓模型往上層移動' },
+      ]}
+    >
+      <div className="dia flow-svg">
+        <svg viewBox="0 0 1240 460" role="img" aria-label="LLM economics and agents flowchart">
+          <defs>
+            <marker id="m6ArrowC" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker>
+          </defs>
+          {rect(58, 84, 230, 108, C.aiLight, C.ai)}
+          {rect(352, 84, 250, 108, C.kitsuneLight, C.kitsune)}
+          {rect(666, 84, 246, 108, C.beniLight, C.beni)}
+          {rect(976, 84, 212, 108, C.fujiLight, C.fuji)}
+          <line x1="288" y1="138" x2="352" y2="138" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m6ArrowC)" />
+          <line x1="602" y1="138" x2="666" y2="138" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m6ArrowC)" />
+          <line x1="912" y1="138" x2="976" y2="138" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m6ArrowC)" />
+
+          <SvgMultiText x={173} y={112} en="Training" zh="Training" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={173} y={138} en="build the factory" zh="先把工廠蓋起來" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={173} y={154} en="huge upfront fixed cost" zh="巨大的 upfront 固定成本" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={477} y={112} en="Inference" zh="Inference" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={477} y={138} en="run the factory" zh="持續跑工廠" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={477} y={154} en="every query consumes compute" zh="每個 query 都消耗算力" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={789} y={108} en="Google paradox" zh="Google 的悖論" mode={mode} size={15} fill={C.beni} />
+          <SvgMultiText x={789} y={136} en="baseline search is very profitable" zh="原本 search 很賺錢" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={789} y={152} en="but AI search adds real inference cost" zh="但 AI search 會加進真實 inference cost" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={789} y={168} en="so value creation can hurt value capture" zh="價值創造反而可能傷到 value capture" mode={mode} size={12.5} fill={C.inkSoft} />
+
+          <SvgMultiText x={1082} y={108} en="Agents" zh="Agents" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={1082} y={136} en="observe → think → act" zh="observe → think → act" mode={mode} size={13.5} weight={800} fill={C.fuji} />
+          <SvgMultiText x={1082} y={156} en="the model becomes the interface" zh="模型開始往上層變成介面" mode={mode} size={12.4} fill={C.inkSoft} />
+
+          {rect(70, 276, 170, 118, C.white, C.line)}
+          {rect(286, 276, 170, 118, C.white, C.line)}
+          {rect(502, 276, 170, 118, C.white, C.line)}
+          {rect(718, 276, 170, 118, C.white, C.line)}
+          {rect(934, 276, 230, 118, C.matsuLight, C.matsu)}
+          <line x1="240" y1="335" x2="286" y2="335" stroke={C.ai} strokeWidth="3" markerEnd="url(#m6ArrowC)" />
+          <line x1="456" y1="335" x2="502" y2="335" stroke={C.ai} strokeWidth="3" markerEnd="url(#m6ArrowC)" />
+          <line x1="672" y1="335" x2="718" y2="335" stroke={C.ai} strokeWidth="3" markerEnd="url(#m6ArrowC)" />
+          <line x1="888" y1="335" x2="934" y2="335" stroke={C.ai} strokeWidth="3" markerEnd="url(#m6ArrowC)" />
+
+          <SvgMultiText x={155} y={310} en="Model" zh="Model" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={155} y={334} en="brain" zh="brain" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={155} y={350} en="Claude / GPT / Gemini" zh="Claude / GPT / Gemini" mode={mode} size={12.3} fill={C.inkSoft} />
+
+          <SvgMultiText x={371} y={310} en="Tools" zh="Tools" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={371} y={334} en="browser, files," zh="瀏覽器、檔案、" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={371} y={350} en="apps, APIs" zh="apps、APIs" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={587} y={310} en="Task loop" zh="Task loop" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={587} y={334} en="keep going until" zh="一路做下去，直到" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={587} y={350} en="the job is done" zh="任務完成" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={803} y={310} en="App layer" zh="App layer" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={803} y={334} en="gets thinner" zh="可能被變薄" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={803} y={350} en="or turns into tools" zh="或被降成工具" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={1049} y={305} en="Strategic implication" zh="策略含意" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={1049} y={332} en="LLMs do not just raise capability;" zh="LLM 不只是能力更強；" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={1049} y={348} en="they can rewrite cost curves and" zh="還會改寫成本曲線，並且" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={1049} y={364} en="shift where value is captured" zh="改變價值被誰拿走" mode={mode} size={12.7} fill={C.inkSoft} />
+        </svg>
+      </div>
+      <div className="flow-caption"><T m={mode} en="This is the clean business-model reading of Module 6: cost structure changes first, then competitive position, then the interface layer. That is why the course places Google and Anthropic after the technical explanation." zh="這才是 Module 6 的商業模式讀法：先看成本結構怎麼變，再看競爭位置怎麼變，最後看介面層怎麼變。因此課程才會在技術原理之後接 Google 與 Anthropic。" /></div>
+      <FlowOral mode={mode} en="In 15 seconds: LLMs have huge fixed training cost and real variable inference cost. That can hurt Google's search economics, and once agents combine model, tools, and a task loop, the model can move up the stack and start acting across apps." zh="15 秒講法：LLM 有巨大的訓練固定成本，也有真實存在的推論變動成本。這會衝擊 Google 的搜尋經濟；而當 agents 把 model、tools、task loop 接起來後，模型就會往上層移動，開始跨 app 行動。" />
+    </FlowVizCard>
+  );
+}
+
+function Module6Visuals({ mode }) {
+  return (
+    <>
+      <LLMFlowchart mode={mode} />
+      <EconomicsAgentsFlowchart mode={mode} />
+    </>
+  );
+}
+
+function TakeoffFlowchart({ mode }) {
+  const rect = (x, y, w, h, fill, stroke = C.line) => <rect x={x} y={y} width={w} height={h} rx={14} fill={fill} stroke={stroke} strokeWidth="1.5" />;
+  return (
+    <FlowVizCard
+      mode={mode}
+      kickerEn="Flowchart 6"
+      kickerZh="流程圖 6"
+      titleEn="Takeoff Logic: Net Benefits, Chicken-and-Egg, and Critical Mass"
+      titleZh="Takeoff 邏輯：Net Benefits、Chicken-and-Egg、Critical Mass"
+      noteEn="Module 7 is easiest when you keep one chain in mind: awareness and access must exist first, then net benefits must turn positive, then a platform still has to solve the chicken-and-egg problem to reach critical mass."
+      noteZh="Module 7 最好記的方法，是把這條鏈一直抓著：先有 awareness 與 access，再讓 net benefits 變正，接著還要解掉 chicken-and-egg，才碰得到 critical mass。"
+      badges={[
+        { kind: 'info', en: 'Awareness / access comes first', zh: '先有 awareness / access' },
+        { kind: 'good', en: 'Net benefits must be positive', zh: 'Net benefits 必須為正' },
+        { kind: 'warn', en: 'Takeoff still fails for most platforms', zh: '大多數平臺仍然起飛不了' },
+      ]}
+    >
+      <div className="dia flow-svg">
+        <svg viewBox="0 0 1240 460" role="img" aria-label="Platform takeoff flowchart">
+          <defs><marker id="m7ArrowA" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker></defs>
+          {rect(52, 84, 186, 92, C.aiLight, C.ai)}
+          {rect(286, 84, 230, 92, C.kitsuneLight, C.kitsune)}
+          {rect(564, 84, 224, 92, C.fujiLight, C.fuji)}
+          {rect(836, 84, 182, 92, C.paper, C.kitsune)}
+          {rect(1066, 84, 122, 92, C.matsuLight, C.matsu)}
+          <line x1="238" y1="130" x2="286" y2="130" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m7ArrowA)" />
+          <line x1="516" y1="130" x2="564" y2="130" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m7ArrowA)" />
+          <line x1="788" y1="130" x2="836" y2="130" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m7ArrowA)" />
+          <line x1="1018" y1="130" x2="1066" y2="130" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m7ArrowA)" />
+
+          <SvgMultiText x={145} y={112} en="Awareness / access" zh="Awareness / access" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={145} y={140} en="people must know" zh="使用者先要知道、" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={145} y={156} en="and be able to reach it" zh="也要接觸得到" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={401} y={110} en="Net Benefits =" zh="Net Benefits =" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={401} y={136} en="stand-alone + network" zh="stand-alone + network" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={401} y={152} en="benefits - adopter costs" zh="benefits - adopter costs" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={676} y={112} en="Chicken-and-egg" zh="Chicken-and-egg" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={676} y={138} en="early users face the" zh="早期使用者面對的是" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={676} y={154} en="least value, highest friction" zh="最低價值、最高阻力" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={927} y={112} en="Critical mass" zh="Critical mass" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={927} y={140} en="the point where growth" zh="成長開始能夠" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={927} y={156} en="starts feeding itself" zh="自我推進的門檻" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={1127} y={112} en="Takeoff" zh="Takeoff" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={1127} y={142} en="or fail" zh="或失敗" mode={mode} size={13.2} fill={C.matsu} />
+
+          {rect(110, 272, 228, 114, C.white, C.line)}
+          {rect(390, 272, 228, 114, C.white, C.line)}
+          {rect(670, 272, 228, 114, C.white, C.line)}
+          {rect(950, 272, 188, 114, C.white, C.line)}
+          <SvgMultiText x={224} y={302} en="Stand-alone benefits" zh="Stand-alone benefits" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={224} y={330} en="LinkedIn free page," zh="像 LinkedIn free page、" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={224} y={346} en="Zillow teaser" zh="Zillow teaser" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={504} y={302} en="Network benefits" zh="Network benefits" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={504} y={330} en="value rises when" zh="別人加入後，價值才" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={504} y={346} en="others join" zh="明顯上升" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={784} y={302} en="Coaxing or coordinating" zh="Coaxing 或 coordinating" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={784} y={330} en="coax one side, or move" zh="不是先 coax 一邊，" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={784} y={346} en="both sides together" zh="就是協調多邊一起動" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={1044} y={302} en="Rocket rule" zh="火箭規則" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={1044} y={330} en="write actual user numbers" zh="critical mass 要寫成" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={1044} y={346} en="for each side" zh="每一邊的實際數字" mode={mode} size={12.7} fill={C.inkSoft} />
+        </svg>
+      </div>
+      <div className="flow-caption"><T m={mode} en="The quiz move is not to say 'network effects matter.' The quiz move is to show which levers turn net benefits positive, what the exact chicken-and-egg barrier is, and how the platform reaches a concrete critical mass." zh="考試不是只說『network effects 很重要』。真正要做的是指出哪些 lever 會讓 net benefits 變正、雞生蛋蛋生雞的阻礙到底卡在哪裡，以及平臺如何到達具體的 critical mass。" /></div>
+      <FlowOral mode={mode} en="In 15 seconds: people need awareness and access first. Then net benefits must be positive. But because early users face weak network benefits, the platform still has to solve the chicken-and-egg problem with coaxing or coordinating until it reaches critical mass." zh="15 秒講法：先讓人知道、接觸得到，再讓 net benefits 變成正數。但早期使用者的 network benefits 很弱，所以平臺還要靠 coaxing 或 coordinating 解掉 chicken-and-egg，直到達到 critical mass。" />
+    </FlowVizCard>
+  );
+}
+
+function SaferTaxiFlowchart({ mode }) {
+  const rect = (x, y, w, h, fill, stroke = C.line) => <rect x={x} y={y} width={w} height={h} rx={14} fill={fill} stroke={stroke} strokeWidth="1.5" />;
+  return (
+    <FlowVizCard
+      mode={mode}
+      kickerEn="Flowchart 7"
+      kickerZh="流程圖 7"
+      titleEn="SaferTaxi: Real Value Proposition, Weak Fit Between Scale and Economics"
+      titleZh="SaferTaxi：有真實價值主張，但規模與經濟不夠匹配"
+      noteEn="SaferTaxi is a good quiz case because it prevents sloppy thinking. The service was not worthless. The problem was that wait-time gains, reachable market, growth tactics, and cost structure did not fit together well enough."
+      noteZh="SaferTaxi 很適合考 quiz，因為它能阻止人亂下結論。這個服務不是沒有價值，而是等待時間優勢、可觸及市場、成長戰術與成本結構，彼此之間不夠匹配。"
+      badges={[
+        { kind: 'good', en: 'Real wait-time advantage', zh: '確實有等待時間優勢' },
+        { kind: 'warn', en: 'Smartphone penetration stayed low', zh: '手機滲透率仍偏低' },
+        { kind: 'bad', en: 'Revenue needed to grow 10x to break even', zh: '要成長 10 倍才可能打平' },
+      ]}
+    >
+      <div className="dia flow-svg">
+        <svg viewBox="0 0 1240 450" role="img" aria-label="SaferTaxi flowchart">
+          <defs><marker id="m7ArrowB" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker></defs>
+          {rect(44, 74, 210, 96, C.aiLight, C.ai)}
+          {rect(302, 74, 216, 96, C.matsuLight, C.matsu)}
+          {rect(566, 74, 222, 96, C.kitsuneLight, C.kitsune)}
+          {rect(836, 74, 224, 96, C.paper, C.kitsune)}
+          {rect(1084, 74, 112, 96, C.beniLight, C.beni)}
+          <line x1="254" y1="122" x2="302" y2="122" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m7ArrowB)" />
+          <line x1="518" y1="122" x2="566" y2="122" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m7ArrowB)" />
+          <line x1="788" y1="122" x2="836" y2="122" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m7ArrowB)" />
+          <line x1="1060" y1="122" x2="1084" y2="122" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m7ArrowB)" />
+
+          <SvgMultiText x={149} y={100} en="Three-city market" zh="三城市市場" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={149} y={127} en="~30M people," zh="約 3,000 萬人口、" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={149} y={143} en="$2.2B taxi market" zh="$2.2B taxi market" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={410} y={100} en="Value proposition" zh="價值主張" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={410} y={127} en="wait time drops to" zh="等待時間降到" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={410} y={143} en="9 / 6 / 12 min" zh="9 / 6 / 12 分鐘" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={677} y={100} en="Reach problem" zh="可觸及市場問題" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={677} y={127} en="smartphone penetration" zh="smartphone penetration" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={677} y={143} en="only 9% to 19%" zh="只有 9% 到 19%" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={948} y={100} en="Growth tactics" zh="成長 tactics" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={948} y={127} en="driver phones, training," zh="司機手機、培訓、" mode={mode} size={12.5} fill={C.inkSoft} />
+          <SvgMultiText x={948} y={143} en="corp contracts, events" zh="企業合約、活動" mode={mode} size={12.5} fill={C.inkSoft} />
+
+          <SvgMultiText x={1140} y={100} en="Still" zh="最後仍然" mode={mode} size={15} fill={C.beni} />
+          <SvgMultiText x={1140} y={127} en="too small" zh="太小" mode={mode} size={13.5} fill={C.beni} />
+          <SvgMultiText x={1140} y={143} en="to scale" zh="難以規模化" mode={mode} size={13.5} fill={C.beni} />
+
+          {rect(116, 260, 236, 112, C.white, C.line)}
+          {rect(404, 260, 236, 112, C.white, C.line)}
+          {rect(692, 260, 236, 112, C.white, C.line)}
+          {rect(980, 260, 176, 112, C.beniLight, C.beni)}
+          <SvgMultiText x={234} y={290} en="Cost side" zh="成本端" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={234} y={317} en="~$1M annual spending" zh="每年成本約 $1M" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={234} y={333} en="18 staff, ads, phone subsidy" zh="18 人、廣告、手機補貼" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={522} y={290} en="Current scale" zh="當下規模" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={522} y={317} en="only 46 cabs at one point" zh="一度只有 46 輛車" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={522} y={333} en="hoping for 1,000s" zh="卻希望做到 1,000s" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={810} y={290} en="Revenue implication" zh="收入含意" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={810} y={317} en="needed to grow 10x" zh="至少要再成長 10 倍" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={810} y={333} en="just to break even" zh="才可能碰到損平" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={1068} y={290} en="Diagnosis" zh="診斷" mode={mode} size={14.5} fill={C.beni} />
+          <SvgMultiText x={1068} y={317} en="value exists, but" zh="不是沒價值，而是" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={1068} y={333} en="fit is weak" zh="整體 fit 很弱" mode={mode} size={12.7} fill={C.inkSoft} />
+        </svg>
+      </div>
+      <div className="flow-caption"><T m={mode} en="The strong answer is not 'SaferTaxi should just market harder.' The strong answer is that the service may need a smaller, sharper, more reachable positioning because the current growth logic does not fit the market and cost realities." zh="真正強的答案不是『SaferTaxi 再多做一點行銷就好』。真正強的是指出：它可能需要更小、更準、更可觸及的定位，因為現在這套成長邏輯和市場條件、成本條件並不匹配。" /></div>
+      <FlowOral mode={mode} en="In 15 seconds: SaferTaxi had a real wait-time advantage, but smartphone reach stayed low and costs were too high for current scale. The issue was not zero value, but a weak fit between scale, reach, and economics." zh="15 秒講法：SaferTaxi 確實有等待時間優勢，但手機可觸及市場太小，成本又太高。問題不是沒有價值，而是規模、可觸及市場、經濟性之間的 fit 太弱。" />
+    </FlowVizCard>
+  );
+}
+
+function Module7Visuals({ mode }) {
+  return (
+    <>
+      <TakeoffFlowchart mode={mode} />
+      <SaferTaxiFlowchart mode={mode} />
+    </>
+  );
+}
+
+function CompetitionFlowchart({ mode }) {
+  const rect = (x, y, w, h, fill, stroke = C.line) => <rect x={x} y={y} width={w} height={h} rx={14} fill={fill} stroke={stroke} strokeWidth="1.5" />;
+  return (
+    <FlowVizCard
+      mode={mode}
+      kickerEn="Flowchart 8"
+      kickerZh="流程圖 8"
+      titleEn="Platform Competition: Multiple Equilibria, Tipping, and the WTA Test"
+      titleZh="平臺競爭：多重均衡、Tipping、與 WTA 測試"
+      noteEn="Module 8 starts where Module 7 leaves off. Once adoption is possible, platform competition asks which equilibrium the market tips toward. That is why the WTA test matters."
+      noteZh="Module 8 是從 Module 7 接下去的。當 adoption 已經可能成立後，平臺競爭真正要問的是：市場最後會 tip 到哪個 equilibrium。這就是為甚麼 WTA 測試重要。"
+      badges={[
+        { kind: 'info', en: 'More than one stable outcome', zh: '不只一個穩定結果' },
+        { kind: 'warn', en: 'Small early lead can compound', zh: '早期小優勢可能快速複合' },
+        { kind: 'good', en: 'Use all three WTA conditions together', zh: 'WTA 三條件要一起看' },
+      ]}
+    >
+      <div className="dia flow-svg">
+        <svg viewBox="0 0 1240 450" role="img" aria-label="Platform competition flowchart">
+          <defs><marker id="m8ArrowA" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker></defs>
+          {rect(68, 96, 180, 100, C.paper, C.line)}
+          {rect(310, 72, 206, 96, C.aiLight, C.ai)}
+          {rect(310, 214, 206, 96, C.fujiLight, C.fuji)}
+          {rect(588, 96, 214, 100, C.kitsuneLight, C.kitsune)}
+          {rect(864, 72, 304, 238, C.white, C.line)}
+          <path d="M 248 145 C 272 145, 284 126, 310 120" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowA)" />
+          <path d="M 248 145 C 272 170, 284 248, 310 262" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowA)" />
+          <line x1="516" y1="120" x2="588" y2="120" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowA)" />
+          <line x1="516" y1="262" x2="588" y2="170" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowA)" />
+          <line x1="802" y1="145" x2="864" y2="145" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowA)" />
+
+          <SvgMultiText x={158} y={124} en="Non-adoption" zh="Non-adoption" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={158} y={150} en="starting equilibrium" zh="起始均衡" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={158} y={166} en="nobody has tipped yet" zh="市場還沒被推向任何一邊" mode={mode} size={12.3} fill={C.inkSoft} />
+
+          <SvgMultiText x={413} y={105} en="Platform α wins" zh="Platform α 勝" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={413} y={131} en="one adoption equilibrium" zh="其中一個 adoption equilibrium" mode={mode} size={12.4} fill={C.inkSoft} />
+          <SvgMultiText x={413} y={247} en="Platform β wins" zh="Platform β 勝" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={413} y={273} en="another possible equilibrium" zh="另一個可能均衡" mode={mode} size={12.4} fill={C.inkSoft} />
+
+          <SvgMultiText x={695} y={124} en="Path dependence" zh="Path dependence" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={695} y={150} en="small early lead can" zh="早期小領先會" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={695} y={166} en="become lasting dominance" zh="放大成持久優勢" mode={mode} size={12.7} fill={C.inkSoft} />
+
+          <SvgMultiText x={1016} y={104} en="Winner-take-all test" zh="WTA 測試" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={1016} y={140} en="1. Strong scale effects" zh="1. Strong scale effects" mode={mode} size={13.5} fill={C.inkSoft} />
+          <SvgMultiText x={1016} y={168} en="2. Little room for differentiation" zh="2. 差異化空間要夠小" mode={mode} size={13.5} fill={C.inkSoft} />
+          <SvgMultiText x={1016} y={196} en="3. High switching / multi-home costs" zh="3. Switching / multi-home costs 要高" mode={mode} size={13.5} fill={C.inkSoft} />
+          <SvgMultiText x={1016} y={234} en="Only if all three are strong" zh="只有三個都強" mode={mode} size={13.5} fill={C.fuji} />
+          <SvgMultiText x={1016} y={254} en="does the clean WTA story hold" zh="才比較接近乾淨的 WTA" mode={mode} size={13.5} fill={C.fuji} />
+        </svg>
+      </div>
+      <div className="flow-caption"><T m={mode} en="The core diagnostic move is to distinguish 'platform competition is dynamic' from 'this market is actually WTA.' Multiple equilibria make outcomes path dependent, but the clean WTA claim still requires all three structural conditions." zh="核心判斷動作，是把『平臺競爭有動態』與『這個市場真的屬於 WTA』分開。多重均衡會讓結果變得路徑依賴，但要下乾淨的 WTA 結論，仍然必須三個結構條件都成立。" /></div>
+      <FlowOral mode={mode} en="In 15 seconds: platform competition can tip toward different equilibria, so small early leads matter. But to call the market winner-take-all, you still need all three conditions: strong scale effects, little differentiation room, and high switching or multi-homing costs." zh="15 秒講法：平臺競爭可能 tip 向不同均衡，所以早期小領先很重要。但若要把市場判成 winner-take-all，仍然要三條件一起成立：強規模效應、小差異化空間、高 switching 或 multi-homing 成本。" />
+    </FlowVizCard>
+  );
+}
+
+function UberChinaFlowchart({ mode }) {
+  const rect = (x, y, w, h, fill, stroke = C.line) => <rect x={x} y={y} width={w} height={h} rx={14} fill={fill} stroke={stroke} strokeWidth="1.5" />;
+  return (
+    <FlowVizCard
+      mode={mode}
+      kickerEn="Flowchart 9"
+      kickerZh="流程圖 9"
+      titleEn="Uber China: Fought Like WTA, Landed in War of Attrition"
+      titleZh="Uber China：照 WTA 打，結果更像 War of Attrition"
+      noteEn="Uber China is the test case for false WTA. The firms invested as if the market would tip to one winner, but the course material argues that only two of the three WTA conditions were strong."
+      noteZh="Uber China 是辨認 false WTA 的測試案例。雙方都照著會 tip 向單一贏家的邏輯砸資源，但課內材料認為三個 WTA 條件裡，其實只有兩個夠強。"
+      badges={[
+        { kind: 'good', en: 'Scale effects = yes', zh: 'Scale effects = yes' },
+        { kind: 'warn', en: 'Differentiation = debatable', zh: 'Differentiation = debatable' },
+        { kind: 'bad', en: 'Switching costs = low', zh: 'Switching costs = low' },
+      ]}
+    >
+      <div className="dia flow-svg">
+        <svg viewBox="0 0 1240 450" role="img" aria-label="Uber China flowchart">
+          <defs><marker id="m8ArrowB" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker></defs>
+          {rect(74, 82, 210, 104, C.matsuLight, C.matsu)}
+          {rect(326, 82, 230, 104, C.kitsuneLight, C.kitsune)}
+          {rect(598, 82, 210, 104, C.beniLight, C.beni)}
+          {rect(850, 82, 170, 104, C.paper, C.kitsune)}
+          {rect(1060, 82, 126, 104, C.aiLight, C.ai)}
+          <line x1="284" y1="134" x2="326" y2="134" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowB)" />
+          <line x1="556" y1="134" x2="598" y2="134" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowB)" />
+          <line x1="808" y1="134" x2="850" y2="134" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowB)" />
+          <line x1="1020" y1="134" x2="1060" y2="134" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowB)" />
+
+          <SvgMultiText x={179} y={111} en="Strong scale effects" zh="Strong scale effects" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={179} y={139} en="yes" zh="是" mode={mode} size={14.5} weight={800} fill={C.matsu} />
+          <SvgMultiText x={179} y={158} en="more drivers, faster pickups," zh="司機更多、接得更快、" mode={mode} size={12.3} fill={C.inkSoft} />
+          <SvgMultiText x={179} y={174} en="coverage and demand reinforce" zh="coverage 與 demand 互相增強" mode={mode} size={12.3} fill={C.inkSoft} />
+
+          <SvgMultiText x={441} y={111} en="Little room for differentiation" zh="Little room for differentiation" mode={mode} size={14.2} fill={C.ai} />
+          <SvgMultiText x={441} y={139} en="debatable" zh="有爭議" mode={mode} size={14.5} weight={800} fill={C.kitsune} />
+          <SvgMultiText x={441} y={158} en="some room still existed" zh="仍有一些定位空間" mode={mode} size={12.3} fill={C.inkSoft} />
+          <SvgMultiText x={441} y={174} en="so not a clean WTA case" zh="所以不是乾淨的 WTA" mode={mode} size={12.3} fill={C.inkSoft} />
+
+          <SvgMultiText x={703} y={111} en="Switching / multi-home costs" zh="Switching / multi-home costs" mode={mode} size={14.2} fill={C.ai} />
+          <SvgMultiText x={703} y={139} en="low" zh="低" mode={mode} size={14.5} weight={800} fill={C.beni} />
+          <SvgMultiText x={703} y={158} en="riders and drivers could" zh="乘客與司機都能" mode={mode} size={12.3} fill={C.inkSoft} />
+          <SvgMultiText x={703} y={174} en="multi-home too easily" zh="太容易 multi-home" mode={mode} size={12.3} fill={C.inkSoft} />
+
+          <SvgMultiText x={935} y={111} en="Result" zh="結果" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={935} y={139} en="war of attrition" zh="war of attrition" mode={mode} size={13.8} weight={800} fill={C.fuji} />
+          <SvgMultiText x={935} y={158} en="not clean tipping" zh="不是乾淨 tipping" mode={mode} size={12.3} fill={C.inkSoft} />
+
+          <SvgMultiText x={1123} y={111} en="Exit" zh="結局" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={1123} y={139} en="Didi buys" zh="Didi 買下" mode={mode} size={12.8} fill={C.inkSoft} />
+          <SvgMultiText x={1123} y={155} en="Uber China" zh="Uber China" mode={mode} size={12.8} fill={C.inkSoft} />
+
+          {rect(146, 270, 278, 112, C.white, C.line)}
+          {rect(480, 270, 278, 112, C.white, C.line)}
+          {rect(814, 270, 278, 112, C.white, C.line)}
+          <SvgMultiText x={285} y={300} en="What firms assumed" zh="企業實際假設" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={285} y={328} en="get-big-fast, spend hard, win the market" zh="先搶到規模、重砸資源、把市場拿下" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={619} y={300} en="What the course says" zh="課堂真正要你說的" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={619} y={328} en="fighting like WTA is not the same as" zh="照 WTA 打，不等於市場本身就是" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={619} y={344} en="actually being in a WTA market" zh="真正的 WTA 市場" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={953} y={300} en="Anchor numbers" zh="數字錨點" mode={mode} size={14.5} fill={C.ai} />
+          <SvgMultiText x={953} y={328} en="Didi ≈ $35B valuation," zh="Didi 估值約 $35B，" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={953} y={344} en="Uber stake 17.7%, payoff ≈ $6.2B" zh="Uber 持股 17.7%，payoff 約 $6.2B" mode={mode} size={12.7} fill={C.inkSoft} />
+        </svg>
+      </div>
+      <div className="flow-caption"><T m={mode} en="This is the line to keep straight in the quiz: Uber and Didi competed under a WTA assumption, but the market failed the full three-condition test. That is why the stronger label is war of attrition, not clean network tipping." zh="這是 quiz 最容易混掉的一句：Uber 與 Didi 的確照 WTA 邏輯競爭，但市場本身沒有通過完整三條件測試，所以更強的標籤是 war of attrition，而不是乾淨的 network tipping。" /></div>
+      <FlowOral mode={mode} en="In 15 seconds: Uber China had strong scale effects, but switching costs were low and differentiation was still possible. So the firms fought like it was winner-take-all, but the market itself looked more like a costly war of attrition." zh="15 秒講法：Uber China 確實有強規模效應，但 switching costs 很低，差異化空間也沒有完全消失。所以雙方雖然照 winner-take-all 打，市場本身其實更像昂貴的 war of attrition。" />
+    </FlowVizCard>
+  );
+}
+
+function Module8Visuals({ mode }) {
+  return (
+    <>
+      <CompetitionFlowchart mode={mode} />
+      <UberChinaFlowchart mode={mode} />
     </>
   );
 }
@@ -1285,7 +1717,7 @@ function PrimerSection({ mode }) {
 // MAIN APP
 // ═══════════════════════════════════════════════════════════════
 
-export default function INNO6230QuizV13() {
+export default function INNO6230QuizV14() {
   const [mode, setMode] = useState("en");
   const [fabOpen, setFabOpen] = useState(false);
   const [activeId, setActiveId] = useState("backbone");
@@ -1494,6 +1926,7 @@ export default function INNO6230QuizV13() {
               lensContent={<LensTable data={sectionLensData["module-6"]} mode={mode} />}
               blocks={mod6Blocks}
               scanData={sectionScanData["module-6"]}
+              visual={<Module6Visuals mode={mode} />}
             />
 
             {/* ── Module 7 ── */}
@@ -1504,6 +1937,7 @@ export default function INNO6230QuizV13() {
               lensContent={<LensMiniCards items={sectionLensData["module-7"].items} mode={mode} titleEn={sectionLensData["module-7"].titleEn} titleZh={sectionLensData["module-7"].titleZh} />}
               blocks={mod7Blocks}
               scanData={sectionScanData["module-7"]}
+              visual={<Module7Visuals mode={mode} />}
             />
 
             {/* ── Module 8 ── */}
@@ -1514,6 +1948,7 @@ export default function INNO6230QuizV13() {
               lensContent={<LensWTA data={sectionLensData["module-8"]} mode={mode} />}
               blocks={mod8Blocks}
               scanData={sectionScanData["module-8"]}
+              visual={<Module8Visuals mode={mode} />}
             />
 
             {/* ── Final Review ── */}
