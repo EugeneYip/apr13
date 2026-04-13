@@ -183,6 +183,7 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 
 /* ── Dual language ── */
 .dual{display:grid;gap:6px;}
+.mt-hero{margin-top:16px;}
 .dual.en-only .zh-part{display:none;}
 .dual.zh-only .en-part{display:none;}
 .dual.bi-mode{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
@@ -210,37 +211,91 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
   .chain-arrows{display:none;}
   .scan-grid{grid-template-columns:1fr;}
   .g4{grid-template-columns:repeat(2,minmax(0,1fr));}
+  /* text bump for tablet */
+  .body,.hero-sub{font-size:14px;}
+  .htb p,.htb li{font-size:14px;}
+  .mc p,.scn p{font-size:13px;}
+  .sm{font-size:12.5px;}
+  .nav-item{font-size:12px;}
+  .met-note{font-size:12px;}
+  .fab{width:38px;height:38px;font-size:11px;}
+  .fab-panel button{padding:6px 10px;font-size:11px;}
 }
 
 /* ── Responsive: large phone ── */
 @media(max-width:768px){
   .shell{padding:11px 9px 76px;}
   .hero,.sec{padding:13px;border-radius:14px;}
-  .g2,.g4,.bb-grid,.dual.bi-mode{grid-template-columns:1fr;}
+  .g2,.g4,.dual.bi-mode{grid-template-columns:1fr;}
   .g3{grid-template-columns:1fr;}
   .chain-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   .chain-card{min-height:auto;}
   .h1{font-size:24px;}
   .h2{font-size:20px;}
-  .quote-text{font-size:14px;}
+  .h3{font-size:16.5px;}
+  .quote-text{font-size:15px;}
   .sidebar{flex-direction:column;gap:8px;}
   .sidebar .nav-box{min-width:0;}
   .sec-head{flex-direction:column;gap:6px;}
+  .body,.hero-sub{font-size:14.5px;}
+  .htb p,.htb li{font-size:14px;}
+  .mc p,.scn p{font-size:13px;}
+  .mc h5,.scn h5{font-size:13.5px;}
+  .sm{font-size:12.5px;}
+  .bb-en{font-size:13.5px;}
+  .bb-zh{font-size:13px;}
+  .nav-item{font-size:12.5px;padding:7px 9px;}
   .met-val{font-size:20px;}
-  .fab-wrap{right:9px;bottom:calc(9px + env(safe-area-inset-bottom, 0px));}
-  .fab{width:32px;height:32px;font-size:9.5px;}
-  .fab-panel button{padding:5px 8px;font-size:10px;}
+  .met-note{font-size:12px;}
+  .eq{font-size:13px;padding:6px 11px;}
+  .card{padding:12px;}
+  .mt-hero{margin-top:12px;}
+  .fab-wrap{right:10px;bottom:calc(10px + env(safe-area-inset-bottom, 0px));}
+  .fab{width:40px;height:40px;font-size:11px;}
+  .fab-panel button{padding:7px 11px;font-size:11.5px;}
+  /* table scroll-hint */
+  .tbl-wrap{position:relative;}
+  .tbl-wrap::after{content:"";position:absolute;top:0;right:0;bottom:0;width:18px;pointer-events:none;background:linear-gradient(to left,rgba(252,250,242,0.55),transparent);border-radius:0 10px 10px 0;}
 }
 
-/* ── Responsive: small phone ── */
-@media(max-width:400px){
-  .shell{padding:9px 7px 72px;}
-  .hero,.sec{padding:11px;}
-  .g2-keep{grid-template-columns:1fr;}
+/* ── Responsive: 375-390px (iPhone SE / 12 mini / 13 mini / 14) ── */
+@media(max-width:390px){
+  .shell{padding:10px 8px 72px;}
+  .hero,.sec{padding:11px;border-radius:12px;}
+  .h1{font-size:22px;}
+  .h2{font-size:18px;}
+  .h3{font-size:15.5px;}
+  .body,.hero-sub{font-size:14px;}
+  .htb p,.htb li{font-size:13.5px;}
+  .bb-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+  .bb{padding:9px;}
+  .bb-en{font-size:13px;line-height:1.4;}
+  .bb-zh{font-size:12.5px;}
+  .bb-num{font-size:10px;}
   .chain-grid{grid-template-columns:1fr;}
-  .pill{font-size:10px;padding:4px 8px;}
-  .bb{padding:10px;}
-  .card{padding:12px;}
+  .pill{font-size:11px;padding:4px 8px;}
+  .nav-item{font-size:12px;padding:6px 8px;}
+  .htb table{min-width:420px;}
+  .scan .htb table{min-width:300px;}
+  .met{padding:8px 9px;}
+  .met-val{font-size:19px;}
+  .met-note{font-size:12px;}
+  .chain-head{font-size:13px;}
+  .chain-body{font-size:12px;}
+  .scn .big{font-size:22px;}
+  .g2-keep{gap:8px;}
+  .st{padding:8px 9px;}
+  .st-top strong{font-size:12.5px;}
+  .badge{font-size:10px;padding:2px 6px;}
+  .kicker{font-size:10.5px;}
+  .sec-source{font-size:11px;padding:3px 8px;}
+  .quote{padding:10px;}
+  .quote-text{font-size:14.5px;}
+  .mc p,.scn p{font-size:12.5px;}
+  .sm{font-size:12px;}
+  .fab-wrap{right:8px;bottom:calc(8px + env(safe-area-inset-bottom, 0px));}
+  .fab{width:38px;height:38px;font-size:10.5px;}
+  .fab-panel button{padding:6px 10px;font-size:11px;}
 }
 `;
 
@@ -648,7 +703,7 @@ export default function INNO6230QuizV3() {
           </p>
 
           {/* ── Causal Chain ── */}
-          <div className="card" style={{ marginTop: 18 }}>
+          <div className="card mt-hero">
             <div className="kicker kicker-plum"><T m={mode} en="Backbone" zh="主幹" /></div>
             <h3 className="h3" style={{ marginBottom: 12 }}><T m={mode} en="Causal Chain" zh="因果鏈骨架" /></h3>
             <p className="body" style={{ marginBottom: 12 }}>
