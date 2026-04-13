@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 
 /* ═══════════════════════════════════════════════════════════════
-   INNO6230 Quiz Infrastructure v15
+   INNO6230 Quiz Infrastructure v16
    Scope: Modules 5-8 (Notes + Slides, including optionals)
    ═══════════════════════════════════════════════════════════════ */
 
@@ -225,9 +225,9 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 /* ── Module 5 flowchart visuals ── */
 .module5-viz{display:grid;gap:16px;margin:14px 0 16px;}
 .flow-viz-grid{display:grid;grid-template-columns:1fr;gap:16px;}
-.flow-viz-card{background:${C.white};border:1px solid ${C.line};border-radius:16px;padding:18px;display:grid;gap:12px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,0.02);}
+.flow-viz-card{background:${C.white};border:1px solid ${C.line};border-radius:16px;padding:20px;display:grid;gap:12px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,0.02);}
 .flow-viz-head{display:grid;gap:5px;}
-.flow-viz-note{font-size:14px;line-height:1.68;color:${C.inkSoft};max-width:82ch;}
+.flow-viz-note{font-size:14.25px;line-height:1.7;color:${C.inkSoft};max-width:80ch;}
 .flow-badges{display:flex;flex-wrap:wrap;gap:6px;}
 .flow-badge{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:0.04em;border:1px solid ${C.lineLight};}
 .flow-badge.good{background:${C.matsuLight};color:${C.matsu};}
@@ -235,8 +235,9 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .flow-badge.bad{background:${C.beniLight};color:${C.beni};}
 .flow-badge.info{background:${C.aiLight};color:${C.ai};}
 .flow-caption{font-size:13.5px;line-height:1.62;color:${C.muted};max-width:84ch;}
-.flow-svg{border:1px solid ${C.lineLight};border-radius:14px;background:linear-gradient(180deg,#fffdf7,${C.paper});padding:10px;}
-.flow-svg svg{width:100%;height:auto;min-width:980px;display:block;}
+.flow-svg{border:1px solid ${C.lineLight};border-radius:14px;background:linear-gradient(180deg,#fffdf7,${C.paper});padding:14px 16px;}
+.flow-svg svg{width:100%;height:auto;min-width:1100px;display:block;}
+.flow-svg svg line,.flow-svg svg path{stroke-linecap:round;stroke-linejoin:round;}
 .flow-oral{border:1px solid ${C.line};border-left:4px solid ${C.fuji};border-radius:12px;background:${C.fujiLight};padding:12px 14px;display:grid;gap:7px;}
 .flow-oral-kicker{font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.fuji};}
 .flow-oral-copy{font-size:14px;line-height:1.62;color:${C.ink};font-weight:600;max-width:84ch;}
@@ -931,7 +932,7 @@ function PredictionFactoryFlowchart({ mode }) {
       ]}
     >
       <div className="dia flow-svg">
-        <svg viewBox="0 0 1240 430" role="img" aria-label="Prediction factory flowchart">
+        <svg viewBox="0 0 1240 452" role="img" aria-label="Prediction factory flowchart">
           <defs>
             <marker id="pfArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker>
             <marker id="pfArrowSoft" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.matsu} /></marker>
@@ -981,9 +982,9 @@ function PredictionFactoryFlowchart({ mode }) {
           <SvgMultiText x={886} y={314} en="Feedback" zh="Feedback" mode={mode} size={14.2} fill={C.ai} />
           <SvgMultiText x={886} y={340} en="new y updates next round" zh="新的 y 讓下一輪模型不會失真" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <path d="M 1105 166 L 1105 250 L 886 250" fill="none" stroke={C.matsu} strokeWidth="3" markerEnd="url(#pfArrowSoft)" />
-          <path d="M 242 330 L 174 330 L 174 166 L 274 166" fill="none" stroke={C.matsu} strokeWidth="3" markerEnd="url(#pfArrowSoft)" />
-          <text x="1086" y="240" fontFamily={FONT_BODY} fontSize="12" fontWeight="800" fill={C.matsu}>{mode === 'zh' ? 'feedback' : mode === 'bi' ? 'feedback / 回流' : 'feedback'}</text>
+          <path d="M 1105 166 L 1105 216 L 886 216 L 886 286" fill="none" stroke={C.matsu} strokeWidth="3" markerEnd="url(#pfArrowSoft)" />
+          <path d="M 349 286 L 349 236 L 174 236 L 174 166 L 274 166" fill="none" stroke={C.matsu} strokeWidth="3" markerEnd="url(#pfArrowSoft)" />
+          <text x="1038" y="206" fontFamily={FONT_BODY} fontSize="12" fontWeight="800" fill={C.matsu}>{mode === 'zh' ? 'feedback' : mode === 'bi' ? 'feedback / 回流' : 'feedback'}</text>
         </svg>
       </div>
       <div className="flow-caption"><T m={mode} en="The formula is only the middle of the story. The full story is X enters, ŷ is produced, a rule fires, an action happens, and new y either returns to the system or does not. That last step determines whether the platform can really learn." zh="公式只是故事的中段。完整故事是：X 進來，產生 ŷ，rule 被觸發，action 發生，而新的 y 會不會回流到系統裡。最後這一步，才決定平臺到底能不能真的學習。" /></div>
@@ -1010,7 +1011,7 @@ function EHarmonyFlowchart({ mode }) {
       ]}
     >
       <div className="dia flow-svg">
-        <svg viewBox="0 0 1240 470" role="img" aria-label="eHarmony flowchart">
+        <svg viewBox="0 0 1240 492" role="img" aria-label="eHarmony flowchart">
           <defs>
             <marker id="ehArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker>
             <marker id="ehArrowRed" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.beni} /></marker>
@@ -1067,10 +1068,10 @@ function EHarmonyFlowchart({ mode }) {
           <SvgMultiText x={1062} y={340} en="little tracking" zh="tracking 太弱，而且" mode={mode} size={12.6} fill={C.inkSoft} />
           <SvgMultiText x={1062} y={356} en="little tuning feedback" zh="feedback 幾乎回不到 tuning" mode={mode} size={12.6} fill={C.inkSoft} />
 
-          <path d="M 1110 164 L 1110 272 L 1062 272" fill="none" stroke={C.beni} strokeWidth="3" strokeDasharray="7 6" markerEnd="url(#ehArrowRed)" />
-          <path d="M 785 284 L 785 218 L 700 218 L 700 168" fill="none" stroke={C.ai} strokeWidth="3" strokeDasharray="7 6" markerEnd="url(#ehArrowBlue)" />
+          <path d="M 1110 164 L 1110 246 L 1062 246 L 1062 284" fill="none" stroke={C.beni} strokeWidth="3" strokeDasharray="7 6" markerEnd="url(#ehArrowRed)" />
+          <path d="M 785 284 L 785 232 L 700 232 L 700 168" fill="none" stroke={C.ai} strokeWidth="3" strokeDasharray="7 6" markerEnd="url(#ehArrowBlue)" />
           <path d="M 316 336 L 368 336" fill="none" stroke={C.beni} strokeWidth="3" markerEnd="url(#ehArrowRed)" />
-          <text x="718" y="208" fontFamily={FONT_BODY} fontSize="12" fontWeight="800" fill={C.ai}>{mode === 'zh' ? '理論上可用 outcome 回訓' : mode === 'bi' ? 'could retrain with outcome / 可回訓' : 'could retrain with outcome'}</text>
+          <text x="714" y="222" fontFamily={FONT_BODY} fontSize="12" fontWeight="800" fill={C.ai}>{mode === 'zh' ? '理論上可用 outcome 回訓' : mode === 'bi' ? 'could retrain with outcome / 可回訓' : 'could retrain with outcome'}</text>
         </svg>
       </div>
       <div className="flow-caption"><T m={mode} en="The exam move is to separate what eHarmony actually did from what it could have done. Actual path: unsupervised similarity from survey data. Better supervised path would have required reliable outcome logging and feedback." zh="考試最關鍵的動作，是把 eHarmony 實際做的，和理論上本來可以做的拆開。實際主路徑是 survey data 的非監督式相似度；若要走更好的 supervised 路徑，就必須有可靠的 outcome logging 與 feedback。" /></div>
@@ -1097,7 +1098,7 @@ function GrowFlowchart({ mode }) {
       ]}
     >
       <div className="dia flow-svg">
-        <svg viewBox="0 0 1240 500" role="img" aria-label="Grow flowchart">
+        <svg viewBox="0 0 1240 516" role="img" aria-label="Grow flowchart">
           <defs>
             <marker id="grArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker>
             <marker id="grArrowSoft" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.matsu} /></marker>
@@ -1111,7 +1112,7 @@ function GrowFlowchart({ mode }) {
 
           <line x1="322" y1="151" x2="388" y2="151" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#grArrow)" />
           <line x1="628" y1="151" x2="694" y2="151" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#grArrow)" />
-          <path d="M 908 114 L 940 114 L 940 108 L 972 108" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#grArrow)" />
+          <path d="M 908 108 L 972 108" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#grArrow)" />
           <path d="M 908 151 L 940 151 L 940 248 L 972 248" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#grArrow)" />
           <path d="M 908 188 L 940 188 L 940 388 L 972 388" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#grArrow)" />
 
@@ -1184,7 +1185,7 @@ function LLMFlowchart({ mode }) {
       ]}
     >
       <div className="dia flow-svg">
-        <svg viewBox="0 0 1240 430" role="img" aria-label="LLM flowchart">
+        <svg viewBox="0 0 1240 446" role="img" aria-label="LLM flowchart">
           <defs>
             <marker id="m6ArrowA" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker>
             <marker id="m6ArrowB" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.ai} /></marker>
@@ -1266,7 +1267,7 @@ function EconomicsAgentsFlowchart({ mode }) {
       ]}
     >
       <div className="dia flow-svg">
-        <svg viewBox="0 0 1240 460" role="img" aria-label="LLM economics and agents flowchart">
+        <svg viewBox="0 0 1240 478" role="img" aria-label="LLM economics and agents flowchart">
           <defs>
             <marker id="m6ArrowC" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker>
           </defs>
@@ -1360,7 +1361,7 @@ function TakeoffFlowchart({ mode }) {
       ]}
     >
       <div className="dia flow-svg">
-        <svg viewBox="0 0 1240 460" role="img" aria-label="Platform takeoff flowchart">
+        <svg viewBox="0 0 1240 474" role="img" aria-label="Platform takeoff flowchart">
           <defs><marker id="m7ArrowA" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker></defs>
           {rect(52, 84, 186, 92, C.aiLight, C.ai)}
           {rect(286, 84, 230, 92, C.kitsuneLight, C.kitsune)}
@@ -1433,7 +1434,7 @@ function SaferTaxiFlowchart({ mode }) {
       ]}
     >
       <div className="dia flow-svg">
-        <svg viewBox="0 0 1240 450" role="img" aria-label="SaferTaxi flowchart">
+        <svg viewBox="0 0 1240 466" role="img" aria-label="SaferTaxi flowchart">
           <defs><marker id="m7ArrowB" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker></defs>
           {rect(44, 74, 210, 96, C.aiLight, C.ai)}
           {rect(302, 74, 216, 96, C.matsuLight, C.matsu)}
@@ -1516,17 +1517,17 @@ function CompetitionFlowchart({ mode }) {
       ]}
     >
       <div className="dia flow-svg">
-        <svg viewBox="0 0 1240 450" role="img" aria-label="Platform competition flowchart">
+        <svg viewBox="0 0 1240 472" role="img" aria-label="Platform competition flowchart">
           <defs><marker id="m8ArrowA" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker></defs>
           {rect(68, 96, 180, 100, C.paper, C.line)}
           {rect(310, 72, 206, 96, C.aiLight, C.ai)}
           {rect(310, 214, 206, 96, C.fujiLight, C.fuji)}
           {rect(588, 96, 214, 100, C.kitsuneLight, C.kitsune)}
           {rect(864, 72, 304, 238, C.white, C.line)}
-          <path d="M 248 145 C 272 145, 284 126, 310 120" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowA)" />
-          <path d="M 248 145 C 272 170, 284 248, 310 262" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowA)" />
+          <path d="M 248 145 L 274 145 L 274 120 L 310 120" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowA)" />
+          <path d="M 248 145 L 274 145 L 274 262 L 310 262" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowA)" />
           <line x1="516" y1="120" x2="588" y2="120" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowA)" />
-          <line x1="516" y1="262" x2="588" y2="170" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowA)" />
+          <path d="M 516 262 L 552 262 L 552 170 L 588 170" fill="none" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowA)" />
           <line x1="802" y1="145" x2="864" y2="145" stroke={C.kitsune} strokeWidth="3" markerEnd="url(#m8ArrowA)" />
 
           <SvgMultiText x={158} y={124} en="Non-adoption" zh="Non-adoption" mode={mode} size={15} fill={C.ai} />
@@ -1538,9 +1539,9 @@ function CompetitionFlowchart({ mode }) {
           <SvgMultiText x={413} y={247} en="Beta wins" zh="Platform β 勝" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={413} y={273} en="another equilibrium" zh="另一個可能均衡" mode={mode} size={12.4} fill={C.inkSoft} />
 
-          <SvgMultiText x={695} y={124} en="Path dependence" zh="Path dependence" mode={mode} size={15} fill={C.ai} />
-          <SvgMultiText x={695} y={150} en="small early lead" zh="早期小領先會" mode={mode} size={12.7} fill={C.inkSoft} />
-          <SvgMultiText x={695} y={166} en="can lock in" zh="放大成持久優勢" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={695} y={118} en="Path dependence" zh="Path dependence" mode={mode} size={15} fill={C.ai} />
+          <SvgMultiText x={695} y={146} en="small early lead" zh="早期小領先會" mode={mode} size={12.7} fill={C.inkSoft} />
+          <SvgMultiText x={695} y={162} en="can lock in" zh="放大成持久優勢" mode={mode} size={12.7} fill={C.inkSoft} />
 
           <SvgMultiText x={1016} y={104} en="WTA test" zh="WTA 測試" mode={mode} size={15} fill={C.ai} />
           <SvgMultiText x={1016} y={140} en="1. Scale effects" zh="1. Scale effects" mode={mode} size={13.5} fill={C.inkSoft} />
@@ -1574,7 +1575,7 @@ function UberChinaFlowchart({ mode }) {
       ]}
     >
       <div className="dia flow-svg">
-        <svg viewBox="0 0 1240 450" role="img" aria-label="Uber China flowchart">
+        <svg viewBox="0 0 1240 468" role="img" aria-label="Uber China flowchart">
           <defs><marker id="m8ArrowB" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill={C.kitsune} /></marker></defs>
           {rect(74, 82, 210, 104, C.matsuLight, C.matsu)}
           {rect(326, 82, 230, 104, C.kitsuneLight, C.kitsune)}
@@ -1717,7 +1718,7 @@ function PrimerSection({ mode }) {
 // MAIN APP
 // ═══════════════════════════════════════════════════════════════
 
-export default function INNO6230QuizV15() {
+export default function INNO6230QuizV16() {
   const [mode, setMode] = useState("en");
   const [fabOpen, setFabOpen] = useState(false);
   const [activeId, setActiveId] = useState("backbone");
