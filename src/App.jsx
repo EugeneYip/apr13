@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 
 /* ═══════════════════════════════════════════════════════════════
-   INNO6230 Quiz Infrastructure v16
+   INNO6230 Quiz Infrastructure v18
    Scope: Modules 5-8 (Notes + Slides, including optionals)
    ═══════════════════════════════════════════════════════════════ */
 
@@ -153,6 +153,7 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .badge-yes{background:${C.matsuLight};color:${C.matsu};}
 .badge-no{background:${C.beniLight};color:${C.beni};}
 .badge-maybe{background:${C.kitsuneLight};color:${C.kitsune};}
+.badge-need{background:${C.aiLight};color:${C.ai};}
 
 /* ── Status card row ── */
 .st{border:1px solid ${C.line};border-radius:10px;background:${C.white};padding:11px 12px;}
@@ -470,7 +471,7 @@ const formulaCards = [
     applyZh: "應用：在 eHarmony 裡，系統要推估這組男女是否可能是好配對，接著再決定要不要把這組 profile 推成推薦對象。"
   },
   {
-    formula: "Net BenefitsStand-Alone Benefits + Network Benefits - Adopter Costs",
+    formula: "Net Benefits = Stand-Alone Benefits + Network Benefits - Adopter Costs",
     labelEn: "Takeoff formula",
     labelZh: "起飛公式",
     readEn: "Read it as: adoption happens only when total benefits exceed total adoption costs.",
@@ -541,7 +542,7 @@ const sectionScanData = {
   },
   "module-7": {
     memorize: [
-      { en: "Net BenefitsStand-Alone Benefits + Network Benefits - Adopter Costs.", zh: "Net BenefitsStand-Alone Benefits + Network Benefits - Adopter Costs。" },
+      { en: "Net Benefits = Stand-Alone Benefits + Network Benefits - Adopter Costs.", zh: "Net Benefits = Stand-Alone Benefits + Network Benefits - Adopter Costs。" },
       { en: "Early adopters face the weakest value and the highest relative cost. That is the chicken-and-egg problem.", zh: "最早採用者面對的是最低價值、相對最高成本，這就是 chicken-and-egg 問題。" },
       { en: "Most platforms do not take off. There is no silver bullet.", zh: "大多數平臺都起飛不了，沒有銀彈。" },
     ],
@@ -606,11 +607,11 @@ const sectionLensData = {
     ]
   },
   "module-8": {
-    titleEn: "WTA Three-Condition Test", titleZh: "WTA 三條件測試",
+    titleEn: "WTA Three Required Conditions", titleZh: "WTA 三個必備條件",
     conditions: [
-      { label: "Condition 1", en: "Strong increasing returns to scale.", zh: "規模增加報酬要夠強。", badge: "yes" },
+      { label: "Condition 1", en: "Strong increasing returns to scale.", zh: "規模增加報酬要夠強。", badge: "need" },
       { label: "Condition 2", en: "Low differentiation.", zh: "差異化空間要夠小。", badge: "yes" },
-      { label: "Condition 3", en: "High switching or multi-homing cost.", zh: "轉換成本或 multi-homing cost 要夠高。", badge: "check" },
+      { label: "Condition 3", en: "High switching or multi-homing cost.", zh: "轉換成本或 multi-homing cost 要夠高。", badge: "need" },
     ],
     noteEn: "Use all three together. Two strong conditions are not enough for a clean winner-take-all conclusion.",
     noteZh: "三條件要一起看。只有兩條強，還不夠把市場判成乾淨的 winner-take-all。",
@@ -682,8 +683,8 @@ const mod6Blocks = [
 const mod7Blocks = [
   {
     tEn: "Adoption logic, chicken-and-egg, and launch families", tZh: "採用邏輯、Chicken-and-Egg 與起飛策略",
-    enH: `<div class="eq">Net BenefitsStand-Alone Benefits + Network Benefits - Adopter Costs</div><p>Two minimum conditions must hold for adoption: potential adopters must know about the platform and reach it, and they must also have enough incentive to adopt. Stand-alone exist even if nobody else joins. Network rise as more participants join.</p><h5>Chicken-and-egg</h5><p>The first users are asked to adopt when the platform offers the least value and imposes the highest cost. Critical mass is the threshold beyond which growth becomes self-propelling.</p><p>In the 2x2 launch game: two adopters each face cost $1 and receive benefit $2 only if both adopt. That generates two equilibria: both adopt or nobody adopts.</p><h5>Coaxing</h5><ul><li>Give one side enough stand-alone value to move first.</li><li>Use subsidies or penetration pricing.</li><li>Lock in early adopters, feed influencers or colonizers first.</li><li>Examples: LinkedIn's free page, Zillow's Zestimate teaser function, Amazon's one-side entry by integrating book sales, early creator seeding on TikTok.</li></ul><h5>Coordinating</h5><ul><li>Get multiple sides to move together or believe that others will move together.</li><li>Use bounded launch environments such as campuses or events.</li><li>Borrow from existing networks or piggyback on another system.</li><li>Build self-fulfilling expectations, design virality, manufacture scarcity.</li><li>Target people who play roles on both sides of the platform.</li><li>Examples: Facebook campuses, Diner's Club in Manhattan, Airbnb's "publish on Craigslist" bridge, invitation-only Clubhouse, Etsy's dual-role users, YouTube plus MySpace.</li></ul>`,
-    zhH: `<div class="eq">Net BenefitsStand-Alone Benefits + Network Benefits - Adopter Costs</div><p>採用至少要滿足兩個基本條件：潛在採用者必須知道這個平臺，且接觸得到；同時也要有足夠誘因願意採用。Stand-alone 在沒別人加入時也存在，Network 則會隨其他人加入而增加。</p><h5>Chicken-and-Egg</h5><p>最早的使用者被要求在平臺價值最少、成本最高時先採用。Critical mass 是成長開始能自我推動的門檻。</p><p>2x2 起點賽局：兩位採用者各自成本 $1，只有雙方都採用時各得益 $2。兩個均衡：全部採用或無人採用。</p><h5>Coaxing</h5><ul><li>先讓某一邊單獨就有足夠價值願意先動。</li><li>用補貼或滲透定價。</li><li>鎖定早期採用者，先餵 influencer 或 colonizer。</li><li>例子：LinkedIn 免費頁面、Zillow Zestimate teaser、Amazon 先單邊進場整合書籍銷售、TikTok 早期創作者種子。</li></ul><h5>Coordinating</h5><ul><li>讓多邊一起動，或至少讓大家相信別人也會一起動。</li><li>用校園或活動這類有邊界的啟動環境。</li><li>借用既有網路，或 piggyback 在別的系統上。</li><li>建立自我實現期望、設計 virality、製造稀缺感。</li><li>鎖定兼具雙邊角色者。</li><li>例子：Facebook 校園、Diner's Club 曼哈頓、Airbnb 對 Craigslist 的橋接、邀請制 Clubhouse、Etsy 雙邊角色、YouTube 加上 MySpace。</li></ul>`,
+    enH: `<div class="eq">Net Benefits = Stand-Alone Benefits + Network Benefits - Adopter Costs</div><p>Two minimum conditions must hold for adoption: potential adopters must know about the platform and reach it, and they must also have enough incentive to adopt. Stand-alone exist even if nobody else joins. Network rise as more participants join.</p><h5>Chicken-and-egg</h5><p>The first users are asked to adopt when the platform offers the least value and imposes the highest cost. Critical mass is the threshold beyond which growth becomes self-propelling.</p><p>In the 2x2 launch game: two adopters each face cost $1 and receive benefit $2 only if both adopt. That generates two equilibria: both adopt or nobody adopts.</p><h5>Coaxing</h5><ul><li>Give one side enough stand-alone value to move first.</li><li>Use subsidies or penetration pricing.</li><li>Lock in early adopters, feed influencers or colonizers first.</li><li>Examples: LinkedIn's free page, Zillow's Zestimate teaser function, Amazon's one-side entry by integrating book sales, early creator seeding on TikTok.</li></ul><h5>Coordinating</h5><ul><li>Get multiple sides to move together or believe that others will move together.</li><li>Use bounded launch environments such as campuses or events.</li><li>Borrow from existing networks or piggyback on another system.</li><li>Build self-fulfilling expectations, design virality, manufacture scarcity.</li><li>Target people who play roles on both sides of the platform.</li><li>Examples: Facebook campuses, Diner's Club in Manhattan, Airbnb's "publish on Craigslist" bridge, invitation-only Clubhouse, Etsy's dual-role users, YouTube plus MySpace.</li></ul>`,
+    zhH: `<div class="eq">Net Benefits = Stand-Alone Benefits + Network Benefits - Adopter Costs</div><p>採用至少要滿足兩個基本條件：潛在採用者必須知道這個平臺，且接觸得到；同時也要有足夠誘因願意採用。Stand-alone 在沒別人加入時也存在，Network 則會隨其他人加入而增加。</p><h5>Chicken-and-Egg</h5><p>最早的使用者被要求在平臺價值最少、成本最高時先採用。Critical mass 是成長開始能自我推動的門檻。</p><p>2x2 起點賽局：兩位採用者各自成本 $1，只有雙方都採用時各得益 $2。兩個均衡：全部採用或無人採用。</p><h5>Coaxing</h5><ul><li>先讓某一邊單獨就有足夠價值願意先動。</li><li>用補貼或滲透定價。</li><li>鎖定早期採用者，先餵 influencer 或 colonizer。</li><li>例子：LinkedIn 免費頁面、Zillow Zestimate teaser、Amazon 先單邊進場整合書籍銷售、TikTok 早期創作者種子。</li></ul><h5>Coordinating</h5><ul><li>讓多邊一起動，或至少讓大家相信別人也會一起動。</li><li>用校園或活動這類有邊界的啟動環境。</li><li>借用既有網路，或 piggyback 在別的系統上。</li><li>建立自我實現期望、設計 virality、製造稀缺感。</li><li>鎖定兼具雙邊角色者。</li><li>例子：Facebook 校園、Diner's Club 曼哈頓、Airbnb 對 Craigslist 的橋接、邀請制 Clubhouse、Etsy 雙邊角色、YouTube 加上 MySpace。</li></ul>`,
   },
   {
     tEn: "No silver bullet and the rocket checklist", tZh: "沒有銀彈與火箭檢查表",
@@ -705,12 +706,12 @@ const mod8Blocks = [
   },
   {
     tEn: "Switching costs, multi-homing costs, and WTA conditions", tZh: "Switching Costs、Multi-Homing Costs 與 WTA 條件",
-    enH: `<p><strong>Switching cost</strong> is the cost of moving from Platform A to Platform B. <strong>Multi-homing cost</strong> is the cost of using an additional platform while already on one.</p><h5>Raise these costs (leader tactics)</h5><ul><li>Loyalty programs such as Amazon Prime.</li><li>Data that are hard to port, such as iCloud lock-in.</li><li>Exclusive features, such as Spotify podcasts.</li><li>Bundled subscriptions, such as Microsoft 365.</li></ul><h5>Lower these costs (challenger tactics)</h5><ul><li>Seamless onboarding and data migration, such as WhatsApp-style moves.</li><li>Subsidizing the switching burden, such as T-Mobile style offers.</li><li>Compatibility with the rival ecosystem, such as Slack-style integration logic.</li><li>Free trials, such as Netflix.</li></ul><p><strong>Winner-take-all requires all three conditions to be strong:</strong></p><ul><li><strong>(1) Scale effects.</strong></li><li><strong>(2) Little scope for differentiation.</strong></li><li><strong>(3) Large switching and multi-homing costs.</strong></li></ul><p>All three must be strong together. Missing any one breaks the clean WTA conclusion.</p><p>Online search: three conditions met = WTA. Magazines: scale effects exist but differentiation space remains, and switching cost is low = not WTA.</p><p><strong>Leaders</strong> strengthen WTA by reinforcing scale effects, compressing differentiation space, and raising switching costs. <strong>Followers</strong> challenge WTA by targeting segments with weaker scale effects, discovering unserved niches, and lowering switching barriers.</p>`,
+    enH: `<p><strong>Switching cost</strong> is the cost of moving from Platform A to Platform B. <strong>Multi-homing cost</strong> is the cost of using an additional platform while already on one.</p><h5>Raise these costs (leader tactics)</h5><ul><li>Loyalty programs such as Amazon Prime.</li><li>Data that are hard to port, such as iCloud lock-in.</li><li>Exclusive features, such as Spotify podcasts.</li><li>Bundled subscriptions, such as Microsoft 365.</li></ul><h5>Lower these costs (challenger tactics)</h5><ul><li>Seamless onboarding and data migration, such as WhatsApp-style moves.</li><li>Subsidizing the switching burden, such as T-Mobile style offers.</li><li>Compatibility with the rival ecosystem, such as Slack-style integration logic.</li><li>Free trials, such as Netflix.</li></ul><p><strong>Winner-take-all requires all three conditions to be strong:</strong></p><ul><li><strong>(1) Strong scale effects.</strong></li><li><strong>(2) Little scope for differentiation.</strong></li><li><strong>(3) Large switching and multi-homing costs.</strong></li></ul><p>All three must be strong together. Missing any one breaks the clean WTA conclusion.</p><p>Online search: three conditions met = WTA. Magazines: scale effects exist but differentiation space remains, and switching cost is low = not WTA.</p><p><strong>Leaders</strong> strengthen WTA by reinforcing scale effects, compressing differentiation space, and raising switching costs. <strong>Followers</strong> challenge WTA by targeting segments with weaker scale effects, discovering unserved niches, and lowering switching barriers.</p>`,
     zhH: `<p><strong>Switching cost</strong> 是從平臺 A 移去平臺 B 的成本。<strong>Multi-homing cost</strong> 是已經在一個平臺上時，再多用一個平臺的成本。</p><h5>提高這些成本（leader 策略）</h5><ul><li>像 Amazon Prime 的忠誠計畫。</li><li>像 iCloud 那樣難以移轉的資料。</li><li>獨家功能，例如 Spotify podcasts。</li><li>訂閱綑綁，例如 Microsoft 365。</li></ul><h5>降低這些成本（challenger 策略）</h5><ul><li>像 WhatsApp 那樣的無縫導入與資料遷移。</li><li>補貼轉換成本，例如 T-Mobile 那種做法。</li><li>與對手生態系相容，例如 Slack 類型的整合策略。</li><li>免費試用，例如 Netflix。</li></ul><p><strong>Winner-take-all 必須三條件都很強：</strong></p><ul><li><strong>(1) Scale effects。</strong></li><li><strong>(2) Little scope for differentiation。</strong></li><li><strong>(3) Large switching 與 multi-homing costs。</strong></li></ul><p>三個要一起強。缺任何一個就不是完全 WTA。</p><p>Online search：三條件都滿足 = WTA。Magazines：有規模效應，但有差異化空間且低轉換成本 = 不是 WTA。</p><p><strong>Leaders</strong> 強化 WTA：強化規模效應、壓縮差異化空間、提高轉換成本。<strong>Followers</strong> 挑戰 WTA：瞄準規模效應較弱的細分、發現未服務利基、降低轉換門檻。</p>`,
   },
   {
     tEn: "Uber China", tZh: "Uber China",
-    enH: `<p>This case matters because it separates <strong>fighting like winner-take-all</strong> from <strong>actually being in a winner-take-all market</strong>.</p><ul><li>Uber's early form resembled a premium pre-booked black-car service, then it scaled globally and formed Uber China as a separate operating entity to confront Didi.</li><li>A later profitability fact: Uber first reached annual operating profit in 2023 at about $1.1B, driven by scope expansion through Uber Eats and Uber Freight, cost management, and post-pandemic recovery.</li><li>The stable strategic line is <strong>scope rather than scale</strong>.</li></ul><div class="g3"><div class="st"><div class="st-top"><strong>Scale effects</strong><span class="badge badge-yes">YES</span></div><p class="sm">The market had meaningful scale effects.</p></div><div class="st"><div class="st-top"><strong>Little scope for differentiation</strong><span class="badge badge-maybe">DEBATABLE</span></div><p class="sm">Differentiation was not absent enough to make it cleanly WTA.</p></div><div class="st"><div class="st-top"><strong>Large switching / multi-homing costs</strong><span class="badge badge-no">NO</span></div><p class="sm">Riders and drivers could multi-homed easily.</p></div></div><p>Because only two of the three WTA conditions were strong, the outcome looks more like a <strong>war of attrition</strong> than a clean network tipping story. Do not mistake intense spending battles as proof that the underlying economics are WTA.</p><h5>Outcome anchors</h5><ul><li>Didi acquired Uber China.</li><li>Didi valuation anchor: about $35B.</li><li>Uber's stake: 17.7%.</li><li>Implied payoff anchor: about $6.2B, roughly six times the invested capital upon exit.</li></ul><h5>Robot-car comparison (slides use this to ask: can a different operating model change Uber's economics?)</h5><div class="tbl-wrap"><table><thead><tr><th>Metric</th><th>Robot cars, Uber-owned</th><th>Human drivers, driver-owned</th></tr></thead><tbody><tr><td>Fixed operating cost</td><td>~$26,800 per year</td><td>$0</td></tr><tr><td>Variable cost</td><td>~$10,000</td><td>~$40,000 in driver earnings</td></tr><tr><td>Annual revenue per car</td><td>$60,000 to $80,000</td><td>$60,000 to $80,000</td></tr><tr><td>Uber's share</td><td>100%</td><td>20% to 30%, about $12,000 to $24,000</td></tr></tbody></table></div><p><strong>Line to memorize:</strong> firms can fight as if the market is winner-take-all even when the market itself is not fully winner-take-all.</p>`,
+    enH: `<p>This case matters because it separates <strong>fighting like winner-take-all</strong> from <strong>actually being in a winner-take-all market</strong>.</p><ul><li>Uber's early form resembled a premium pre-booked black-car service, then it scaled globally and formed Uber China as a separate operating entity to confront Didi.</li><li>A later profitability fact: Uber first reached annual operating profit in 2023 at about $1.1B, driven by scope expansion through Uber Eats and Uber Freight, cost management, and post-pandemic recovery.</li><li>The stable strategic line is <strong>scope rather than scale</strong>.</li></ul><div class="g3"><div class="st"><div class="st-top"><strong>Scale effects</strong><span class="badge badge-yes">YES</span></div><p class="sm">The market had meaningful scale effects.</p></div><div class="st"><div class="st-top"><strong>Little scope for differentiation</strong><span class="badge badge-maybe">DEBATABLE</span></div><p class="sm">Differentiation was not absent enough to make it cleanly WTA.</p></div><div class="st"><div class="st-top"><strong>Large switching / multi-homing costs</strong><span class="badge badge-no">NO</span></div><p class="sm">Riders and drivers could multi-home easily.</p></div></div><p>Because only two of the three WTA conditions were strong, the outcome looks more like a <strong>war of attrition</strong> than a clean network tipping story. Do not mistake intense spending battles as proof that the underlying economics are WTA.</p><h5>Outcome anchors</h5><ul><li>Didi acquired Uber China.</li><li>Didi valuation anchor: about $35B.</li><li>Uber's stake: 17.7%.</li><li>Implied payoff anchor: about $6.2B, roughly six times the invested capital upon exit.</li></ul><h5>Robot-car comparison (slides use this to ask: can a different operating model change Uber's economics?)</h5><div class="tbl-wrap"><table><thead><tr><th>Metric</th><th>Robot cars, Uber-owned</th><th>Human drivers, driver-owned</th></tr></thead><tbody><tr><td>Fixed operating cost</td><td>~$26,800 per year</td><td>$0</td></tr><tr><td>Variable cost</td><td>~$10,000</td><td>~$40,000 in driver earnings</td></tr><tr><td>Annual revenue per car</td><td>$60,000 to $80,000</td><td>$60,000 to $80,000</td></tr><tr><td>Uber's share</td><td>100%</td><td>20% to 30%, about $12,000 to $24,000</td></tr></tbody></table></div><p><strong>Line to memorize:</strong> firms can fight as if the market is winner-take-all even when the market itself is not fully winner-take-all.</p>`,
     zhH: `<p>這個案例重要，因為它把 <strong>照 winner-take-all 邏輯打仗</strong> 與 <strong>市場本身真的屬於 winner-take-all</strong> 兩件事拆開來了。</p><ul><li>Uber 最初比較像預約黑色禮車服務，之後才快速全球擴張，並設立獨立的 Uber China 來面對 Didi。</li><li>Uber 後來在 2023 年首次達到年度營運獲利約 $1.1B，改善原因包括 Uber Eats 與 Uber Freight 帶來的 scope expansion、成本管理與疫情後復甦。</li><li>最穩的策略結論是 <strong>scope rather than scale</strong>。</li></ul><div class="g3"><div class="st"><div class="st-top"><strong>Scale effects</strong><span class="badge badge-yes">YES</span></div><p class="sm">這個市場確實有相當明顯的規模效應。</p></div><div class="st"><div class="st-top"><strong>Little scope for differentiation</strong><span class="badge badge-maybe">DEBATABLE</span></div><p class="sm">差異化空間並沒有小到能把市場判成乾淨的 WTA。</p></div><div class="st"><div class="st-top"><strong>Large switching / multi-homing costs</strong><span class="badge badge-no">NO</span></div><p class="sm">乘客與司機都太容易多棲，轉換與多棲成本不高。</p></div></div><p>因為只滿足 2/3 條件，結果更像 <strong>war of attrition</strong>，而不是乾淨的 network tipping。不要把激烈燒錢競爭，誤以為它必然證明市場底層經濟就是 WTA。</p><h5>結局與數字錨點</h5><ul><li>Didi 買下 Uber China。</li><li>Didi 估值錨點：約 $35B。</li><li>Uber 持股：約 17.7%。</li><li>推算出的 payoff 錨點：約 $6.2B，離場時約為投資額的 6 倍。</li></ul><h5>Robot Car 比較（投影片用途：問換一種 operating model 能否改變 Uber 經濟性）</h5><div class="tbl-wrap"><table><thead><tr><th>指標</th><th>Robot cars，Uber 自有</th><th>Human drivers，司機自有</th></tr></thead><tbody><tr><td>固定營運成本</td><td>~$26,800 / 年</td><td>$0</td></tr><tr><td>變動成本</td><td>~$10,000</td><td>~$40,000 司機收入</td></tr><tr><td>每車年收入</td><td>$60,000 到 $80,000</td><td>$60,000 到 $80,000</td></tr><tr><td>Uber 可拿份額</td><td>100%</td><td>20% 到 30%，約 $12,000 到 $24,000</td></tr></tbody></table></div><p><strong>最該背的一句：</strong>企業可以照 WTA 邏輯開戰，但市場本身未必真的符合 WTA。</p>`,
   },
 ];
@@ -856,27 +857,87 @@ function LensTable({ data, mode }) {
 }
 
 function LensWTA({ data, mode }) {
+  const badgeClass = (badge) => {
+    if (badge === "yes") return "yes";
+    if (badge === "no") return "no";
+    if (badge === "need") return "need";
+    return "maybe";
+  };
+  const badgeText = (badge) => {
+    if (badge === "yes") return "YES";
+    if (badge === "no") return "NO";
+    if (badge === "need") return mode === "zh" ? "必備" : "REQUIRED";
+    return "CHECK";
+  };
+
+  const grid = (lang) => (
+    <div className="g3">
+      {data.conditions.map((c, i) => (
+        <div className="st" key={`${lang}-${i}`}>
+          <div className="st-top">
+            <strong>{c.label}</strong>
+            <span className={`badge badge-${badgeClass(c.badge)}`}>{badgeText(c.badge)}</span>
+          </div>
+          <p className="sm">{lang === "zh" ? c.zh : c.en}</p>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <>
       <h3 className="h3" style={{ marginBottom: 10 }}><T m={mode} en={data.titleEn} zh={data.titleZh} /></h3>
-      <div className="g3">
-        {data.conditions.map((c, i) => (
-          <div className="st" key={i}>
-            <div className="st-top">
-              <strong>{c.label}</strong>
-              <span className={`badge badge-${c.badge === "yes" ? "yes" : c.badge === "no" ? "no" : "maybe"}`}>
-                {c.badge === "yes" ? "YES" : c.badge === "no" ? "NO" : "CHECK"}
-              </span>
-            </div>
-            <p className="sm"><T m={mode} en={c.en} zh={c.zh} /></p>
+      {mode === "bi" ? (
+        <div className="dual bi-mode">
+          <div className="bi-lane">
+            <div className="bi-label">English</div>
+            <div className="bi-copy">{grid("en")}</div>
           </div>
-        ))}
-      </div>
+          <div className="bi-lane">
+            <div className="bi-label">中文</div>
+            <div className="bi-copy">{grid("zh")}</div>
+          </div>
+        </div>
+      ) : (
+        grid(mode === "zh" ? "zh" : "en")
+      )}
       <p className="body" style={{ marginTop: 10 }}><T m={mode} en={data.noteEn} zh={data.noteZh} /></p>
     </>
   );
 }
 
+
+
+function MetricCardGrid({ items }) {
+  return (
+    <div className="g2-keep">
+      {items.map((m2, i) => (
+        <div className="met" key={i}>
+          <div className="met-label">{m2.label}</div>
+          <div className="met-val">{m2.val}</div>
+          <div className="met-note">{m2.note}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function MetricDeck({ mode, enItems, zhItems }) {
+  if (mode === "en") return <MetricCardGrid items={enItems} />;
+  if (mode === "zh") return <MetricCardGrid items={zhItems} />;
+  return (
+    <div className="dual bi-mode">
+      <div className="bi-lane">
+        <div className="bi-label">English</div>
+        <div className="bi-copy"><MetricCardGrid items={enItems} /></div>
+      </div>
+      <div className="bi-lane">
+        <div className="bi-label">中文</div>
+        <div className="bi-copy"><MetricCardGrid items={zhItems} /></div>
+      </div>
+    </div>
+  );
+}
 
 function SvgMultiText({ x, y, en, zh, mode, anchor = "middle", size = 13, weight = 600, fill = C.inkSoft }) {
   const lines = mode === "bi" ? [en, zh] : [mode === "zh" ? zh : en];
@@ -1637,7 +1698,7 @@ function UberChinaFlowchart({ mode }) {
           <SvgMultiText x={703} y={111} en="Switching / MH costs" zh="Switching / MH costs" mode={chartMode} size={14.2} fill={C.ai} />
           <SvgMultiText x={703} y={139} en="low" zh="低" mode={chartMode} size={14.5} weight={800} fill={C.beni} />
           <SvgMultiText x={703} y={158} en="riders and drivers" zh="乘客與司機都能" mode={chartMode} size={12.3} fill={C.inkSoft} />
-          <SvgMultiText x={703} y={174} en="multi-homed easily" zh="太容易 multi-home" mode={chartMode} size={12.3} fill={C.inkSoft} />
+          <SvgMultiText x={703} y={174} en="multi-home easily" zh="太容易 multi-home" mode={chartMode} size={12.3} fill={C.inkSoft} />
 
           <SvgMultiText x={935} y={111} en="Result" zh="結果" mode={chartMode} size={15} fill={C.ai} />
           <SvgMultiText x={935} y={139} en="war of attrition" zh="war of attrition" mode={chartMode} size={13.8} weight={800} fill={C.fuji} />
@@ -1875,15 +1936,7 @@ export default function INNO6230QuizV16() {
             <div className="scan">
               <div className="kicker kicker-gold"><T m={mode} en="Number anchors" zh="數字錨點" /></div>
               <h3 className="h3"><T m={mode} en="Six Figures Worth Keeping" zh="六個最值得記的數字" /></h3>
-              <div className="g2-keep">
-                {(mode === "zh" ? anchorMetricsZh : anchorMetricsEn).map((m2, i) => (
-                  <div className="met" key={i}>
-                    <div className="met-label">{m2.label}</div>
-                    <div className="met-val">{m2.val}</div>
-                    <div className="met-note">{m2.note}</div>
-                  </div>
-                ))}
-              </div>
+              <MetricDeck mode={mode} enItems={anchorMetricsEn} zhItems={anchorMetricsZh} />
             </div>
           </div>
         </header>
