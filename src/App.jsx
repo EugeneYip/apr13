@@ -212,11 +212,35 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
 .flow-text{font-size:13.75px;line-height:1.58;color:${C.inkSoft};}
 .primer-mini{margin-top:12px;padding:11px 12px;border-radius:10px;border:1px solid ${C.lineLight};background:${C.paper};}
 .primer-mini strong{color:${C.ai};}
-.formula-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px;}
-.formula-card{background:${C.white};border:1px solid ${C.line};border-radius:12px;padding:12px 13px;}
-.formula-label{font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.kitsune};margin-bottom:6px;}
+.formula-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px;}
+.formula-card{background:${C.white};border:1px solid ${C.line};border-radius:12px;padding:12px 13px;display:grid;gap:8px;}
+.formula-label{font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.kitsune};}
 .formula-text{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid ${C.line};background:${C.kitsuneLight};color:${C.fuji};font-weight:800;font-family:${FONT_MONO};font-size:13.5px;line-height:1.4;max-width:100%;overflow-wrap:anywhere;}
-.formula-note{font-size:13px;line-height:1.58;color:${C.inkSoft};margin-top:8px;}
+.formula-sub{font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.ai};margin-bottom:3px;}
+.formula-copy{font-size:13px;line-height:1.58;color:${C.inkSoft};}
+.formula-note{font-size:12.5px;line-height:1.55;color:${C.muted};margin-top:2px;}
+.formula-example{padding:9px 10px;border-radius:10px;border:1px solid ${C.lineLight};background:${C.paper};}
+.final10-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
+.final10-card{background:${C.white};border:1px solid ${C.line};border-top:4px solid ${C.matsu};border-radius:12px;padding:12px 13px;}
+.final10-time{font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.matsu};margin-bottom:5px;}
+.final10-head{font-size:14px;font-weight:800;line-height:1.45;color:${C.ai};margin-bottom:5px;}
+.final10-copy{font-size:13px;line-height:1.58;color:${C.inkSoft};}
+.final10-table{display:grid;grid-template-columns:1.2fr 1fr 1.1fr;gap:0;border:1px solid ${C.line};border-radius:12px;overflow:hidden;background:${C.white};}
+.final10-th,.final10-td{padding:10px 11px;border-right:1px solid ${C.lineLight};border-bottom:1px solid ${C.lineLight};}
+.final10-th{background:${C.kitsuneLight};font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:${C.ai};}
+.final10-td{font-size:13px;line-height:1.55;color:${C.inkSoft};}
+.final10-table > :nth-child(3n){border-right:0;}
+.final10-table > :nth-last-child(-n+3){border-bottom:0;}
+.final10-say{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px;}
+.say-card{background:${C.white};border:1px solid ${C.line};border-radius:12px;padding:12px 13px;}
+.say-card.red{border-left:4px solid ${C.suo};}
+.say-card.blue{border-left:4px solid ${C.ai};}
+.say-kicker{font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;}
+.say-card.red .say-kicker{color:${C.suo};}
+.say-card.blue .say-kicker{color:${C.ai};}
+.say-list{display:grid;gap:7px;padding-left:18px;}
+.say-list li{font-size:13.5px;line-height:1.58;color:${C.inkSoft};}
+.say-list li::marker{font-weight:800;color:${C.kitsune};}
 .scan3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px;}
 .scan3-card{background:${C.white};border:1px solid ${C.line};border-radius:12px;padding:13px 14px;}
 .scan3-card.must{border-top:4px solid ${C.kitsune};}
@@ -255,6 +279,10 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
   .chain-arrows{display:none;}
   .scan-grid{grid-template-columns:1fr;}
   .g4{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .formula-grid,.final10-grid,.final10-say{grid-template-columns:1fr;}
+  .final10-table{grid-template-columns:1fr;}
+  .final10-th{display:none;}
+  .final10-td{border-right:0;}
 }
 
 /* ── Responsive: large phone ── */
@@ -262,6 +290,7 @@ h1,h2,h3{font-family:${FONT_HEAD};letter-spacing:-0.02em;color:${C.fuji};}
   .shell{padding:12px 10px 80px;}
   .hero,.sec{padding:14px;border-radius:14px;}
   .g2,.g4,.dual.bi-mode{grid-template-columns:1fr;}
+  .primer-grid,.primer-terms,.scan3,.formula-grid,.final10-grid,.final10-say{grid-template-columns:1fr;}
   .g3{grid-template-columns:1fr;}
   .chain-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   .chain-card{min-height:auto;}
@@ -362,10 +391,83 @@ const primerTerms = [
 // ═══════════════════════════════════════════════════════════════
 
 const formulaCards = [
-  { formula: "Decision Rule: if condition {ŷ} is met, take action Z", labelEn: "Operational rule", labelZh: "操作規則", noteEn: "The prediction alone does nothing until the platform ties it to an action.", noteZh: "只有預測還不夠，平臺一定要把它綁到具體行動。" },
-  { formula: "ŷ = f(X)", labelEn: "Prediction model", labelZh: "預測模型", noteEn: "This is the course's core structure: use observed inputs X to generate a prediction ŷ.", noteZh: "這是課堂的核心句型：用可觀測輸入 X 產生預測 ŷ。" },
-  { formula: "ŷ = β₀ + β₁·X₁ + β₂·X₂ + β₃·X₃", labelEn: "Simple linear example", labelZh: "線性模型例子", noteEn: "Professor's note uses a linear model as the clean first mental model before richer f(.).", noteZh: "教授的 note 用線性模型當第一個直觀版本，之後才往更複雜的 f(.) 走。" },
-  { formula: "wordᵢ = f(wordᵢ₋₁, …)", labelEn: "LLM reframing", labelZh: "LLM 重構", noteEn: "Module 6 reframes labeling as next-token prediction. That is the big hack behind LLM training.", noteZh: "Module 6 把標註問題重構成下一個 token 預測，這就是 LLM 訓練的大 hack。" },
+  {
+    formula: "Decision Rule: if condition {ŷ} is met, take action Z",
+    labelEn: "Operational rule",
+    labelZh: "操作規則",
+    readEn: "Read it as: once the predicted score or probability is high enough, the platform does something concrete.",
+    readZh: "把它讀成：當預測分數或機率高到某個門檻，平臺就採取具體動作。",
+    logicEn: "ŷ is not the action itself. It is an input into a rule. The rule converts prediction into an operational move such as recommend, rank, notify, flag, or approve.",
+    logicZh: "ŷ 本身不是行動，而是行動前的依據。真正把預測轉成營運動作的，是後面的 rule，例如推薦、排序、通知、標記、核准。",
+    applyEn: "Application: if predicted match quality is high enough, surface the profile. If predicted violation risk is high enough, send content to review or auto-remove it.",
+    applyZh: "應用：若預測 match quality 夠高，就把檔案推上去。若預測違規風險夠高，就送審或直接下架。"
+  },
+  {
+    formula: "ŷ = f(X)",
+    labelEn: "Prediction model",
+    labelZh: "預測模型",
+    readEn: "Read it as: the model takes observed inputs X and produces its best estimate of the target y.",
+    readZh: "把它讀成：模型把可觀測輸入 X 轉成對目標 y 的最佳估計。",
+    logicEn: "X is the information you already have. f(.) is the mapping rule or model. ŷ is the estimated outcome because the true y is often not yet known at the moment of decision.",
+    logicZh: "X 是你現在手上已知的資訊。f(.) 是映射規則或模型。ŷ 是估計值，因為做決策的當下，真實 y 常常還不知道。",
+    applyEn: "Application: use profile fields, clicks, history, and context to estimate reply probability, conversion probability, churn risk, or match quality.",
+    applyZh: "應用：把個人資料、點擊、歷史行為與情境資料放進去，估計回覆機率、轉換機率、流失風險或 match quality。"
+  },
+  {
+    formula: "ŷ = β₀ + β₁·X₁ + β₂·X₂ + β₃·X₃",
+    labelEn: "Simple linear example",
+    labelZh: "線性模型例子",
+    readEn: "Read it as: start from a baseline, then add or subtract weighted contributions from each observed input.",
+    readZh: "把它讀成：先從一個 baseline 開始，再把每個輸入變數的加權影響加總上去。",
+    logicEn: "β₀ is the intercept or starting point. Each β tells how strongly one X pushes the prediction up or down. If β is positive, that variable raises ŷ. If β is negative, it lowers ŷ. The final prediction is the sum of all weighted parts.",
+    logicZh: "β₀ 是起點或基準值。每個 β 代表某個 X 對預測的推升或拉低力道。β 為正，就把 ŷ 往上推。β 為負，就把 ŷ 往下拉。最後的預測值，就是所有加權效果的總和。",
+    applyEn: "Application: the professor's note uses a clean first mental model such as reply probability or listing quality being driven by weighted inputs like price fit, bedroom fit, and click rate before moving to richer models.",
+    applyZh: "應用：教授的 note 把它當成第一個直觀模型，例如用價格匹配、房型匹配、點擊率等加權後，估計回覆機率或 listing quality，之後才往更複雜模型走。"
+  },
+  {
+    formula: "ŷ = f(X_man, X_woman)",
+    labelEn: "Dyad matching example",
+    labelZh: "雙邊配對例子",
+    readEn: "Read it as: predicted compatibility for a pair comes from both sides' observed attributes, not from just one person alone.",
+    readZh: "把它讀成：一組配對的相容性，要同時由雙方的可觀測特徵來推估，不是只看單邊。",
+    logicEn: "In a matching setting, the unit of prediction is the dyad. That means X may combine both profiles, both behaviors, and even interaction history between them. The model is trying to predict pair quality, not individual quality in isolation.",
+    logicZh: "在 matching 情境裡，預測單位是 dyad，也就是一對人。所以 X 可能要同時放進雙方的 profile、雙方行為，甚至兩人之間的互動歷史。模型要預測的是 pair quality，不是孤立的個人品質。",
+    applyEn: "Application: in eHarmony, the system tries to infer whether this man-woman pair is likely to be a good match, then decides whether to surface the profile pair as a recommendation.",
+    applyZh: "應用：在 eHarmony 裡，系統要推估這組男女是否可能是好配對，接著再決定要不要把這組 profile 推成推薦對象。"
+  },
+  {
+    formula: "Net Benefits = Stand-Alone Benefits + Network Benefits - Adopter Costs",
+    labelEn: "Takeoff formula",
+    labelZh: "起飛公式",
+    readEn: "Read it as: adoption happens only when total benefits exceed total adoption costs.",
+    readZh: "把它讀成：只有當總效益超過總採用成本時，採用才會發生。",
+    logicEn: "Stand-alone benefits exist even if few others join. Network benefits rise as more participants join. Adopter costs include price, hassle, switching, learning, privacy concern, and other frictions. Early takeoff is hard because network benefits are weakest at the start.",
+    logicZh: "Stand-alone benefits 在沒甚麼人加入時也存在。Network benefits 會隨更多人加入而上升。Adopter costs 包括價格、麻煩、轉換、學習成本、隱私顧慮與其他摩擦。起飛難，是因為一開始 network benefits 最弱。",
+    applyEn: "Application: when diagnosing SaferTaxi or any new platform, ask which side has enough stand-alone value to move first, and whether tactics should coax one side or coordinate multiple sides together.",
+    applyZh: "應用：在判讀 SaferTaxi 或任何新平臺時，要先問哪一邊有足夠 stand-alone value 能先動，以及應該用 coaxing 還是 coordinating。"
+  },
+  {
+    formula: "wordᵢ = f(wordᵢ₋₁, …)",
+    labelEn: "LLM reframing",
+    labelZh: "LLM 重構",
+    readEn: "Read it as: predict the next token from the tokens that came before it.",
+    readZh: "把它讀成：根據前面的 token，去預測下一個 token。",
+    logicEn: "This is the big training hack. Instead of manually labeling millions of examples, the next word already exists in the text. That means raw internet text becomes self-labeled training data for a highly flexible model.",
+    logicZh: "這就是那個大的 training hack。你不必人工標注數百萬筆資料，因為下一個字本來就已經在文本裡。於是原始網路文字自然變成可訓練資料，拿來訓練高度彈性的模型。",
+    applyEn: "Application: train one general-purpose model on massive text, then reuse it for chat, summarization, code, and other tasks rather than building one narrow model per task.",
+    applyZh: "應用：先在海量文字上訓練一個通用模型，再把它拿去做 chat、摘要、程式與其他任務，而不是每個任務各做一個窄模型。"
+  },
+  {
+    formula: "AI Performance ≈ f(Parameters, Data, Compute, Architecture)",
+    labelEn: "Scaling-law frame",
+    labelZh: "Scaling law 框架",
+    readEn: "Read it as: frontier model performance depends jointly on model size, data, compute, and architecture.",
+    readZh: "把它讀成：frontier model 的表現，是模型規模、資料、算力與架構共同決定的。",
+    logicEn: "The course uses this as a rough production function for frontier AI progress. Earlier progress leaned more on scaling parameters, data, and compute. More recent progress increasingly depends on architecture, tools, synthetic data, and efficiency.",
+    logicZh: "這門課把它當成 frontier AI 進步的粗略 production function。早期進步更依賴參數、資料與算力的擴張。近年則越來越依賴架構、工具、合成資料與效率。",
+    applyEn: "Application: use it to interpret why LLM competition is not only about who is bigger, but also who improves architecture and capability per dollar of compute.",
+    applyZh: "應用：它幫你判讀為何 LLM 競爭不只是誰比較大，還包括誰能在每一美元算力上做出更好的架構與能力。"
+  },
 ];
 
 const sectionScanData = {
@@ -746,7 +848,18 @@ function FormulaStrip({ mode }) {
         <div className="formula-card" key={i}>
           <div className="formula-label"><T m={mode} en={f.labelEn} zh={f.labelZh} /></div>
           <div className="formula-text">{f.formula}</div>
-          <div className="formula-note"><T m={mode} en={f.noteEn} zh={f.noteZh} /></div>
+          <div>
+            <div className="formula-sub"><T m={mode} en="Read it as" zh="先這樣讀" /></div>
+            <div className="formula-copy"><T m={mode} en={f.readEn} zh={f.readZh} /></div>
+          </div>
+          <div>
+            <div className="formula-sub"><T m={mode} en="Formula logic" zh="公式邏輯" /></div>
+            <div className="formula-copy"><T m={mode} en={f.logicEn} zh={f.logicZh} /></div>
+          </div>
+          <div className="formula-example">
+            <div className="formula-sub"><T m={mode} en="How to apply it" zh="怎麼用" /></div>
+            <div className="formula-copy"><T m={mode} en={f.applyEn} zh={f.applyZh} /></div>
+          </div>
         </div>
       ))}
     </div>
@@ -808,7 +921,7 @@ function PrimerSection({ mode }) {
 // MAIN APP
 // ═══════════════════════════════════════════════════════════════
 
-export default function INNO6230QuizV10() {
+export default function INNO6230QuizV11() {
   const [mode, setMode] = useState("en");
   const [fabOpen, setFabOpen] = useState(false);
   const [activeId, setActiveId] = useState("backbone");
@@ -1043,50 +1156,77 @@ export default function INNO6230QuizV10() {
               <div className="sec-head">
                 <div>
                   <div className="kicker kicker-green"><T m={mode} en="Final review" zh="最後複習" /></div>
-                  <h2 className="h2"><T m={mode} en="Last Pass Before the Quiz" zh="考前最後一輪" /></h2>
+                  <h2 className="h2"><T m={mode} en="Ten-Minute Quiz Cram" zh="考前 10 分鐘版" /></h2>
                 </div>
-                <span className="sec-source"><T m={mode} en="Suggested review order" zh="建議閱讀順序" /></span>
+                <span className="sec-source"><T m={mode} en="Last pass only" zh="最後一輪" /></span>
               </div>
-              <div className="g2">
-                <div className="card">
-                  <h3 className="h3" style={{ marginBottom: 10 }}><T m={mode} en="Recommended order" zh="建議順序" /></h3>
-                  <Html m={mode}
-                    en={`<ol><li>Read the causal chain once from left to right.</li><li>Recite the sixteen backbone lines without looking.</li><li>Run the four anchor cases in order: eHarmony, Google, SaferTaxi, Uber China.</li><li>Check the anchor numbers only after the logic is stable.</li></ol>`}
-                    zh={`<ol><li>先把因果鏈從左到右讀一遍。</li><li>把 16 句 backbone 練到不看稿能講。</li><li>依序跑四個核心案例：eHarmony、Google、SaferTaxi、Uber China。</li><li>邏輯穩定後，再回頭確認數字錨點。</li></ol>`}
-                  />
+
+              <div className="final10-grid">
+                <div className="final10-card">
+                  <div className="final10-time"><T m={mode} en="10 to 8 minutes" zh="第 10 到 8 分鐘" /></div>
+                  <div className="final10-head"><T m={mode} en="Lock the backbone" zh="先鎖主幹" /></div>
+                  <div className="final10-copy"><T m={mode} en="Say the causal chain out loud: data assets to y/X/f(.) to prediction factory to LLM economics to takeoff to WTA test. Then recite the 16 backbone lines once without looking." zh="先把因果鏈念出來：資料資產到 y/X/f(.)，再到 prediction factory、LLM 經濟學、takeoff、WTA 測試。接著不看稿念一次 16 句 backbone。" /></div>
                 </div>
-                <div className="card">
-                  <h3 className="h3" style={{ marginBottom: 10 }}><T m={mode} en="Mistakes to avoid" zh="最容易失手的地方" /></h3>
-                  <Html m={mode}
-                    en={`<ul><li>Do not confuse data richness with learning quality.</li><li>Do not discuss GenAI only in terms of capability. Always bring economics back in.</li><li>Do not call a market winner-take-all just because the battle is intense.</li><li>Do not diagnose takeoff without writing the sides and the critical mass numbers.</li></ul>`}
-                    zh={`<ul><li>不要把資料豐富誤當成學習品質高。</li><li>不要只談 GenAI 能力，最後一定要拉回經濟學。</li><li>不要因為競爭很兇，就直接把市場判成 WTA。</li><li>沒有寫出 sides 與 critical mass 數字，就不要談起飛診斷。</li></ul>`}
-                  />
+                <div className="final10-card">
+                  <div className="final10-time"><T m={mode} en="8 to 5 minutes" zh="第 8 到 5 分鐘" /></div>
+                  <div className="final10-head"><T m={mode} en="Run the four anchor cases" zh="跑四個核心案例" /></div>
+                  <div className="final10-copy"><T m={mode} en="Do not reread everything. Force each case into one line: eHarmony equals rich X and weak feedback. Google equals AI can improve value but hurt capture. SaferTaxi equals value exists but scale fit fails. Uber China equals fought like WTA but was not fully WTA." zh="不要重讀全部內容，強迫每個案例壓成一句：eHarmony 等於 X 很豐富但 feedback 弱。Google 等於 AI 可提升價值卻可能傷到 capture。SaferTaxi 等於有價值但規模不配。Uber China 等於照 WTA 打，但未必真是 WTA。" /></div>
+                </div>
+                <div className="final10-card">
+                  <div className="final10-time"><T m={mode} en="5 to 2 minutes" zh="第 5 到 2 分鐘" /></div>
+                  <div className="final10-head"><T m={mode} en="Hit the formulas" zh="再掃公式" /></div>
+                  <div className="final10-copy"><T m={mode} en="Say what each one means and does: ŷ = f(X), Decision Rule, Net Benefits, and wordᵢ = f(wordᵢ₋₁, …). If you cannot explain the logic in plain language, you do not own it yet." zh="把每個公式的意思與用途說出來：ŷ = f(X)、Decision Rule、Net Benefits、wordᵢ = f(wordᵢ₋₁, …)。若還不能用白話講出來，就代表還沒真正掌握。" /></div>
+                </div>
+                <div className="final10-card">
+                  <div className="final10-time"><T m={mode} en="2 to 0 minutes" zh="最後 2 分鐘" /></div>
+                  <div className="final10-head"><T m={mode} en="Avoid the fatal mistakes" zh="避開致命誤答" /></div>
+                  <div className="final10-copy"><T m={mode} en="Do not confuse data richness with learning quality. Do not call every platform war WTA. Do not discuss GenAI only in terms of capability. Do not diagnose takeoff without sides and critical-mass numbers." zh="不要把資料豐富當成學習能力強。不要把所有平臺戰都判成 WTA。不要只談 GenAI 能力不談 economics。不要在沒寫 sides 與 critical-mass 數字前就談 takeoff。" /></div>
                 </div>
               </div>
+
               <div className="card" style={{ marginTop: 14 }}>
-                <h3 className="h3" style={{ marginBottom: 10 }}><T m={mode} en="Three case traps (30-second drill)" zh="三個案例陷阱（30 秒速講）" /></h3>
-                <div className="g3">
-                  <div className="trap-card">
-                    <h5>eHarmony</h5>
-                    <p><T m={mode}
-                      en="One-time survey, six dimensions, no data tracking, no feedback, little scope for learning."
-                      zh="一次性 survey，6 維度，no data tracking，no feedback，little scope for learning。"
-                    /></p>
-                  </div>
-                  <div className="trap-card">
-                    <h5>Google</h5>
-                    <p><T m={mode}
-                      en="Baseline highly profitable, but AI search can flip the economics because inference cost is real."
-                      zh="Baseline 很賺錢，但 AI search 可能因為 inference cost 真實存在而翻轉經濟。"
-                    /></p>
-                  </div>
-                  <div className="trap-card">
-                    <h5>Uber China</h5>
-                    <p><T m={mode}
-                      en="Competed as if WTA, only 2 of 3 conditions met, low switching costs, war of attrition."
-                      zh="照 WTA 打，但只滿足 2/3 條件，switching costs 低，war of attrition。"
-                    /></p>
-                  </div>
+                <h3 className="h3" style={{ marginBottom: 10 }}><T m={mode} en="Four cases in one glance" zh="四個案例一眼看完" /></h3>
+                <div className="final10-table">
+                  <div className="final10-th"><T m={mode} en="Case" zh="案例" /></div>
+                  <div className="final10-th"><T m={mode} en="One-line diagnosis" zh="一句診斷" /></div>
+                  <div className="final10-th"><T m={mode} en="Anchor detail" zh="錨點細節" /></div>
+
+                  <div className="final10-td"><strong>eHarmony</strong></div>
+                  <div className="final10-td"><T m={mode} en="Rich survey X, but weak feedback and little scope for learning." zh="問卷 X 很豐富，但 feedback 弱，學習空間很小。" /></div>
+                  <div className="final10-td"><T m={mode} en="4,000 successful couples are all y = 1. Six dimensions compress the survey." zh="4,000 successful couples 全是 y = 1。大量問卷被壓成六維。" /></div>
+
+                  <div className="final10-td"><strong>Google</strong></div>
+                  <div className="final10-td"><T m={mode} en="LLMs create value, but real inference cost can damage search economics." zh="LLM 會創造價值，但真實推論成本會傷搜尋經濟。" /></div>
+                  <div className="final10-td"><T m={mode} en="Baseline profit about $27.5B versus an illustrative -$150.5B AI-search scenario." zh="baseline 利潤約 $27.5B，AI 搜尋示意情境可掉到 -$150.5B。" /></div>
+
+                  <div className="final10-td"><strong>SaferTaxi</strong></div>
+                  <div className="final10-td"><T m={mode} en="The offer had value, but scale, smartphone reach, and cost structure did not fit." zh="價值主張有力，但規模、手機滲透與成本結構不配。" /></div>
+                  <div className="final10-td"><T m={mode} en="About a $2.2B market, smartphone penetration only 9% to 19%, and revenue needed to grow about 10 times to break even." zh="市場約 $2.2B，手機滲透率只有 9% 到 19%，而且營收約要再長 10 倍才可能打平。" /></div>
+
+                  <div className="final10-td"><strong>Uber China</strong></div>
+                  <div className="final10-td"><T m={mode} en="The battle looked WTA, but low switching and multi-homing costs made it closer to attrition." zh="戰爭看起來像 WTA，但低 switching 與 multi-homing costs 使它更像 attrition。" /></div>
+                  <div className="final10-td"><T m={mode} en="Only 2 of 3 WTA conditions were strong. Didi later bought Uber China, and Uber kept 17.7%." zh="WTA 三條件只強了 2 個。之後 Didi 買下 Uber China，Uber 保留 17.7%。" /></div>
+                </div>
+              </div>
+
+              <div className="final10-say">
+                <div className="say-card blue">
+                  <div className="say-kicker"><T m={mode} en="Say these out loud" zh="要能直接講出口" /></div>
+                  <ul className="say-list">
+                    <li><T m={mode} en="Prediction is constrained by observability." zh="Prediction 先受限於 observability。" /></li>
+                    <li><T m={mode} en="Choose decision and y before f(.)." zh="先決策與 y，再談 f(.)。" /></li>
+                    <li><T m={mode} en="A prediction factory needs live use, train/test refinement, and feedback." zh="Prediction factory 要有 live use、train/test refinement、feedback。" /></li>
+                    <li><T m={mode} en="LLMs are still prediction machines, but with a general-purpose super f(.)." zh="LLM 仍是 prediction machine，只是換成通用 super f(.)。" /></li>
+                  </ul>
+                </div>
+                <div className="say-card red">
+                  <div className="say-kicker"><T m={mode} en="Do not say this wrong" zh="這些不能講錯" /></div>
+                  <ul className="say-list">
+                    <li><T m={mode} en="Unsupervised is not automatically better. It often means you do not observe y." zh="Unsupervised 不代表比較高級，很多時候只是你沒有 y。" /></li>
+                    <li><T m={mode} en="Most platforms do not take off. There is no silver bullet." zh="大多數平臺起飛不了，沒有銀彈。" /></li>
+                    <li><T m={mode} en="Winner-take-all needs all three conditions, not just strong rivalry or subsidy wars." zh="Winner-take-all 要三條件都成立，不是補貼戰很兇就算。" /></li>
+                    <li><T m={mode} en="A firm can fight as if a market is WTA even when the market is not fully WTA." zh="企業可以照 WTA 邏輯開戰，但市場本身未必真是 WTA。" /></li>
+                  </ul>
                 </div>
               </div>
             </section>
